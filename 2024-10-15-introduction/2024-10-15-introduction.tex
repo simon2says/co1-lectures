@@ -1,0 +1,208 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{marvosym}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[left=2.5cm,right=2cm,top=3cm,bottom=3cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{tcolorbox}
+\usepackage{adjustbox}
+\usepackage{eurosym}
+\usepackage[inline]{enumitem}
+\usepackage{lastpage}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{listings}
+\usepackage{xcolor}
+%\usepackage{minted}
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing,calc,shadows.blur,shadings,er,positioning}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+%\usepackage{pgfplots}
+%\usepackage[leqno]{amsmath}
+
+%\newcounter{mathseed}
+%\setcounter{mathseed}{1}
+%\pgfmathsetseed{\arabic{mathseed}} 
+%\pgfdeclarelayer{background}
+%\pgfsetlayers{background,main}
+\newlength{\diebox}
+\newcommand{\luecke}[1]{\settowidth{\diebox}{#1}\raisebox{-1.0ex}{\parbox{2\diebox}{\dotfill}}}
+\newcommand{\textgrid}[1]
+{\begin{tikzpicture}
+		\draw[step=0.5cm,color=gray] (0,0) grid (\textwidth ,#1);
+\end{tikzpicture}}
+
+\newcommand{\RN}[1]{%
+	\textup{\uppercase\expandafter{\romannumeral#1}}%
+}
+
+\newcommand{\obda}{o.B.d.A. }
+
+\newenvironment{enum}{\begin{enumerate*}[label=\alph*),itemjoin=\hspace{2em}]}{\end{enumerate*}\\[2ex]}
+
+%------ Defining multiple types of theorems ------%
+\newtheorem{axiom}{Axiom}[section]
+\newtheorem{theorem}[axiom]{Theorem}
+\newtheorem{lemma}[axiom]{Lemma}
+\newtheorem{satz}[axiom]{Satz}
+\theoremstyle{definition}
+\newtheorem*{example}{Beispiel}
+\newtheorem*{bemerkung}{Bemerkung}
+\newtheorem{definition}[axiom]{Definition}
+\newtheorem{folg}[axiom]{Folgerung}
+\newtheorem{notation}[axiom]{Notation}
+
+%---- Changing forall and exists ----%
+\let\oldforall\forall
+\renewcommand{\forall}{\:\oldforall \, }
+\let\oldexist\exists
+\renewcommand{\exists}{\:\oldexist \: }
+\newcommand\existu{\oldexist! \: }
+\let\oldepsilon\epsilon
+\renewcommand{\epsilon}{\varepsilon}
+
+%------ Giving circled star ---------%
+\makeatletter
+\newcommand{\ostar}{\mathbin{\mathpalette\make@circled\star}}
+\newcommand{\make@circled}[2]{%
+	\ooalign{$\m@th#1\smallbigcirc{#1}$\cr\hidewidth$\m@th#1#2$\hidewidth\cr}%
+}
+\newcommand{\smallbigcirc}[1]{%
+	\vcenter{\hbox{\scalebox{0.77778}{$\m@th#1\bigcirc$}}}%
+}
+\makeatother
+%-----------------------------------%
+
+%-------------- Vars ---------------%
+\newcommand{\vldate}{15. Oktober 2024}
+\newcommand{\vlname}{Computerorientierte Mathematik I}
+\newcommand{\vltopic}{Einführung}
+
+\pagestyle{fancy}
+\setlength{\headheight}{34pt}
+\fancyhf{}
+\fancyhead[L]{\includegraphics[width=1cm]{C:/Users/chole/Documents/tub/tublogo.png}}
+\fancyhead[C]{{\bfseries\vlname}\\%
+	\vltopic}
+\fancyhead[R]{\vldate}
+\fancyfoot[L]{}
+\fancyfoot[C]{- \thepage\ of \pageref{LastPage} -}
+\fancyfoot[R]{}
+
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}.}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\labelitemii}{-}
+
+\begin{document}
+	\section{Literatur}
+	Hougardy, Vygen -- Algorithmische Mathematik\\[2ex]
+	Theobald, Iliman -- Einführung in die computerorientierte Mathematik mit Sage\\[2ex]
+	Cormen et. al -- Introduction to Algorithms\\[2ex]
+	Knuth -- The Art of Computer Programming\\[2ex]
+	Wegener -- theoretische Informatik, eine algorithmenorientierte Einführung\\[2ex]
+	Downey -- Programmieren lernen mit Python
+	
+	\section{Einleitung}
+	\begin{definition}
+		Ein Algorithmus ist eine Rechenvorschrift, die
+		\begin{itemize}
+			\item die erwartete Eingabe genau spezifiziert
+			\item die auf der Eingabe durchzuführenden Rechenschritte angibt
+		\end{itemize}
+	\end{definition}
+	
+	\subsection{Naiver Primzahltest}
+	\begin{definition}
+		Eine natürliche Zahl $n \geq 2$ heißt prim und wird Primzahl genannt, falls sie keine positiven Teiler außer $1$ und sich selbst besitzt.
+	\end{definition}
+	\begin{algorithm}
+		\begin{algorithmic}
+			\If{$n \leq 1$}
+			
+			antwort $\gets$ False
+			\Else
+			
+			antwort $\gets$ True
+			\EndIf
+			
+			\For{$i\gets 2$ to $n-1$}
+			
+			\If{($i$ ist Teiler von $n$)}
+			
+			\Return false
+			\EndIf
+			\EndFor
+		\end{algorithmic}
+	\end{algorithm}
+	
+	\newpage
+	\subsection{Das Collatz-Problem}
+	\begin{definition}
+		Eine Collatz-Zahlenfolge
+		\begin{itemize}[label=-]
+			\item beginnt mit natürlicher Zahl $n>0$
+			\item ist $n$ gerade, nimm als nächstes $n/2$
+			\item ist $n$ ungerade, dann nimm $3n+1$
+			\item wiederholt dies mit der erhaltenen Zahl
+			\item stopp, falls die erhaltene Zahl $1$ ist.
+		\end{itemize}
+	\end{definition}
+	Vermutung: Für jedes $n>0$ terminiert das Programm nach endlich vielen Schritten.
+	
+	\begin{lstlisting}[language=Python,captionpos=b,caption={Code für die Collatz-Conjecture}]
+		while n > 1:
+			print("%s, " n)
+			if n % 2 == 0
+				n = n/2
+			else
+				n = n*3+1
+		print("1") \end{lstlisting}
+	
+	
+	
+	\subsection{Mathematische Notation}
+	\subsubsection{Zahlenmengen}
+	$\mathbb{N} = \{0,1,2,3,\dots\}$\\
+	$\mathbb{Z} = \{\dots,-2,-1,0,1,2,\dots\}$\\
+	$\mathbb{Q} = \{\frac{p}{q} | p \in \mathbb{Z}, q \in \mathbb{N}\backslash0\}$\\
+	$\mathbb{R} = \{\text{reelle Zahlen}\}$\\
+	$\rightarrow$ Darstellung z.B als Kommazahlen mit endlich oder unendlich vielen Nachkommastellen
+	{\bfseries Beispiele:} $-24,83, 0.333\dots = \frac{1}{3}, \sqrt{2}, \pi = 3.141592, 0.9999\dots = 0.\overline{9} = 1$
+\end{document}

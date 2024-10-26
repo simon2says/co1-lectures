@@ -1,0 +1,310 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{marvosym}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[left=2.5cm,right=2cm,top=3cm,bottom=3cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{tcolorbox}
+\usepackage{adjustbox}
+\usepackage{eurosym}
+\usepackage[inline]{enumitem}
+\usepackage{lastpage}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{listings}
+\usepackage{xcolor}
+%\usepackage{minted}
+\setlength{\parindent}{0pt}
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing,calc,shadows.blur,shadings,er,positioning}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+%\usepackage{pgfplots}
+%\usepackage[leqno]{amsmath}
+
+%\newcounter{mathseed}
+%\setcounter{mathseed}{1}
+%\pgfmathsetseed{\arabic{mathseed}} 
+%\pgfdeclarelayer{background}
+%\pgfsetlayers{background,main}
+\newlength{\diebox}
+\newcommand{\luecke}[1]{\settowidth{\diebox}{#1}\raisebox{-1.0ex}{\parbox{2\diebox}{\dotfill}}}
+\newcommand{\textgrid}[1]
+{\begin{tikzpicture}
+		\draw[step=0.5cm,color=gray] (0,0) grid (\textwidth ,#1);
+\end{tikzpicture}}
+
+\newcommand{\RN}[1]{%
+	\textup{\uppercase\expandafter{\romannumeral#1}}%
+}
+
+\newcommand{\obda}{o.B.d.A. }
+
+\newenvironment{enum}{\begin{enumerate*}[label=\alph*),itemjoin=\hspace{2em}]}{\end{enumerate*}\\[2ex]}
+
+\DeclareMathOperator{\N}{\mathbb N}
+\DeclareMathOperator{\Q}{\mathbb Q}
+\DeclareMathOperator{\R}{\mathbb R}
+\DeclareMathOperator{\Z}{\mathbb Z}
+\DeclareMathOperator{\BigO}{\mathcal O}
+
+
+%------ Defining multiple types of theorems ------%
+\newtheorem{axiom}{Axiom}[section]
+\newtheorem{theorem}[axiom]{Theorem}
+\newtheorem{lemma}[axiom]{Lemma}
+\newtheorem{satz}[axiom]{Satz}
+\theoremstyle{definition}
+\newtheorem*{example}{Beispiel}
+\newtheorem*{bemerkung}{Bemerkung}
+\newtheorem{definition}[axiom]{Definition}
+\newtheorem{folg}[axiom]{Folgerung}
+\newtheorem{notation}[axiom]{Notation}
+
+%---- Changing forall and exists ----%
+\let\oldforall\forall
+\renewcommand{\forall}{\:\oldforall \, }
+\let\oldexist\exists
+\renewcommand{\exists}{\:\oldexist \: }
+\newcommand\existu{\oldexist! \: }
+\let\oldepsilon\epsilon
+\renewcommand{\epsilon}{\varepsilon}
+
+%------ Giving circled star ---------%
+\makeatletter
+\newcommand{\ostar}{\mathbin{\mathpalette\make@circled\star}}
+\newcommand{\make@circled}[2]{%
+	\ooalign{$\m@th#1\smallbigcirc{#1}$\cr\hidewidth$\m@th#1#2$\hidewidth\cr}%
+}
+\newcommand{\smallbigcirc}[1]{%
+	\vcenter{\hbox{\scalebox{0.77778}{$\m@th#1\bigcirc$}}}%
+}
+\makeatother
+%-----------------------------------%
+
+%-------------- Vars ---------------%
+\newcommand{\vldate}{24. Oktober 2024}
+\newcommand{\vlname}{Computerorientierte Mathematik I}
+\newcommand{\vltopic}{Induktion}
+
+\pagestyle{fancy}
+\setlength{\headheight}{34pt}
+\fancyhf{}
+\fancyhead[L]{\includegraphics[width=1cm]{C:/Users/chole/Documents/tub/tublogo.png}}
+\fancyhead[C]{{\bfseries\vlname}\\%
+	\vltopic}
+\fancyhead[R]{\vldate}
+\fancyfoot[L]{}
+\fancyfoot[C]{- \thepage\ of \pageref{LastPage} -}
+\fancyfoot[R]{}
+
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\labelitemii}{-}
+
+\begin{document}
+	\setcounter{section}{1}
+	\setcounter{subsection}{7}
+	\subsection{Vollständige Induktion}
+	Die Menge der natürlichen Zahlen ist wie folgt definiert.
+	\begin{enumerate}[label=(\arabic*)]
+		\item $0 \in \N$
+		\item $\forall n \in \N: n' \in \N$
+		\item $\forall n \in \N: n' \neq 0$
+		\item $\forall n, m \in \N: (n' = m' \implies n = m)$
+		\item $\forall X: (0 \in X \land \forall n \in \N: (n \in X \implies n' \in X)) \implies \N \subseteq X$
+	\end{enumerate}
+	Hierbei bezeichnet $n'$ den Nachfolger von $n\in \N$.
+	
+	Hieraus leitet sich das Prinzip der vollständigen Induktion ab. Falls nun
+	\begin{itemize}
+		\item Die Aussage $A(0)$ wahr ist und
+		\item Für jedes $n \in \N$ gilt: $A(n)$ ist wahr $\implies$ $A(n+1)$ ist wahr, 
+	\end{itemize}
+	so ist $A(n)$ wahr für jedes $n \in \N$.
+	\begin{satz}
+		für alle $n \in \N$ ist die Summe der ersten $n$ ungeraden Zahlen $n^2$:
+		\[
+			\sum_{i = 1}^{n}(2i-1) = n^2
+		\]
+	\end{satz}
+	\begin{proof}[Beweis mittels vollständiger Induktion:]
+		
+		Induktionsanfang $(n = 0)$:
+		\[
+			\sum_{i=1}^{0}(2i-1) = 0 = 0^2
+		\] gilt.
+		
+		Induktionsschluss $(n\to n+1)$:
+		
+		Für ein beliebiges, aber festes $n \in \N$ gelte $\sum_{i=1}^{n}(2i-1) = n^2$. Daraus folgt
+		\begin{align*}
+			\sum_{i=1}^{n+1}(2i-1) &= \sum_{i=1}^{n}(2i-1) + 2(n+1)-1\\
+			&= n^2+2n+1\\
+			&= (n+1)^2
+		\end{align*}
+	\end{proof}
+	\begin{satz}
+		Für alle $n \in \N$ und $q \in \R \backslash \{1\}$ ist die geometrische Summe
+		\[
+			\sum_{i=0}^{n-1} q^i = \frac{q^n - 1}{q - 1}
+		\]
+	\end{satz}
+	\begin{proof}[Beweis mittels vollständiger Induktion:]
+		Induktionsanfang $(n = 0)$:
+		
+		\[
+			\sum_{i = 0}^{-1} q^i = 0 = \frac{q^0-1}{q-1}
+		\]
+		
+		Induktionsschluss $(n \to n+1)$:
+		
+		Für ein beliebiges, aber festes $n \in \N$ gelte
+		\[
+			\sum_{i = 0}^{n-1}q^i = \frac{q^n-1}{q-1}
+		\]
+		Dann gilt:
+		\begin{align*}
+			\sum_{i = 0}^{n}q^i &= \sum_{i = 0}^{n-1}q^i + q^n\\
+			&= \frac{q^n - 1}{q-1} + q^n\\
+			&= \frac{q^n - 1}{q-1} + \frac{q^n(q-1)}{q-1}\\
+			&= \frac{q^n - 1 + q^{n+1} - q^n}{q-1}\\
+			&= \frac{q^{n+1}-1}{q-1}
+		\end{align*}
+	\end{proof}
+	\subsection{Verallgemeinerte Induktion}
+	\begin{enumerate}[label=(\roman*)]
+		\item Es sei $n_0 \in \Z$ und für jede ganze Zahl $n \geq n_0$ sei $A(n)$ eine Aussage, die wahr oder falsch ist. Falls nun
+		\begin{itemize}
+			\item die Aussage $A(n_0)$ wahr ist und
+			\item für alle $n \geq n_0$ gilt $A(n)$ ist wahr $\implies A(n+1)$ ist wahr,
+		\end{itemize}
+		so ist $A(n)$ wahr für alle $n\geq n_0$.
+		\item Induktionsprinzip zweiter Art (\glqq starke Induktion\grqq):
+		Es sei $n_0 \in \Z$ und für jede ganze Zahl $n \geq n_0$ sei $A(n)$ eine Aussage, die wahr oder falsch ist. Falls nun
+		\begin{itemize}
+			\item die Annahme $A(n_0)$ wahr ist und
+			\item Für alle $n\geq n_0$ gilt:
+			\[
+				\big(A(k) \text{ ist wahr } \forall n_0 \leq k \leq n \implies A(n+1) \text{ ist wahr}\big)
+			\]
+		\end{itemize}
+		so ist die $A(n)$ wahr für alle $n\geq n_0$.
+	\end{enumerate}
+	\begin{satz}
+		Jede nicht-leere Teilmenge $X \subseteq N$ enthält ein kleinstes Element.
+	\end{satz}
+	\begin{proof}
+		Es sei $X \subseteq \N$ und $X$ enthalte kein kleinstes Element. Wir zeigen mittels Induktionsprinzip 2. Art, dass $X = \emptyset$, d. h. $n \notin X \forall n \in \N$
+		
+		Induktionsanfang $(n = 0)$: $0 \notin X$, da sonst $0$ kleinstes Element von $X$.
+		
+		Induktionsschluss $(n \to n+1)$: Für ein beliebiges, aber festes $n \in \N$ gelte: $k \notin X \forall k \leq n$. Dann ist $n+1 \notin X$, da sonst $(n+1)$ kleinstes Element von $X$ wäre.
+	\end{proof}
+	
+	\section{Darstellung ganzer Zahlen}
+	\subsection{Modulo-Rechnung}
+	\begin{satz}
+		Zu $a \in \Z$ und $m \in \N_{\geq 1}$ gibt es eindeutig bestimmte Zahlen $p \in \Z$ und $q \in \{0,\dots, n-1\}$ mit
+		\[
+			a = p \cdot m + q
+		\]
+	\end{satz}
+	Die Zahl $q$ ist der Rest bei Division von $a$ durch $m$. Wir schreiben
+	\[
+		q = a \mod m
+	\]
+	\begin{proof}
+		{\itshape Existenz: } Setze $p := \lfloor \frac{a}{m} \rfloor \in \Z$ und $q := a - p\cdot m \in \{0,\dots,m-1\}$.
+		
+		{\itshape Eindeutigkeit: } Es seien $p,p' \in \Z$ und $q,q' \in \{0,\dots,m-1\}$ mit 
+		\[
+			a = p\cdot m + q = p' \cdot m + q'
+		\]
+		
+		\[
+			\implies \underbrace{(p-p')}_{\in \Z} \cdot m = \underbrace{(q' - q)}_{\in \{-m+1,\dots,m-1\}} \implies q-q' = 0, p-p' = 0
+		\]
+	\end{proof}
+	Die Modulo-Operation ist mit Addition und Multiplikation verträglich, d. h. für $a, b \in Z$ und $m \in \N_{\geq 1}$ gilt
+	\begin{align*}
+		(a+b) \mod m &= \big((a \mod m) + (b \mod m)\big) \mod m
+		\intertext{und}
+		(a\cdot b) \mod m &= \big((a \mod m) \cdot (b \mod m)\big) \mod m
+	\end{align*}
+	\begin{proof}
+		schreibe $a = p\cdot m + q, b = p' \cdot m + q'$ mit $q,q'\in \{0,\dots,m-1\}$. Dann gilt
+		\[
+			(a+b) \mod m = \big((p+p')\cdot m + (q + q')\big) \mod m
+		\]
+		Analog für Multiplikation.
+	\end{proof}
+	\begin{bemerkung}
+		Die Menge $\{0,1,\dots,m-1\}$ bildet gemeinsam mit Addition und Multiplikation $\mod m$ den Ring $\Z_m$. Ist $m$ prim, so ist $\Z_m$ sogar ein Körper.
+	\end{bemerkung}
+	\subsection{Zahldarstellung}
+	\begin{satz}
+		es seien $b \in \N_{\geq 2}$ und $n\in \N_{\geq 1}$. Für $\ell := \lfloor \log_b n + 1\rfloor$ existieren eindeutig bestimmte Zahlen $z_i \in \{0,\dots,b-1\}$ für $i = 0,\dots,\ell-1$ mit 
+		\[
+			n = \sum_{i = 0}^{\ell - 1}z_i \cdot b^i \text{ und } z_{\ell-1} \neq 0
+		\]
+	\end{satz}
+	\begin{bemerkung}
+		Das Wort $z_{\ell-1}\dots z_0$ heißt die b-adische Darstellung von n. Man schreibt manchmal auch
+		\[
+			n = (n_{\ell-1}\dots z_0)_b
+		\]
+	\end{bemerkung}
+	\begin{example}
+		$(24)_{10} = (11000)_2 = (220)_3 = (120)_4 = (44)_5 = (40)_6 = (33)_7 = (30)_8$
+		
+		$(986)_{10} = (3~13~10)_{16} = 0x3da$
+	\end{example}
+	\begin{proof}[Beweis zur Existenz der b-adischen Darstellung]
+		Induktionsanfang: Für $n \in \{1,\dots,b-1\}$ gilt $\sum_{i=0}^{0}z_i b^i$ mit $z_0 := n \neq 0$
+		
+		Induktionsschritt: Für ein beliebiges, aber festes $n \in \N_{\geq b-1}$ gebe es für alle $k\leq n$ eine solche Darstellung. Konstruiere damit Darstellung für $n+1$: 
+		
+		Es sei $k := \lfloor \frac{n+1}{b}\rfloor \leq n$ und $\ell' := \lfloor \log_b k\rfloor + 1$. Also gibt es Darstellung 
+		\[
+			k = \sum_{i = 0}^{\ell'-1}z'_i b^i
+		\]
+		mit $z'_i\in \{0,\dots,b-1\}$ und $z'_{\ell-1} \neq 0$.	Dann ist $\ell := \lfloor \log_b(n+1)\rfloor + 1 = \ell' + 1$
+		
+		Setze $z_i :=z'_{i-1}$ für $i=1,\dots,\ell-1$ und $z_0 := (n+1) \mod b$. Dann ist $n+1 = k\cdot b + z_0 = \sum_{i = 0}^{\ell'-1}z'_i b^{i+1} + z_0$.
+	\end{proof}
+\end{document}
