@@ -1,0 +1,350 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{marvosym}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[left=2.5cm,right=2cm,top=3cm,bottom=3cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{tcolorbox}
+\usepackage{adjustbox}
+\usepackage{eurosym}
+\usepackage[inline]{enumitem}
+\usepackage{lastpage}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{listings}
+\usepackage{xcolor}
+%\usepackage{minted}
+\setlength{\parindent}{0pt}
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing,calc,shadows.blur,shadings,er,positioning}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+%\usepackage{pgfplots}
+%\usepackage[leqno]{amsmath}
+
+%\newcounter{mathseed}
+%\setcounter{mathseed}{1}
+%\pgfmathsetseed{\arabic{mathseed}} 
+%\pgfdeclarelayer{background}
+%\pgfsetlayers{background,main}
+
+\newcommand{\RN}[1]{%
+	\textup{\uppercase\expandafter{\romannumeral#1}}%
+}
+
+\newcommand{\obda}{o.B.d.A. }
+
+\newenvironment{enum}{\begin{enumerate*}[label=\alph*),itemjoin=\hspace{2em}]}{\end{enumerate*}\\[2ex]}
+
+\DeclareMathOperator{\N}{\mathbb N}
+\DeclareMathOperator{\Q}{\mathbb Q}
+\DeclareMathOperator{\R}{\mathbb R}
+\DeclareMathOperator{\Z}{\mathbb Z}
+\DeclareMathOperator{\BigO}{\mathcal O}
+
+
+%------ Defining multiple types of theorems ------%
+\newtheorem{axiom}{Axiom}[section]
+\newtheorem{theorem}[axiom]{Theorem}
+\newtheorem{lemma}[axiom]{Lemma}
+\newtheorem{satz}[axiom]{Satz}
+\theoremstyle{definition}
+\newtheorem*{example}{Beispiel}
+\newtheorem*{bemerkung}{Bemerkung}
+\newtheorem*{frage}{Frage}
+\newtheorem*{loesung}{Lösung}
+\newtheorem{definition}[axiom]{Definition}
+\newtheorem{folg}[axiom]{Folgerung}
+\newtheorem{notation}[axiom]{Notation}
+
+%---- Changing forall and exists ----%
+\let\oldforall\forall
+\renewcommand{\forall}{\:\oldforall \, }
+\let\oldexist\exists
+\renewcommand{\exists}{\:\oldexist \: }
+\newcommand\existu{\oldexist! \: }
+\let\oldepsilon\epsilon
+\renewcommand{\epsilon}{\varepsilon}
+\newcommand{\corresponds}{\;\widehat{=}\;}
+
+%------ Giving circled star ---------%
+\makeatletter
+\newcommand{\ostar}{\mathbin{\mathpalette\make@circled\star}}
+\newcommand{\make@circled}[2]{%
+	\ooalign{$\m@th#1\smallbigcirc{#1}$\cr\hidewidth$\m@th#1#2$\hidewidth\cr}%
+}
+\newcommand{\smallbigcirc}[1]{%
+	\vcenter{\hbox{\scalebox{0.77778}{$\m@th#1\bigcirc$}}}%
+}
+\makeatother
+%-----------------------------------%
+
+%-------------- Vars ---------------%
+\newcommand{\vldate}{29. Oktober 2024}
+\newcommand{\vlname}{Computerorientierte Mathematik I}
+\newcommand{\vltopic}{Zahldarstellungen}
+
+\pagestyle{fancy}
+\setlength{\headheight}{34pt}
+\fancyhf{}
+\fancyhead[L]{\includegraphics[width=1cm]{C:/Users/chole/Documents/tub/tublogo.png}}
+\fancyhead[C]{{\bfseries\vlname}\\%
+	\vltopic}
+\fancyhead[R]{\vldate}
+\fancyfoot[L]{}
+\fancyfoot[C]{- \thepage\ of \pageref{LastPage} -}
+\fancyfoot[R]{}
+
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\labelitemii}{-}
+
+\begin{document}
+	\setcounter{section}{2}
+	\setcounter{subsection}{2}
+	\subsection{Darstellung ganzer Zahlen -- Horner-Schema}
+	\begin{frage}
+		Wie berechnet man den Wert einer in $b$-adischen Darstellung gegebenen Zahl möglichst effizient?
+	\end{frage}
+	\begin{loesung}
+		Horner-Schema:
+		\[
+			\underbrace{\sum_{i = 0}}_{(l-1)}^{\ell - 1}z_i \overbrace{\cdot}^{(l-1)} \underbrace{b^i}_{(l-2)} = z_0 + b(z_1 + b(z_2 + \ldots b (z_{\ell - 2} + b\cdot z_{\ell - 1})))
+		\]
+	\end{loesung}
+	\begin{bemerkung}
+		Zur Berechnung des Ausdrucks auf der linken Seite benötigt man
+		\begin{align*}
+			\ell - 1\hspace*{7ex}&\text{Additionen}\\
+			2\ell - 3\hspace*{7ex}&\text{Multiplikationen}\\
+			\intertext{Zur Berechnung des Ausdrucks auf der rechten Seite benötigt man}
+			\ell - 1\hspace*{7ex}& \text{Additionen}\\
+			\ell - 1\hspace*{7ex}& \text{Multiplikationen}
+		\end{align*}
+	\end{bemerkung}
+	Codierung negativer ganzer Zahlen
+	
+	Naheliegend: Darstellung mit explizitem Vorzeichen: $(0 \corresponds  +, 1 \corresponds -)$
+	\begin{center}
+		\begin{tabular}{l l l l}
+			$0$\hspace*{2ex} &$0000$\hspace*{5ex} &$-0$\hspace*{2ex} &$1000$\\
+			$1$ &$0001$ & $-1$ & $1001$\\
+			$2$ &$0010$ & $-2$ & $1010$\\
+			$3$ &$0011$ & $-3$ & $1011$\\
+			$4$ &$0100$ & $-4$ & $1100$\\
+			$5$ &$0101$ & $-5$ & $1101$\\
+			$6$ &$0110$ & $-6$ & $1110$\\
+			$7$ &$0111$ & $-7$ & $1111$
+		\end{tabular}
+	\end{center}
+	Nachteile: \begin{itemize}
+		\item Null hat zwei verschiedene Darstellungen
+		\item Addition kann nicht unmittelbar auf Addition von Binärzahlen ohne Vorzeichen zurückgeführt werden.
+	\end{itemize}
+	
+	Binäre Komplementdarstellung
+	\begin{itemize}
+		\item zunächst wie oben: führendes Bit zeigt Vorzeichen $(0 \corresponds +, 1 \corresponds -)$item aber: negative 
+		\item aber: negative Zahlen werden komplementär dargestellt.
+		\item $z \in \{-2^{\ell - 1}, -2^{\ell - 1} + 1, \ldots, -1\}$ wird dargestellt als $z + 2^\ell$
+		\begin{center}
+			\begin{tabular}{l l l l}
+				$1$ \hspace*{2ex} & $0001$ \hspace*{5ex} & $-1$ \hspace*{2ex} & $1111$\\
+				$2$ & $0010$ & $-2$ & $1110$ \\
+				$3$ & $0011$ & $-3$ & $1101$ \\
+				$4$ & $0100$ & $-4$ & $1100$ \\
+				$5$ & $0101$ & $-5$ & $1011$ \\
+				$6$ & $0110$ & $-6$ & $1010$ \\
+				$7$ & $0111$ & $-7$ & $1001$ \\
+				$0$ & $0000$ & $-8$ & $1000$
+			\end{tabular}
+		\end{center}
+		Beachte: $\mod 2^\ell$ sind $z$ und $z + 2^\ell$ gleich.
+	\end{itemize}
+	\subsection{Das $b$-Komplement}
+	\begin{definition}
+		Für $\ell \in \N_{\geq 1}, b \in \N_{\geq 2}$ und $n \in \{0,1,\ldots, b^\ell - 1\}$ ist
+		\[
+			K_b^\ell(n) := -n \mod b^\ell
+		\]
+		das $\ell$-stellige $b$-Komplement von $n$.
+	\end{definition}
+	\begin{example}
+		\begin{itemize}
+			\item $n = 15, b = 10, \ell = 2$
+		\[
+			K_{10}^2(15) = -15 \mod 10^2 = 85
+		\]
+		\item $b = 2, \ell = 4$
+		\[
+			K_2^4(15) = -15 \mod 2^4 = 1
+		\]
+		\end{itemize}
+	\end{example}
+	\begin{lemma}
+		Für $\ell \geq 1, b \geq 2$ und $n = \sum_{i = 0}^{\ell - 1}z_ib^i$ mit $z_i \in \{0,1,\ldots, b-1\}$ gilt:
+		\begin{enumerate}[label=(\roman*)]
+			\item \[
+				K_b^\ell(n + 1) = \sum_{i = 0}^{\ell - 1}(b - 1 - z_i)b^i
+			\]
+			für $n + b^\ell - 1$; außerdem $K_b^\ell(0) = 0$
+			\item \[
+				K_b^\ell(K_b^\ell(n)) = n
+			\]
+		\end{enumerate}
+	\end{lemma}
+	\begin{proof}
+		\begin{enumerate}[label=(\roman*)]
+			\item \[
+				K_b^\ell(0) = -0 \mod b^\ell = 0.
+			\]
+			Für $n \in \{0,\ldots, b^\ell - 2\}$ gilt
+			\begin{align*}
+				K_b^\ell(n + 1) &= -(n+1) \mod b^\ell\\
+				&= b^\ell - 1 - n\\
+				&= \sum_{i = 0}^{\ell - 1}(b-1)b^i - \sum_{i = 0}^{\ell - 1}z_i b^i\\
+				&= \sum_{i = 0}^{\ell - 1}(b - 1 - z_i)b^i
+			\end{align*}
+			\item Wegen Rechenregeln für die modulo-Rechnung gilt
+			\[
+				K_b^\ell(K_b^\ell(n)) = (-(-n \mod b^\ell)) \mod b^\ell = n \mod b^\ell = n
+			\]
+		\end{enumerate}
+	\end{proof}
+	\begin{bemerkung}
+		Berechne also $b$-Komplement von $n > 0$ wie folgt: nimm $b$-adische Darstellung von $n-1$ und bilde {\itshape stellenweise} Differenz zu $b-1$.
+	\end{bemerkung}
+	\subsection{$b$-Komplementdarstellung ganzer Zahlen}
+	\begin{definition}
+		Es seien $\ell \geq 1, b \geq 2, n \in \{- \lfloor \frac{b^\ell}{2} \rfloor, \ldots, \lceil \frac{b^\ell}{2}\rceil - 1\}$. Die $\ell$-stellige Komplementdarstellung von $n$ ist die $b$-adische Darstellung von $n$ (falls $n\geq 0$) bzw. von $K_b^l(-n)$ (falls $n < 0$), vorne mit Nullen zu einer $\ell$-stelligen Zahl aufgefüllt.
+	\end{definition}
+	\begin{example}
+		$b = 2, \ell = 4$
+		\begin{itemize}
+			\item Die $4$-stellige $2$-Komplementdarstellung von $n = 5$ ist $0101$.
+			\item Die $4$-stellige $2$-Komplementdarstellung von $n = -5$ ist $K_2^4(5) = 1011$.
+		\end{itemize}
+	\end{example}
+	\begin{satz}
+		Für $\ell \geq 1, b \geq 2, Z = \{-\lfloor \frac{b^\ell}{2} \rfloor, \ldots, \lceil \frac{b^\ell}{2}\rceil - 1\}$ sei
+		\[
+			f: Z \to \{0,1,\ldots, b^\ell - 1\}, n \to \begin{dcases}
+				n &\text{ falls } \ell \geq 0\\
+				K_b^\ell(-n)&\text{ falls } \ell < 0
+			\end{dcases}
+		\]
+	\end{satz}
+	das heißt, $f(n) = n \mod b^\ell$. Dann ist $f$ bijektiv und für $x,y \in Z$ gilt:
+	\begin{enumerate}[label=(\roman*)]
+		\item ist $x + y \in Z$, so gilt $f(x + y) = \big(f(x) + f(y)\big) \mod b^\ell$
+		\item ist $x \cdot y \in Z$, so gilt $f(x \cdot y) = \big(f(x) \cdot f(y)\big) \mod b^\ell$
+	\end{enumerate}
+	\begin{proof}
+		Für $n \in Z = \{-\lfloor \frac{b^\ell}{2}\rfloor, \ldots, \lceil \frac{b^\ell}{2} - 1\rceil\}$ ist $f(n) = n \mod b^\ell$. Da $\lvert Z \rvert = b^\ell$, ist $f$ bijektiv.\\[2ex]
+		(i) und (ii) folgen aus Rechenregeln für modulo-Rechnung.
+	\end{proof}
+	\begin{bemerkung}
+		\begin{itemize}
+			\item Mit der $b$-Komplementdarstellung kann man also ohne Fallunterscheidung rechnen.
+			\item Ignoriert man Über- und Unterschreitung des zulässigen Bereichs $Z$, so rechnet man mit Komplementdarstellung genau wie mit $b$-adischer Darstellung.
+			\item Für $b = 2$ und $x \in Z$ gilt: $x \geq 0 \Longleftrightarrow$ Führendes Bit ist $0$.
+		\end{itemize}
+	\end{bemerkung}
+	\subsection{Darstellung ganzer Zahlen im Computer}
+	Zahlen werden in Speicherblöcken zu je $8$ Bits (\glqq Bytes\grqq) gespeichert. 
+	\subsection{Darstellung großer ganzer Zahlen im Computer}
+	\begin{frage}
+		Wie kann ich Zahlen darstellen, die nicht in einen Speicherblock passen?
+	\end{frage}
+	\begin{loesung}
+		\begin{itemize}
+			\item Nutze $k \geq 2$ Blöcke zur Darstellung größerer Zahlen $n$.
+			\item Stelle $n$ bzw $f(n)$ in $b$-adischer Darstellung mit Basis $b^\ell$ ($\ell =$ Anzahl Bits eines Speicherblocks)
+			\item Damit kann jede Zahl 
+			\[
+				n \in Z = \bigg\{-\bigg\lfloor \frac{b^\ell}{2}\bigg\rfloor, \ldots, \bigg\lceil \frac{b^\ell}{2}\bigg\rceil - 1\bigg\}
+			\]
+			als $f(n) = n \mod b^k$ dargestellt werden.
+		\end{itemize}
+	\end{loesung}
+	\begin{example}
+		$b = 2^8, n = -11215$. Wähle $k = 2, denn:$
+		\[
+			-\bigg\lfloor \frac{b^2}{2} \bigg\rfloor = -32768 \leq n \leq 32767 = \bigg\lceil \frac{b^2}{2} \bigg\rceil - 1
+		\]
+		Dann ist
+		\begin{align*}
+			f(n) &= n \mod b^2 = 54321\\
+			&= (212~49)_b\\
+			&= (11010100~00110001)_2
+		\end{align*}
+		Darstellung im Hauptspeicher ist umgekehrt:
+		\[00110001~11010100\]
+	\end{example}
+	\subsection{Exakte Arithmetik}
+	Für jede Zahl $n \in \Z$ gibt es ein geeignetes $k \geq 1$, so dass 
+	\[
+		n \in Z_k :=\bigg\{-\bigg\lfloor \frac{b^k}{2}\bigg\rfloor, \ldots, \bigg\lceil \frac{b^k}{2} \bigg\rceil- 1\bigg\}
+	\]
+	\begin{frage}
+		Ist $n$ eine Variable, wie kann man $k$ dynamisch anpassen?
+	\end{frage}
+	\begin{loesung}
+		Es seien $n \in \Z$ und $k, k' \geq 1$, so dass $n \in Z_k \cap Z_{k'}$. Weiter seien
+		\[
+			f_k(n) = n \mod b^k \text{ und } f_{k'}(n) = n \mod b^{k'}.
+		\]
+		Eine Darstellung von $n$ in $k$ Blöcken kann dann einfach umgerechnet werden in eine Darstellung in $k'$ Blöcken.\\[2ex]
+		1. Fall: Für $n \geq 0$ ist $f_{k'}(n) = f_k(n) = n$, also Voranstellen (bzw. Löschen) von $k' - k$ Null-Blöcken.\\[2ex]
+		2. Fall: Für $n < 0$ ist $f_{k'}(n) = f_k(n) - b^k + b^{k'}$, also Voranstellen (bzw. Löschen) von $k'-k$ Eins-Blöcken.
+		\begin{example}
+			$b = 2^8 = 256$
+			\begin{align*}
+				Z_1 &= \{-128, \ldots, 127\}\\
+				Z_2 &= \{-32768, \ldots, 32767\}
+			\end{align*}
+			Beispiel 1: $n = 65, f_1(n) = f_2(n) = 65$.
+			\[
+				\underbrace{01000001}_{k = 1} \longleftrightarrow \underbrace{00000000~01000001}_{k=2}
+			\]
+			Beispiel 2: $n = -63, f_1(n) = 193, f_2(n) = 65473$
+			\[
+				\underbrace{11000001}_{k = 1} \longleftrightarrow \underbrace{11111111~11000001}_{k=2}
+			\]
+		\end{example}
+	\end{loesung}
+\end{document}

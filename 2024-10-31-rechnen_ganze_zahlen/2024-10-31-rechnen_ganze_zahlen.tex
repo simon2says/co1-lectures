@@ -1,0 +1,270 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{marvosym}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[left=2.5cm,right=2cm,top=3cm,bottom=3cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{tcolorbox}
+\usepackage{adjustbox}
+\usepackage{eurosym}
+\usepackage[inline]{enumitem}
+\usepackage{lastpage}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{listings}
+\usepackage{xcolor}
+%\usepackage{minted}
+\setlength{\parindent}{0pt}
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing,calc,shadows.blur,shadings,er,positioning}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+%\usepackage{pgfplots}
+%\usepackage[leqno]{amsmath}
+
+%\newcounter{mathseed}
+%\setcounter{mathseed}{1}
+%\pgfmathsetseed{\arabic{mathseed}} 
+%\pgfdeclarelayer{background}
+%\pgfsetlayers{background,main}
+
+\newcommand{\RN}[1]{%
+	\textup{\uppercase\expandafter{\romannumeral#1}}%
+}
+
+\newcommand{\obda}{o.B.d.A. }
+
+\newenvironment{enum}{\begin{enumerate*}[label=\alph*),itemjoin=\hspace{2em}]}{\end{enumerate*}\\[2ex]}
+
+\DeclareMathOperator{\N}{\mathbb N}
+\DeclareMathOperator{\Q}{\mathbb Q}
+\DeclareMathOperator{\R}{\mathbb R}
+\DeclareMathOperator{\Z}{\mathbb Z}
+\DeclareMathOperator{\BigO}{\mathcal O}
+
+
+%------ Defining multiple types of theorems ------%
+\newtheorem{axiom}{Axiom}[section]
+\newtheorem{theorem}[axiom]{Theorem}
+\newtheorem{lemma}[axiom]{Lemma}
+\newtheorem{satz}[axiom]{Satz}
+\theoremstyle{definition}
+\newtheorem*{example}{Beispiel}
+\newtheorem*{bemerkung}{Bemerkung}
+\newtheorem*{frage}{Frage}
+\newtheorem*{loesung}{Lösung}
+\newtheorem{definition}[axiom]{Definition}
+\newtheorem{folg}[axiom]{Folgerung}
+\newtheorem{notation}[axiom]{Notation}
+
+%---- Changing forall and exists ----%
+\let\oldforall\forall
+\renewcommand{\forall}{\:\oldforall \, }
+\let\oldexist\exists
+\renewcommand{\exists}{\:\oldexist \: }
+\newcommand\existu{\oldexist! \: }
+\let\oldepsilon\epsilon
+\renewcommand{\epsilon}{\varepsilon}
+\newcommand{\corresponds}{\;\widehat{=}\;}
+
+%------ Giving circled star ---------%
+\makeatletter
+\newcommand{\ostar}{\mathbin{\mathpalette\make@circled\star}}
+\newcommand{\make@circled}[2]{%
+	\ooalign{$\m@th#1\smallbigcirc{#1}$\cr\hidewidth$\m@th#1#2$\hidewidth\cr}%
+}
+\newcommand{\smallbigcirc}[1]{%
+	\vcenter{\hbox{\scalebox{0.77778}{$\m@th#1\bigcirc$}}}%
+}
+\makeatother
+%-----------------------------------%
+
+%-------------- Vars ---------------%
+\newcommand{\vldate}{31. Oktober 2024}
+\newcommand{\vlname}{Computerorientierte Mathematik I}
+\newcommand{\vltopic}{Zahldarstellungen}
+
+\pagestyle{fancy}
+\setlength{\headheight}{34pt}
+\fancyhf{}
+\fancyhead[L]{\includegraphics[width=1cm]{C:/Users/chole/Documents/tub/tublogo.png}}
+\fancyhead[C]{{\bfseries\vlname}\\%
+	\vltopic}
+\fancyhead[R]{\vldate}
+\fancyfoot[L]{}
+\fancyfoot[C]{- \thepage\ of \pageref{LastPage} -}
+\fancyfoot[R]{}
+
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\labelitemii}{-}
+
+\begin{document}
+	\setcounter{section}{2}
+	\section{Rechnen mit ganzen Zahlen}
+	\subsection{Addition von Zahlen in $b$-adischer Darstellung}
+	\begin{itemize}
+		\item Wir verstehen laut Definition unter der Laufzeit eines Algorithmus die Zahl elementarer Rechenoperationen.
+		\item Diese Definition liegt der Annahme zugrunde, dass jede dieser elementaren Operationen in konstant vielen Schritten ausgeführt wird.
+		\item Diese Annahme ist nur dann realistisch, wenn diese Operationen auf Zahlen beschränkter Größe angewandt werden.
+	\end{itemize}
+	
+	\begin{algorithm}
+	\caption{Addition $b$-adischer Zahlen}
+		\begin{algorithmic}
+			\Require $x = (x_{k-1}\dots x_1x_0)_b, y = (y_{k-1}\dots y_1y_0)_b, b\geq 2$
+			\State $c \gets 0$
+			\For{$j \gets 0$ To $k-1$}
+				\State $s_j \gets (x_j + y_j + c) \mod b$
+				\State $c \gets \lfloor \frac{x_j + y_j + c}{b}\rfloor$
+			\EndFor
+			\State $s_k \gets c$
+			\State \Return $(s_ks_{k-1}\dots s_1s_0)$
+		\end{algorithmic}
+	\end{algorithm}
+	\begin{satz}
+		Der Algorithmus ist korrekt und hat eine Laufzeitfunktion in $\BigO(k)$.
+	\end{satz}
+	\begin{proof}[Beweis per Induktion über $k$]
+		Für jedes $k\geq 1$ arbeitet der Algorithmus korrekt; es gilt immer $c\in \{0,1\}$.\\[2ex]
+		Induktionsanfang $(k = 1)$: $s_0 = (x_0 + y_0 + c) \mod b, s_1 = \lfloor \frac{x_0 + y_0 + c}{b} \rfloor = c$
+		\[
+			(s_1s_0)_b = \big\lfloor \frac{x_0 + y_0}{b}\big\rfloor \cdot b + (x_0 + y_0) \mod b = x_0 + y_0
+		\]
+		Außerdem gilt $0 \leq x + y_0 \leq 2b - 2$ und daher $c \in \{0,1\}$.\\[2ex]
+		Induktionsschritt $(k \to k + 1)$:  Die Behauptung gelte für ein beliebiges, aber festes $k \geq 1$. Dann ist 
+		\[
+			(x_{k-1}\dots x_0)_b + (y_{k-1}\dots y_0)_b = (cs_{k-1}\dots s_0)_b
+		\]
+		also gilt für $x = (x_kx_{k-1}\dots x_0)$ und $y = (y_ky_{k-1}\dots y_0)$:
+		\begin{align*}
+			x + y &= x_kb^k + y_kb^k + (x_{k-1}\dots x_0)_b + (y_{k-1}\dots y_0)\\
+			&= (x_k + y_k + c)b^k + (s_{k-1}\dots s_0)_b\\
+			&= (s_{k+1}s_k)b^k + (s_{k-1}\dots s_0)\\
+			&= (s_{k+1}s_k\dots s_0)_b
+		\end{align*}
+		und $c' = \lfloor \frac{x_k + y_k + c}{b} \rfloor \in \{0,1\}$, da $0 \leq x_k + y_k + c \leq 2b-2 + 1 < 2b$
+	\end{proof}
+	\begin{bemerkung}
+		\begin{itemize}
+			\item Der Algorithmus kann mittels der allgemeinen Komplementdarstellung auch zur Addition ganzer Zahlen verwendet werden.
+			\item Insbesondere kann man den Algorithmus auch zur Subtraktion nutzen, indem man $f(-x) = K_b^\ell(x)$ verwendet.
+			\item Auch $f(-x)$ kann in Laufzeit von $\BigO(k)$ berechnet werden, sodass die Subtraktion ebenfalls Laufzeit von $\BigO(k)$ hat.
+		\end{itemize}
+	\end{bemerkung}
+	\subsection{Multiplikation ganzer Zahlen in $b$-adischer Darstellung}
+	Die naive schriftliche Multiplikation zweier $k$-stelliger Zahlen hat Laufzeit $\Theta(k^2)$.
+	\[
+		\bigg(\sum_{j=0}^{k-1}x_jb^j\bigg)\bigg(\sum_{j=0}^{k-1}y_jb^j\bigg)
+	\]
+	\begin{example}
+		Betrachte $x = (x_1x_0)_b$ und $y = (y_1y_0)_b$ für $b \geq 2$ und berechne
+		\[
+			x \cdot y = \underbrace{(x_1y_1)}_{:=p}b^2 + \underbrace{(x_1y_0 + y_1x_0)}_{r-p-q}b + \underbrace{(x_0y_0)}_{:=q}
+		\]
+		Rechenschritte: $4$ Multiplikationen und $3$ Additionen.\\[2ex]
+		Alternative Idee: Berechne $p := x_1y_1, q = x_0y_0, r = (x_1 + x_0) \cdot (y_1 + y_0)$.
+		\[
+			x \cdot y = pb^2 + (r-p-q)b + q
+		\]
+		Rechenschritte: $3$ Multiplikationen, $6$ Additionen
+		
+		Es seien $x = (x_3x_2x_1x_0), y = (y_3y_2y_1y_0)$. Berechne
+		\begin{align*}
+			p &:= (x_3x_2)_b \cdot (y_3y_2)_b\\
+			q &:= (x_1x_0)_b \cdot (y_1y_0)_b\\
+			r &:= \big((x_3x_2)_b + (x_1x_0)_b\big) \cdot \big((y_3y_2)_b + (y_1y_0)_b\big)
+		\end{align*}
+		und verwende dabei die alternative Idee. Rechenschritte: $9$ Multiplikationen und $3\cdot 6 + 2$ Additionen.\\[2ex]
+		Dann ist 
+		\[
+			x\cdot y = pb^4 + (r-p-q)b^2 + q
+		\]
+		Rechenschritte gesamt: $9$ Multiplikationen, $24$ Additionen.
+	\end{example}
+	\subsection{Karazubas Multiplikation}
+	\begin{algorithm}[H]
+		\caption{Karazubas Multiplikation}
+		\begin{algorithmic}
+			\Require $x, y \in \N$ in Binärdarstellung
+			\If{$x < 8$ and $y < 8$}
+				\Return $x \cdot y$
+			\Else
+				\State $\ell \gets 1 + \lfloor \log_2(\max\{x,y\})\rfloor$
+				\State $k \gets \lfloor \frac{\ell}{2}\rfloor, b \gets 2^k$
+				\State $x' \gets \lfloor \frac{x}{b} \rfloor, x'' \gets x \mod b$
+				\State $y' \gets \lfloor \frac{y}{b} \rfloor, y'' \gets y \mod b$
+				\State $p \gets x' \cdot y'$
+				\State $q \gets x'' \cdot y''$
+				\State $r \gets (x' + x'') \cdot (y' + y'')$
+				\Return $pb^2 + (r-p-q)b + q$
+			\EndIf
+		\end{algorithmic}
+	\end{algorithm}
+	\begin{example}
+		$x = (1100011)_2, y = (0010110)_2$\\[2ex]
+		$\ell := 1 + \lfloor \log_2(x)\rfloor = 7, k = \lfloor \frac{\ell}{2} \rfloor, b = 2^k = 8$
+		\begin{align*}
+			p & \coloneq x' \cdot y' = (1100)_2 \cdot (0010)_2 = (11000)_2\\
+			q & \coloneq x'' \cdot y'' = (011)_2 \cdot (110)_2 = (10010)_2\\
+			r & \coloneq (x' + x'') \cdot (y' + y'') = (1111)_2 + (1000)_2 = (1111000)_2\\
+			pb^2 + (r-p-q)b + q &= (11000)_22^6 + (1001110)_22^3 + (10010)_2\\
+			&= (11000000000)_2 + (1001110000)_2 + (10010)_2\\
+			&= (100010000010)_2
+		\end{align*}
+	\end{example}
+	\subsection{Karazubas Multiplikation -- Korrektheit und Laufzeit}
+	\begin{satz}
+		Der Algorithmus ist korrekt und hat eine Laufzeitfunktion in $\BigO(\ell^{\log_2(3)})$ mit $\ell \coloneq 1 + \lfloor \log_2(\max\{x,y\})\rfloor$
+	\end{satz}
+	\begin{bemerkung}
+		\begin{itemize}
+			\item $\log_2(3) < 1.59; \ell = 1~000 \Longrightarrow \ell^2 = 1~000~000, \ell^{\log_2(3)} < 60~000$
+			\item Es gibt schnellere Verfahren (z. B. Schönhage-Strassen-Algorithmus)
+			\item Ganzzahlige Division kann auf Multiplikation zurückgeführt werden.
+		\end{itemize}
+	\end{bemerkung}
+	\begin{proof}[Laufzeitanalyse]
+		Es sei $T(\ell)$ maximale Laufzeit für Imputzahlen mit $\leq \ell$ Ziffern.
+		\[T(\ell) \leq 
+		\begin{dcases}
+			c & \text{ für } \ell \leq 3,\\
+			c \cdot \ell + 3T\Big(\Big\lceil \frac{\ell}{2}\Big\rceil\Big) + 1 & \text{ für } \ell \geq 4
+		\end{dcases}
+		\]
+	\end{proof}
+\end{document}
