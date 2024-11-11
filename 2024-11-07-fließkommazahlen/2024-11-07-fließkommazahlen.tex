@@ -1,0 +1,209 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{marvosym}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[left=2.5cm,right=2cm,top=3cm,bottom=3cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{tcolorbox}
+\usepackage{adjustbox}
+\usepackage{eurosym}
+\usepackage[inline]{enumitem}
+\usepackage{lastpage}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{listings}
+\usepackage{xcolor}
+%\usepackage{minted}
+\setlength{\parindent}{0pt}
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing,calc,shadows.blur,shadings,er,positioning}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+%\usepackage{pgfplots}
+%\usepackage[leqno]{amsmath}
+
+%\newcounter{mathseed}
+%\setcounter{mathseed}{1}
+%\pgfmathsetseed{\arabic{mathseed}} 
+%\pgfdeclarelayer{background}
+%\pgfsetlayers{background,main}
+
+\newcommand{\RN}[1]{%
+	\textup{\uppercase\expandafter{\romannumeral#1}}%
+}
+
+\newcommand{\obda}{o.B.d.A. }
+
+\newenvironment{enum}{\begin{enumerate*}[label=\alph*),itemjoin=\hspace{2em}]}{\end{enumerate*}\\[2ex]}
+
+\DeclareMathOperator{\N}{\mathbb N}
+\DeclareMathOperator{\Q}{\mathbb Q}
+\DeclareMathOperator{\R}{\mathbb R}
+\DeclareMathOperator{\Z}{\mathbb Z}
+\DeclareMathOperator{\BigO}{\mathcal O}
+\DeclareMathOperator{\ggt}{\text{ggT}}
+\DeclareMathOperator{\kgv}{\text{kgV}}
+
+
+%------ Defining multiple types of theorems ------%
+\newtheorem{axiom}{Axiom}[section]
+\newtheorem{theorem}[axiom]{Theorem}
+\newtheorem{lemma}[axiom]{Lemma}
+\newtheorem{satz}[axiom]{Satz}
+\theoremstyle{definition}
+\newtheorem*{example}{Beispiel}
+\newtheorem*{bemerkung}{Bemerkung}
+\newtheorem*{frage}{Frage}
+\newtheorem*{loesung}{Lösung}
+\newtheorem{definition}[axiom]{Definition}
+\newtheorem{folg}[axiom]{Folgerung}
+\newtheorem{notation}[axiom]{Notation}
+
+%---- Changing forall and exists ----%
+\let\oldforall\forall
+\renewcommand{\forall}{\:\oldforall \, }
+\let\oldexist\exists
+\renewcommand{\exists}{\:\oldexist \: }
+\newcommand\existu{\oldexist! \: }
+\let\oldepsilon\epsilon
+\renewcommand{\epsilon}{\varepsilon}
+\newcommand{\corresponds}{\;\widehat{=}\;}
+
+%------ Giving circled star ---------%
+\makeatletter
+\newcommand{\ostar}{\mathbin{\mathpalette\make@circled\star}}
+\newcommand{\make@circled}[2]{%
+	\ooalign{$\m@th#1\smallbigcirc{#1}$\cr\hidewidth$\m@th#1#2$\hidewidth\cr}%
+}
+\newcommand{\smallbigcirc}[1]{%
+	\vcenter{\hbox{\scalebox{0.77778}{$\m@th#1\bigcirc$}}}%
+}
+\makeatother
+%-----------------------------------%
+
+%-------------- Vars ---------------%
+\newcommand{\vldate}{05. November 2024}
+\newcommand{\vlname}{Computerorientierte Mathematik I}
+\newcommand{\vltopic}{Karazuas Multiplikation -- Laufzeit}
+
+\pagestyle{fancy}
+\setlength{\headheight}{34pt}
+\fancyhf{}
+\fancyhead[L]{\includegraphics[width=1cm]{C:/Users/chole/Documents/tub/tublogo.png}}
+\fancyhead[C]{{\bfseries\vlname}\\%
+	\vltopic}
+\fancyhead[R]{\vldate}
+\fancyfoot[L]{}
+\fancyfoot[C]{- \thepage\ of \pageref{LastPage} -}
+\fancyfoot[R]{}
+
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\labelitemii}{-}
+
+\begin{document}
+	Für $a,b \in \N$ gilt:
+	\[
+		\text{ggT}(a,b)\cdot \text{kgV}(a,b) = a\cdot b
+	\]
+	\begin{proof}
+		Falls $a = 0$ oder $b = 0$, ist die Aussage klar. Seien also $a,b > 0$. Es sei $d \coloneq \text{ggT}(a,b), m \coloneq \text{kgV}(a,b)$. Da $b \mid (a\cdot b)$, gibt es $n \in \N$ mit $d\cdot n = a\cdot b$.
+		
+		Da $d \mid a$ und $d \mid b$, gibt es $u,v$, sodass $d\cdot u = a, d\cdot v = b$.
+		\begin{align*}
+			\Longrightarrow d \cdot u \cdot b &= d \cdot n = d \cdot v \cdot a\\
+			\Longleftrightarrow u \cdot b &= n = v \cdot a
+		\end{align*}
+		Damit ist $n$ Vielfaches von $a$ und $b$, also $n \geq \kgv(a,b) \eqcolon m$. Da $m$ Vielfaches von $a$ und $b$ ist, gibt es $r,s \in \N$ mit $m = a\cdot r = b \cdot s$. Nach dem Lemma von Bézout gibt es $x,y \in \Z$ mit $d = a \cdot x + b \cdot y$.
+		\begin{align*}
+			m \cdot d &= m \cdot a \cdot a + m \cdot b \cdot y\\
+			&= b \cdot s \cdot a \cdot x + a \cdot r \cdot b \cdot y\\
+			&= a \cdot b \cdot (s \cdot x + r \cdot y)\\
+			&= d \cdot n \cdot (s \cdot x + r \cdot y)\\
+			m &= n \cdot (s \cdot x + r \cdot y)
+		\end{align*}
+		das heißt, $m$ ist ein Vielfaches von $n$ und daher $m \geq n$.
+	\end{proof}
+	\setcounter{section}{3}
+	\section{Approximative Darstellung reeller Zahlen}
+	\subsection{Normalisierte $b$-adische Darstellung reeller Zahlen}
+	\begin{satz}
+		Es sei $b \in \N_{\geq 2}.$ Für alle $x \in \R \backslash\{0\}$ existieren eindeutige Zahlen $\mathcal{E} \in \Z, \sigma \in \{\pm 1\}$ und $z_i \in \{0,1,\ldots, b-1\}$ für $i \in \N$, sodass gilt:
+		\[
+			x = \sigma \cdot \Big(\sum_{i = 0}^{\infty}z_i \cdot b^{-i}\Big)
+		\]
+		wobei $\{i \in \N: z_i \neq (b-1)\}$ unendlich groß ist und $z_0 \neq 0$.
+	\end{satz}
+	Diese Darstellung heißt dann (normalisierte) $b$-adische Darstellung von $x$.
+	\begin{example}
+		\begin{align*}
+			\pi &= (+1) \cdot (3\cdot 10^0 + 1\cdot 10^{-1} + 4 \cdot 10^{-2} + 1 \cdot 10^{-3} + \dots) \cdot 10^0\\
+			-\frac{2}{5} &= (-1) \cdot (4 \cdot 10^0 + 0 \cdot 10^{-1} + 0 \cdot 10^{-2} + \dots) \cdot 10^{-1}\\
+			\frac{1}{3} &= (+1) \cdot \Big(\sum_{i = 0}^{\infty}3 \cdot 10^{-i}\Big) \cdot 10^{-1} = 0.\overline{3}\\
+			&= (+1) \cdot \Big(\sum_{i = 0}^{\infty}2^{-2i}\Big) \cdot 2^{-2} = (0.\overline{01})_2
+		\end{align*}
+	\end{example}
+	\subsection{Normalisierte $b$-adische Darstellung: Existenz}
+	Für $x \in \R \backslash\{0\}$ sei $\sigma \coloneq \frac{x}{\lvert x \rvert}$ und $\mathcal{E} = \lfloor \log_b \lvert x \rvert \rfloor$. Setze $a_0 \coloneq \lvert x\rvert \cdot b^{-\mathcal{E}}$ also $1 \leq a_0 < b$ und definiere rekursiv für $i \in \N$:
+	\[
+		z_i \coloneq \lfloor a_i \rfloor \text{ und } a_{i+1} \coloneq b \cdot (a_i - z_i)
+	\]
+	Dann gilt auch $0 \leq a_i < b$ und $z_i \in \{0,\ldots, b-1\}$ für alle $i \in \N$ und $z_0 \neq 0$.
+	\begin{satz}
+		Für alle $n \in \N$ gilt:
+		\[
+			a_0 = \sum_{i = 0}^{n} z_i b^{-i} + a_{n+1} \cdot b^{-(n+1)}
+		\]
+	\end{satz}
+	\begin{proof}[Beweis durch Induktion.]
+		Induktionsanfang $(n = 0)$:
+		\[
+			z_0 \cdot b^0 + a_1 \cdot b^{-1} = z_0 \cdot b^0 + b(a_0 - z_0) \cdot b^{-1} = a_0
+		\]
+		Induktionsschluss $(n \to n + 1)$:
+		\begin{align*}
+			a_0 &= \sum_{i = 0}^{n}z_i \cdot b^{-i} + a_{n+1} \cdot b^{-(n+1)}\\
+			&= \sum_{i = 0}^{n+1}z_i \cdot b^{-i} + \underbrace{(a_{n+1} - z_{n+1}) \cdot b^{-(n+1)}}_{=a_{n+2} \cdot b^{-(n+2)}}
+		\end{align*}
+	\end{proof}
+	Daraus folgt 
+	\begin{align*}
+		x = \sigma \cdot b^{\mathcal{E}} \cdot a_0 &= \sigma \cdot b^{\mathcal{E}} \cdot \lim_{n\to \infty}\Big(\sum_{i = 0}^{n}z_i \cdot b^{-i}\Big)\\
+		&= \sigma \cdot b^{\mathcal{E}} \cdot \sum_{i = 0}^{\infty}z_i \cdot b^{-i}
+	\end{align*}
+	Wäre $\lvert \{i \in \N \mid z_i \neq b-1\}\rvert < \infty$, so gäbe es $n_0 \in \N$ mit $z_i = b-1$ für alle $i > n_0$.
+\end{document}
