@@ -1,0 +1,231 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{marvosym}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[left=2.5cm,right=2cm,top=3cm,bottom=3cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{tcolorbox}
+\usepackage{adjustbox}
+\usepackage{eurosym}
+\usepackage[inline]{enumitem}
+\usepackage{lastpage}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{listings}
+\usepackage{xcolor}
+%\usepackage{minted}
+\setlength{\parindent}{0pt}
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing,calc,shadows.blur,shadings,er,positioning}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+%\usepackage{pgfplots}
+%\usepackage[leqno]{amsmath}
+
+%\newcounter{mathseed}
+%\setcounter{mathseed}{1}
+%\pgfmathsetseed{\arabic{mathseed}} 
+%\pgfdeclarelayer{background}
+%\pgfsetlayers{background,main}
+
+\newcommand{\RN}[1]{%
+	\textup{\uppercase\expandafter{\romannumeral#1}}%
+}
+
+\newcommand{\obda}{o.B.d.A. }
+
+\newenvironment{enum}{\begin{enumerate*}[label=\alph*),itemjoin=\hspace{2em}]}{\end{enumerate*}\\[2ex]}
+
+\DeclareMathOperator{\N}{\mathbb N}
+\DeclareMathOperator{\Q}{\mathbb Q}
+\DeclareMathOperator{\R}{\mathbb R}
+\DeclareMathOperator{\Z}{\mathbb Z}
+\DeclareMathOperator{\F}{\mathcal{F}}
+\DeclareMathOperator{\E}{\mathcal{E}}
+\DeclareMathOperator{\BigO}{\mathcal O}
+\DeclareMathOperator{\ggt}{\text{ggT}}
+\DeclareMathOperator{\kgv}{\text{kgV}}
+
+
+%------ Defining multiple types of theorems ------%
+\newtheorem{axiom}{Axiom}[section]
+\newtheorem{theorem}[axiom]{Theorem}
+\newtheorem{lemma}[axiom]{Lemma}
+\newtheorem{satz}[axiom]{Satz}
+\theoremstyle{definition}
+\newtheorem*{example}{Beispiel}
+\newtheorem*{bemerkung}{Bemerkung}
+\newtheorem*{frage}{Frage}
+\newtheorem*{loesung}{Lösung}
+\newtheorem{definition}[axiom]{Definition}
+\newtheorem{folg}[axiom]{Folgerung}
+\newtheorem{notation}[axiom]{Notation}
+
+%---- Changing forall and exists ----%
+\let\oldforall\forall
+\renewcommand{\forall}{\:\oldforall \, }
+\let\oldexist\exists
+\renewcommand{\exists}{\:\oldexist \: }
+\newcommand\existu{\oldexist! \: }
+\let\oldepsilon\epsilon
+\renewcommand{\epsilon}{\varepsilon}
+\newcommand{\corresponds}{\;\widehat{=}\;}
+
+%------ Giving circled star ---------%
+\makeatletter
+\newcommand{\ostar}{\mathbin{\mathpalette\make@circled\star}}
+\newcommand{\make@circled}[2]{%
+	\ooalign{$\m@th#1\smallbigcirc{#1}$\cr\hidewidth$\m@th#1#2$\hidewidth\cr}%
+}
+\newcommand{\smallbigcirc}[1]{%
+	\vcenter{\hbox{\scalebox{0.77778}{$\m@th#1\bigcirc$}}}%
+}
+\makeatother
+%-----------------------------------%
+
+%-------------- Vars ---------------%
+\newcommand{\vldate}{12. November 2024}
+\newcommand{\vlname}{Computerorientierte Mathematik I}
+\newcommand{\vltopic}{Maschinenzahlen}
+
+\pagestyle{fancy}
+\setlength{\headheight}{34pt}
+\fancyhf{}
+\fancyhead[L]{\includegraphics[width=1cm]{C:/Users/chole/Documents/tub/tublogo.png}}
+\fancyhead[C]{{\bfseries\vlname}\\%
+	\vltopic}
+\fancyhead[R]{\vldate}
+\fancyfoot[L]{}
+\fancyfoot[C]{- \thepage\ of \pageref{LastPage} -}
+\fancyfoot[R]{}
+
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\labelitemii}{-}
+
+\begin{document}
+	\setcounter{section}{4}
+	\setcounter{subsection}{3}
+	\subsection{Maschinenzahlen}
+	\begin{definition}
+		Es sei $b \in \N_{\geq 2}$. Für $\mathcal{E} \in \Z$ und $\sigma \in \{\pm 1\}$ ist eine Zahl $x \in \R$ der Form
+		\[
+			x = \sigma \cdot \Big(\sum_{i = 0}^{m - 1} z_i \cdot b^{-i}\Big) \cdot b^{\mathcal{E}}
+		\]
+		mit $z_i \in \{0,\ldots, b-1\}$ und $z_0 \neq 0$ eine $m$-stellige $b$-adische normalisierte Gleitkommazahl mit Mantisse $\sum_{i = 0}^{m-1} z_i b^{-i}$ und Exponent $\mathcal{E}$.
+	\end{definition}
+	\begin{example}
+		$b = 10, m = 4$
+		\begin{align*}
+			x &= 3,141 = (+1)(3 \cdot 10^0 + 1 \cdot 10^{-1} + 4\cdot 10^{-2} + 1 \cdot 10^{-3}) \cdot 10^0\\
+			x &= -87,3 = (-1)(8 \cdot 10^0 + 7 \cdot 10^{-1} + 3\cdot 10^{-2}) \cdot 10^1\\
+		\end{align*}
+		$x = \frac{1}{3}$ besitzt für $b \in \{2,10\}$ und beliebiges $m$ keine Darstellung als $m$-stellige normalisierte Gleitkommazahl.
+	\end{example}
+	\begin{definition}
+		Für $b \in \N_{\geq 2}, m \in \N_{\geq 1}$ bildet die Menge der $b$-adischen $m$-stelligen normalisierten Gleitkommazahlen mit Exponenten $\mathcal{E} \in \{\mathcal{E}_{min}, \ldots, \mathcal{E}_{max}\}$ zuzüglich der Zahl $0$ den Maschinenzahlbereich $\mathcal{F}(b,m,\mathcal{E}_{min}, \mathcal{E}_{max})$
+	\end{definition}
+	\begin{example}
+		IEEE-Standard $754$
+		\begin{itemize}
+			\item $b = 2$
+			\item $m = 53$
+			\item $\mathcal{E} \in \{-1022, -1021, \ldots, 1023\}$
+			\item Exponentenwerte $E + 1023 \in \{0, 2047\}$ reserviert für $\pm 0$ und $\pm \infty$.
+		\end{itemize}
+	\end{example}
+	\subsection{Maschinengenauigkeit}
+	Es sei $\mathcal{F} = F(b,m, \mathcal{E}_{min}, \mathcal{E}_{max})$ ein Maschinenzahlbereich. Eine Abbildung $rd: \R \to \mathcal{F}$ heißt Rundung zu $F$, wenn für alle $x \in \R$ gilt: $\lvert x - rd(x)\rvert = \min_{a \in \mathcal{F}}\lvert x - a\rvert$.
+	\begin{example}
+		\begin{itemize}
+			\item Kaufmännische Rundung
+			\item IEEE 754: Runde im Zweifel so, dass letzte Stelle gerade wird.
+		\end{itemize}
+	\end{example}
+	
+	\begin{definition}
+		Es sei $\tilde{x}$ eine Näherung von $x \in \R$.
+		\begin{enumerate}[label=(\roman*)]
+			\item $\lvert x - \tilde{x}\rvert$ wird absoluter Fehler genannt.
+			\item $\frac{\lvert x - \tilde{x}\rvert}{x}$ wird relativer Fehler genannt.
+		\end{enumerate}
+	\end{definition}
+	\begin{definition}
+		Es sei $\mathcal{F}$ Maschinenzahlbereich mit Rundung $rd$. Die Maschinengenauigkeit von $\mathcal{F}$ ist
+		\[
+			eps(F) \coloneq \sup\Big\{\Big\lvert \frac{x - rd(x)}{x}\Big\rvert \mid x \in \R \text{ und } \lvert x \rvert \in \text{ range}(\mathcal{F})\Big\},
+		\]
+		mit range$(\mathcal{F} \coloneq [\mathcal{F}_{min}, \mathcal{F}_{max}])$ und $\mathcal{F}_{min} (\mathcal{F}_{max})$ kleinste (größte) darstellbare positive Zahl in $\mathcal{F}$
+	\end{definition}
+	
+	\begin{satz}
+		Für jeden Maschinenzahlbereich $\mathcal{F}(b,m,\mathcal{E}_{min},\mathcal{E}_{max})$ mit $\mathcal{E}_{min} < \mathcal{E}_{max}$ gilt:
+		\[
+			eps(\mathcal{F}) = \frac{1}{1 + 2b^{m-1}}
+		\]
+	\end{satz}
+	\begin{definition}
+		Es sei $\F$ Maschinenzahlbereich und $s \in \N$. Dann hat $f \in \F$ (mindestens) $s$ sogmofolamte Stellen in der $b$-adischen Gleitkommadarstellung, falls $f \neq 0$ und für jede Rundung $rd$ und jede Zahl 
+		$x \in \R$ mit $rd(x) = f$ gilt:
+		\[
+			\lvert x - f\rvert \leq \frac{1}{2} \cdot b^{\lfloor \log_b \lvert f\rvert \rfloor + 1 - s}
+		\]
+	\end{definition}
+	\subsection{Maschinenbauarithmetik}
+	Es sei $\F$ ein Maschinenzahlbereich und $\circ \in \{+,-,\cdot,/\}$ sei eine Operation. Problem:
+	
+	Für $x,y \in \F$ gilt im Allgemeinen nicht $x \circ y \in \F$.
+	
+	Pragmatische Lösung: Ersatzoperation $\circledcirc \in \{\oplus, \ominus, \odot, \oslash\}$ mit $x \circledcirc y = rd(x \circ y)$ für Rundung $rd$ zu $\F$.
+	\begin{example}
+		Es sei $\F = (10,2,-5,5), x = 4,5 \cdot 10^1 = 45$ und $y = 1,1-10^0 = 1,1$
+		\[
+			x \oplus y = rd(x + y) = rd(46,1) = rd(4,61 \cdot 10^1) = 4,6 \cdot 10^1
+		\]
+	\end{example}
+	\begin{bemerkung}
+		\begin{itemize}
+			\item Zur Berechnung von $x \circledcirc y$ muss man $x \circ y$ nicht berechnen.
+			\item Grundrechenarten für natürliche Zahlen reichen.
+			\item Ist $\lvert x \circ y \rvert \in \text{ range}(\F)$, so gilt für den relativen Fehler
+			\[
+			\Big\lvert \frac{x \circ y - x \circledcirc y}{x \circ y}\Big\rvert = \Big\lvert \frac{x \circ y - rd(x \circ y)}{x \circ y}\Big\rvert \leq eps(\F)
+			\]
+			\item Kommutativgesetz gilt für $\oplus, \odot$, nicht jedoch Assoziativ- und Distributivgesetz.
+		\end{itemize}
+	\end{bemerkung}
+\end{document}
