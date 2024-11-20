@@ -1,0 +1,244 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{marvosym}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[left=2.5cm,right=2cm,top=3cm,bottom=3cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{tcolorbox}
+\usepackage{adjustbox}
+\usepackage{eurosym}
+\usepackage[inline]{enumitem}
+\usepackage{lastpage}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage[ruled, linesnumbered, noline]{algorithm2e}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\setlength{\parindent}{0pt}
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing,calc,shadows.blur,shadings,er,positioning}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+%\usepackage{pgfplots}
+%\usepackage[leqno]{amsmath}
+
+%\newcounter{mathseed}
+%\setcounter{mathseed}{1}
+%\pgfmathsetseed{\arabic{mathseed}} 
+%\pgfdeclarelayer{background}
+%\pgfsetlayers{background,main}
+
+\newcommand{\RN}[1]{%
+	\textup{\uppercase\expandafter{\romannumeral#1}}%
+}
+
+\newcommand{\obda}{o.B.d.A. }
+
+\newenvironment{enum}{\begin{enumerate*}[label=\alph*),itemjoin=\hspace{2em}]}{\end{enumerate*}\\[2ex]}
+
+\DeclareMathOperator{\N}{\mathbb N}
+\DeclareMathOperator{\Q}{\mathbb Q}
+\DeclareMathOperator{\R}{\mathbb R}
+\DeclareMathOperator{\Z}{\mathbb Z}
+\DeclareMathOperator{\F}{\mathcal{F}}
+\DeclareMathOperator{\E}{\mathcal{E}}
+\DeclareMathOperator{\BigO}{\mathcal O}
+\DeclareMathOperator{\mL}{\mathcal{L}}
+\DeclareMathOperator{\mU}{\mathcal{U}}
+\DeclareMathOperator{\ggt}{\text{ggT}}
+\DeclareMathOperator{\kgv}{\text{kgV}}
+
+
+%------ Defining multiple types of theorems ------%
+\newtheorem{axiom}{Axiom}[section]
+\newtheorem{theorem}[axiom]{Theorem}
+\newtheorem{lemma}[axiom]{Lemma}
+\newtheorem{satz}[axiom]{Satz}
+\theoremstyle{definition}
+\newtheorem*{example}{Beispiel}
+\newtheorem*{bemerkung}{Bemerkung}
+\newtheorem*{frage}{Frage}
+\newtheorem*{loesung}{Lösung}
+\newtheorem{definition}[axiom]{Definition}
+\newtheorem{folg}[axiom]{Folgerung}
+\newtheorem{notation}[axiom]{Notation}
+
+%---- Changing forall and exists ----%
+\let\oldforall\forall
+\renewcommand{\forall}{\:\oldforall \, }
+\let\oldexist\exists
+\renewcommand{\exists}{\:\oldexist \: }
+\newcommand\existu{\oldexist! \: }
+\let\oldepsilon\epsilon
+\renewcommand{\epsilon}{\varepsilon}
+\newcommand{\corresponds}{\;\widehat{=}\;}
+
+%------ Giving circled star ---------%
+\makeatletter
+\newcommand{\ostar}{\mathbin{\mathpalette\make@circled\star}}
+\newcommand{\make@circled}[2]{%
+	\ooalign{$\m@th#1\smallbigcirc{#1}$\cr\hidewidth$\m@th#1#2$\hidewidth\cr}%
+}
+\newcommand{\smallbigcirc}[1]{%
+	\vcenter{\hbox{\scalebox{0.77778}{$\m@th#1\bigcirc$}}}%
+}
+\makeatother
+%-----------------------------------%
+
+%-------------- Vars ---------------%
+\newcommand{\vldate}{14. November 2024}
+\newcommand{\vlname}{Computerorientierte Mathematik I}
+\newcommand{\vltopic}{Relativer Fehler}
+
+\pagestyle{fancy}
+\setlength{\headheight}{34pt}
+\fancyhf{}
+\fancyhead[L]{\includegraphics[width=1cm]{C:/Users/chole/Documents/tub/tublogo.png}}
+\fancyhead[C]{{\bfseries\vlname}\\%
+	\vltopic}
+\fancyhead[R]{\vldate}
+\fancyfoot[L]{}
+\fancyfoot[C]{- \thepage\ of \pageref{LastPage} -}
+\fancyfoot[R]{}
+
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\labelitemii}{-}
+
+\begin{document}
+	\setcounter{section}{4}
+	\section{Rechnen mit Fehlern}
+	\subsection{Fehlerfortpflanzung}
+	\begin{lemma}
+		Es seien $x, y \in \R$ und $\tilde{x}, \tilde{y}$ Näherungen mit $\epsilon_x = \frac{x - \tilde{x}}{x}$ und $\epsilon_y = \frac{y - \tilde{y}}{y}$. Für $\circ \in \{+, -, \cdot, \div\}$ mit $x \circ y \neq 0$ und $\epsilon_\circ \coloneq \frac{(x \circ y) - (\tilde{x} \circ \tilde{y})}{x \circ y}$ gilt dann:
+		\begin{align*}
+			\epsilon_+ &= \epsilon_x \cdot \frac{x}{x + y} + \epsilon_y \cdot \frac{y}{x + y}\\
+			\epsilon_- &= \epsilon_x \cdot \frac{x}{x - y} + \epsilon_y \cdot \frac{y}{x - y}\\
+			\epsilon_\cdot &= \epsilon_x + \epsilon_y - \epsilon_x \cdot \epsilon_y\\
+			\epsilon_\div &= \frac{\epsilon_x - \epsilon_y}{1 - \epsilon_y}
+		\end{align*}
+	\end{lemma}
+	\begin{proof}
+		Es gilt für $\tilde{x} = x \cdot (1 - \epsilon_x)$ und für $\tilde{y} = y \cdot (1-\epsilon_y)$. Dann ausrechnen.
+	\end{proof}
+	\begin{bemerkung}
+		$\epsilon_+$ und $\epsilon_-$ können sehr groß werden, während $\epsilon_\cdot$ und $\epsilon_\div$ eher klein bleiben.
+	\end{bemerkung}
+	\begin{example}
+		Lösung eines Linearen Gleichungssystems. Betrachte das folgende LGS:
+		\begin{align*}
+			10^{-20}x + 2y &= 1\\
+			10^{-20}x + 10^{-20}y &= 10^{-20}
+			\intertext{Durch Subtraktion der beiden Gleichungen folgt:}
+			(2 - 10^{-20})y &= (1 - 10^{-20})
+			\intertext{Runden auf die nächste darstellbare Zahl:}
+			2y &= 1
+		\end{align*}
+		Also $y = \frac{1}{2}$. Einsetzen in die erste Gleichung liefert $x = 0$. Die korrekte Lösung wäre:
+		\[
+			x = \frac{1}{2 - 10^{-20}} = 0.5000\ldots, y = \frac{1-10^{-20}}{2-10^{-20}} = 0.4999\ldots
+		\]
+	\end{example}
+	\subsection{Binäre Suche}
+	$f: \R \to \R$ monoton steigend, $\mathcal{U}, \mathcal{L} \in \R, x \in \R$. Ziel: Berechne $f^{-1}(x) \in \R$.
+	\begin{example}
+		Es sei $f: \R_{\leq 0} \to \R_{\leq 0}$ mit $f(x) \coloneq x^2$; gesucht ist $f^{-1}(3) \approx 1.73205$
+		Beachte: $f$ ist monoton wachsend.
+		\begin{itemize}
+			\item Da $f(1) = 1^2 = 1 < 3$ und $f(2) = 2^2 = 4 > 3$, ist $\sqrt{3} \in [1,2]$
+			\item Da $f(1.5) = 1.5^2 = 2.25 < 3$, ist $\sqrt{3} \in [1.5,2]$
+			\item Da $f(1.75) = 1.75^2 = 3.0625 > 3$, ist $\sqrt{3} \in [1.5, 1.75]$
+			\item Da $f(1.625) = 1.625^2 = 2.640625 < 3$, ist $\sqrt{3} \in [1.625, 1.75]$
+		\end{itemize}
+		Es sei $[\ell_i, u_i]$ das Intervall in der $i$-ten Iteration und $m_i = \frac{\ell_i + u_i}{2}$.
+	\end{example}
+	\begin{bemerkung}
+		\begin{itemize}
+			\item Offenbar ist
+			\[
+				\lim_{i \to \infty} \ell_i = \lim_{i \to \infty} m_i = \lim_{i \to \infty} u_i = \sqrt{3}
+			\]
+			\item Denn wir wissen a priori, dass
+			\[
+				\lvert m_i - \sqrt{3} \rvert \leq \frac{1}{2}(u_i - \ell_i) = 2^{-i}(u_1 - \ell_1) = 2^{-i}
+			\]
+			\item Also ist zum Beispiel $\lvert m_6 - \sqrt{3} \rvert \leq 2^{-6} = \frac{1}{64}$
+			\item A posteriori stellen wir fest, dass 
+			\[
+				\lvert m_i - \sqrt{3} \rvert = \frac{\lvert m_i^2 - 3\rvert}{m_i + \sqrt{3}} \leq \frac{\lvert m_i^2 - 3\rvert}{m_i + \ell_i}
+			\]
+			\item Für $i = 6$ ergibt sich bspw.
+			\[
+				\lvert m_6 - \sqrt{3} \rvert \leq \frac{0.008056640625}{3.453125} \approx 0.002333
+			\]
+		\end{itemize}
+	\end{bemerkung}
+	\subsection{Diskrete binäre Suche}
+	\begin{algorithm}
+		\caption{Binäre Suche}
+		\KwIn{Orakel für monoton wachsende Funktion $f: \Z \to \R$, Zahlen $\mathcal{L}, \mathcal{U} \in \Z$ mit $\mathcal{L} < \mathcal{U}$ sowie $y \in \R$ mit $y \geq f(\mathcal{L})$}
+		\KwOut{Das maximale  $n \in \{\mL, \ldots, \mU\}$ mit $f(n) \leq y$}
+		$\ell \gets 2, u \gets \mU + 1$\\
+		\While{$u - 1 < \ell$}{
+			$m \gets \lfloor \frac{\ell + u}{2}\rfloor$\\
+			\If{$f(m) > y$}{
+				$u \gets m$
+			}
+			\Else{
+				$\ell \gets m$
+			}
+		}
+		\Return{$\ell$}
+	\end{algorithm}
+	\begin{satz}
+		Der Algorithmus liefert das korrekte Ergebnis nach $\BigO(\log(\mU - \mL + 2))$ Iterationen.
+	\end{satz}
+	\begin{proof}
+		Zeige durch Induktion, dass jederzeit
+		\begin{enumerate}[label=(\roman*)]
+			\item $\mL \leq \ell \leq u - 1 \leq \mU$
+			\item $f(\ell) \leq y$
+			\item $u > \mU$ oder $f(u) > y$
+		\end{enumerate}
+		Also liegt korrektes $n$ stets in $\{\ell, \ldots, u - 1\}$. Terminiert der Algorithmus, ist der Output korrekt.\\[2ex]
+		Laufzeit: In jeder Iteration verringert sich $u - \ell - 1$ auf höchstens
+		\begin{align*}
+			&\max\Big\{ \Big\lfloor \frac{\ell + u}{2} \Big\rfloor - \ell - 1, u - \Big\lfloor \frac{\ell + u}{2} - 1 \Big\rfloor \Big\}\\
+			\leq&\max\Big\{\frac{\ell + u}{2} - \ell - 1, u - \frac{\ell + u - 1}{2} - 1\Big\}\\
+			=&\frac{u - \ell - 1}{2}
+		\end{align*}
+	\end{proof}
+\end{document}
