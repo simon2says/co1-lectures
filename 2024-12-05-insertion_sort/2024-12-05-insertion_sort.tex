@@ -1,0 +1,265 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{marvosym}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[left=2.5cm,right=2cm,top=3cm,bottom=3cm]{geometry}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{tcolorbox}
+\usepackage{adjustbox}
+\usepackage{eurosym}
+\usepackage[inline]{enumitem}
+\usepackage{lastpage}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage[ruled, linesnumbered, noline]{algorithm2e}
+\usepackage{listings}
+
+
+\setlength{\parindent}{0pt}
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing,calc,shadows.blur,shadings,er,positioning}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{magenta},
+	keywordstyle=\color{NavyBlue},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+%\usepackage{pgfplots}
+%\usepackage[leqno]{amsmath}
+
+%\newcounter{mathseed}
+%\setcounter{mathseed}{1}
+%\pgfmathsetseed{\arabic{mathseed}} 
+%\pgfdeclarelayer{background}
+%\pgfsetlayers{background,main}
+
+\newcommand{\RN}[1]{%
+	\textup{\uppercase\expandafter{\romannumeral#1}}%
+}
+
+\newcommand{\obda}{o.B.d.A. }
+
+\newenvironment{enum}{\begin{enumerate*}[label=\alph*),itemjoin=\hspace{2em}]}{\end{enumerate*}\\[2ex]}
+
+\DeclareMathOperator{\N}{\mathbb N}
+\DeclareMathOperator{\Q}{\mathbb Q}
+\DeclareMathOperator{\R}{\mathbb R}
+\DeclareMathOperator{\Z}{\mathbb Z}
+\DeclareMathOperator{\C}{\mathbb C}
+\DeclareMathOperator{\F}{\mathcal{F}}
+\DeclareMathOperator{\E}{\mathcal{E}}
+\DeclareMathOperator{\BigO}{\mathcal O}
+\DeclareMathOperator{\mL}{\mathcal{L}}
+\DeclareMathOperator{\mU}{\mathcal{U}}
+\DeclareMathOperator{\ggt}{\text{ggT}}
+\DeclareMathOperator{\kgv}{\text{kgV}}
+
+
+%------ Defining multiple types of theorems ------%
+\newtheorem{axiom}{Axiom}[section]
+\newtheorem{theorem}[axiom]{Theorem}
+\newtheorem{lemma}[axiom]{Lemma}
+\newtheorem{satz}[axiom]{Satz}
+\theoremstyle{definition}
+\newtheorem*{example}{Beispiel}
+\newtheorem*{bemerkung}{Bemerkung}
+\newtheorem*{frage}{Frage}
+\newtheorem*{loesung}{Lösung}
+\newtheorem*{behauptung}{Behauptung}
+\newtheorem*{beobachtung}{Beobachtung}
+\newtheorem{definition}[axiom]{Definition}
+\newtheorem{folg}[axiom]{Folgerung}
+\newtheorem{notation}[axiom]{Notation}
+
+%---- Changing forall and exists ----%
+\let\oldforall\forall
+\renewcommand{\forall}{\:\oldforall \, }
+\let\oldexist\exists
+\renewcommand{\exists}{\:\oldexist \: }
+\newcommand\existu{\oldexist! \: }
+\let\oldepsilon\epsilon
+\renewcommand{\epsilon}{\varepsilon}
+\newcommand{\corresponds}{\;\widehat{=}\;}
+
+%------ Giving circled star ---------%
+\makeatletter
+\newcommand{\ostar}{\mathbin{\mathpalette\make@circled\star}}
+\newcommand{\make@circled}[2]{%
+	\ooalign{$\m@th#1\smallbigcirc{#1}$\cr\hidewidth$\m@th#1#2$\hidewidth\cr}%
+}
+\newcommand{\smallbigcirc}[1]{%
+	\vcenter{\hbox{\scalebox{0.77778}{$\m@th#1\bigcirc$}}}%
+}
+\makeatother
+%-----------------------------------%
+
+%-------------- Vars ---------------%
+\newcommand{\vldate}{05. Dezember 2024}
+\newcommand{\vlname}{Computerorientierte Mathematik I}
+\newcommand{\vltopic}{Sortieralgorithmen}
+
+\pagestyle{fancy}
+\setlength{\headheight}{34pt}
+\fancyhf{}
+\fancyhead[L]{\includegraphics[width=1cm]{C:/Users/chole/Documents/tub/tublogo.png}}
+\fancyhead[C]{{\bfseries\vlname}\\%
+	\vltopic}
+\fancyhead[R]{\vldate}
+\fancyfoot[L]{}
+\fancyfoot[C]{- \thepage\ of \pageref{LastPage} -}
+\fancyfoot[R]{}
+
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\labelitemii}{-}
+
+\begin{document}
+	\setcounter{section}{8}
+	\setcounter{subsection}{2}
+	\begin{proof}[Laufzeitanalyse]
+		Zeilen 3 und 4 benötigen konstante Laufzeit in $\BigO(1)$. In Iteration $i$ der äußeren Schleife hat die innere {\ttfamily for}-Schleife genau $n-1-i$ Iterationen. Daher ist die Anzahl der Aufrufe
+		\[
+			\sum_{i = 0}^{n - 2}(n - 1 - i) = \sum_{k = 1}^{n - 1}\frac{n(n - 1)}{2}\in \Theta(n^2)
+		\]
+	\end{proof}
+	\begin{proof}[Korrektheitsbeweis]
+		Zeige mittels vollständiger Induktion über $k$ folgende Schleifeninvariante:
+		
+		Für $k = 0, 1, \ldots, n - 2$ gilt nach $k$ Iterationen der äußeren {\ttfamily for}-Schleife
+		\[
+			A[i] \nsucc A[j] \text{ für } i = 0, \ldots, k - 1 \text{ und } j = i + 1, \ldots, n - 1
+		\]
+		d. h. die Felder $A[0], \ldots, A[k - 1]$ sind topologisch aufsteigend sortiert und keiner ist größer als eines der übrigen Felder $A[k], \ldots, A[n - 1]$.
+		
+		Induktionsanfang $(k = 0)$: Trivial (leere Aussage.)
+		
+		Induktionsschluss $(k \to k + 1)$:\\[2ex]
+		Die Behauptung gelte für ein beliebiges, aber fest gewähltes $k$, d. h. 
+		\[
+			A[i] \nsucc A[j] \text{ für } i = 0, \ldots, k - 1 \text{ und } j = i + 1, \ldots, n - 1
+		\]
+		Betrachte nun $(k + 1)$-te Iteration der äußeren {\ttfamily for}-Schleife (d. h. $i = k$). Nach Durchlauf der inneren {\ttfamily for}-Schleife $(j = k + 1, \ldots, n - 1)$ gilt
+		\[
+			A[k] \nsucc A[j] \text{ für } j = k + 1, \ldots, n - 1
+		\]
+		Gemeinsam implizieren diese Aussagen die Schleifeninvariante für $k + 1$.
+	\end{proof}
+	\begin{lstlisting}[language=Python]
+def selectionSort(A):
+# sort the given list A
+	n = len(A)
+	for i in range(0, n - 1):
+		for j in range(i + 1, n):
+			if A[i] % A[j] == 0:
+				A[i], A[j] = A[j], A[i]\end{lstlisting}
+	\begin{bemerkung}
+		Für partielle Ordnungen gibt SelectionSort eine topologische Sortierung zurück.
+	\end{bemerkung}
+	\subsection{Insertion Sort}
+	\begin{algorithm}[H]
+		\caption{InsertionSort}
+		\KwIn{Array $A$ der Länge $n$, totale Ordnung $\preceq$}
+		\KwOut{$A$ sortiert}
+		\For{$i \gets 1$ \KwTo $n - 1$}{
+			$s \gets A[i]$\\
+			$k \gets i$
+			\While{$k > 0 \land s \prec A[k - 1]$}{
+				$A[k] \gets A[k - 1]$\\
+				$k \gets k - 1$
+			}
+			$A[k] \gets s$
+		}
+	\end{algorithm}
+	\begin{lstlisting}[language=Python]
+def insertionSort(A):
+	n = len(A)
+	for i in range(1, n):
+		s = A[i]
+		k = i
+		while k > 0 and s < A[k - 1]:
+			A[k] = A[k - 1]
+			k -= 1
+		A[k] = s\end{lstlisting}
+	\begin{theorem}
+		Sortieren durch Einfügen ist korrekt und hat Laufzeit $\Theta(n^2)$.
+	\end{theorem}
+	\begin{bemerkung}
+		Es sei $\preceq$ nur eine partielle Ordnung.
+		\begin{itemize}
+			\item Sortieren durch Einfügen liefert im Allgemeinen keine topologische Sortierung.
+			\item Gegenbeispiel: Ist $\preceq$ die Teilbarkeitsrelation, so liefert InsertionSort bei Eingabe $A = [4, 5, 2]$ die Ausgabe $A = [4, 5, 2]$.
+			\item Für die Aussgabe ist in diesem Fall lediglich
+			\[
+				A[0] \nsucceq A[1] \nsucceq \ldots \nsucceq A[n - 1]
+			\]
+		\end{itemize}
+	\end{bemerkung}
+	\subsection{Divide and Conquer}
+	Idee für einen rekursiven Sortieralgorithmus:
+	\begin{enumerate}[label=(\roman*)]
+		\item Teile zu sortierende Menge $A$ in zwei etwa gleich große Teilmengen auf.
+		\item Sortiere beide Teilmengen (rekursiv).
+		\item Füge die beiden Sortierungen zu einer Sortierung von $A$ zusammen.
+	\end{enumerate}
+	\begin{algorithm}[H]
+		\caption{Die Merge-Operation}
+		\KwIn{Sortierungen $\pi_A = \{1, 2, \ldots, \lvert A\rvert\} \to A, \pi_B = \{1, 2, \ldots, \lvert B\rvert\} \to B$}
+		\KwOut{Sortierung $\pi: \{1, 2, \ldots, \lvert A + B\rvert\} \to A \cup B$}
+		$a \gets 1$\\
+		$b \gets 1$\\
+		$c \gets 1$
+		\While{$a \leq \lvert A\rvert \land b \leq \lvert B\rvert$}{
+			\If{$\pi_A(a) \preceq \pi_B(b)$}{
+				$\pi(c) \gets \pi_A(a)$\\
+				$a \gets a + 1$
+			}
+			\Else{
+				$\pi(c) \gets \pi_B(b)$\\
+				$b \gets b + 1$
+			}
+			$c \gets c + 1$
+		}
+		\While{$a \leq \lvert A\rvert$}{
+			$\pi(c) \gets \pi_A(a)$\\
+			$a \gets a + 1$\\
+			$c \gets c + 1$
+		}
+		\While{$b \leq \lvert B\rvert$}{
+			$\pi(c) \gets \pi_B(b)$\\
+			$b \gets b + 1$\\
+			$c \gets c + 1$
+		}
+	\end{algorithm}
+	\begin{lemma}
+		Die Merge-Operation arbeitet korrekt. Sie benötigt $\leq \lvert A\rvert + \lvert B\rvert - 1$ Vergleiche und hat Laufzeit $\BigO(\lvert A\rvert + \lvert B\rvert)$.
+	\end{lemma}
+\end{document}

@@ -1,0 +1,243 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{marvosym}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[left=2.5cm,right=2cm,top=3cm,bottom=3cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{tcolorbox}
+\usepackage{adjustbox}
+\usepackage{eurosym}
+\usepackage[inline]{enumitem}
+\usepackage{lastpage}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage[ruled, linesnumbered, noline]{algorithm2e}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\setlength{\parindent}{0pt}
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing,calc,shadows.blur,shadings,er,positioning}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+%\usepackage{pgfplots}
+%\usepackage[leqno]{amsmath}
+
+%\newcounter{mathseed}
+%\setcounter{mathseed}{1}
+%\pgfmathsetseed{\arabic{mathseed}} 
+%\pgfdeclarelayer{background}
+%\pgfsetlayers{background,main}
+
+\newcommand{\RN}[1]{%
+	\textup{\uppercase\expandafter{\romannumeral#1}}%
+}
+
+\newcommand{\obda}{o.B.d.A. }
+
+\newenvironment{enum}{\begin{enumerate*}[label=\alph*),itemjoin=\hspace{2em}]}{\end{enumerate*}\\[2ex]}
+
+\DeclareMathOperator{\N}{\mathbb N}
+\DeclareMathOperator{\Q}{\mathbb Q}
+\DeclareMathOperator{\R}{\mathbb R}
+\DeclareMathOperator{\Z}{\mathbb Z}
+\DeclareMathOperator{\C}{\mathbb C}
+\DeclareMathOperator{\F}{\mathcal{F}}
+\DeclareMathOperator{\E}{\mathcal{E}}
+\DeclareMathOperator{\BigO}{\mathcal O}
+\DeclareMathOperator{\mL}{\mathcal{L}}
+\DeclareMathOperator{\mU}{\mathcal{U}}
+\DeclareMathOperator{\ggt}{\text{ggT}}
+\DeclareMathOperator{\kgv}{\text{kgV}}
+
+
+%------ Defining multiple types of theorems ------%
+\newtheorem{axiom}{Axiom}[section]
+\newtheorem{theorem}[axiom]{Theorem}
+\newtheorem{lemma}[axiom]{Lemma}
+\newtheorem{satz}[axiom]{Satz}
+\theoremstyle{definition}
+\newtheorem*{example}{Beispiel}
+\newtheorem*{bemerkung}{Bemerkung}
+\newtheorem*{frage}{Frage}
+\newtheorem*{loesung}{Lösung}
+\newtheorem{definition}[axiom]{Definition}
+\newtheorem{folg}[axiom]{Folgerung}
+\newtheorem{notation}[axiom]{Notation}
+
+%---- Changing forall and exists ----%
+\let\oldforall\forall
+\renewcommand{\forall}{\:\oldforall \, }
+\let\oldexist\exists
+\renewcommand{\exists}{\:\oldexist \: }
+\newcommand\existu{\oldexist! \: }
+\let\oldepsilon\epsilon
+\renewcommand{\epsilon}{\varepsilon}
+\newcommand{\corresponds}{\;\widehat{=}\;}
+
+%------ Giving circled star ---------%
+\makeatletter
+\newcommand{\ostar}{\mathbin{\mathpalette\make@circled\star}}
+\newcommand{\make@circled}[2]{%
+	\ooalign{$\m@th#1\smallbigcirc{#1}$\cr\hidewidth$\m@th#1#2$\hidewidth\cr}%
+}
+\newcommand{\smallbigcirc}[1]{%
+	\vcenter{\hbox{\scalebox{0.77778}{$\m@th#1\bigcirc$}}}%
+}
+\makeatother
+%-----------------------------------%
+
+%-------------- Vars ---------------%
+\newcommand{\vldate}{26. November 2024}
+\newcommand{\vlname}{Computerorientierte Mathematik I}
+\newcommand{\vltopic}{Bäume, Wälder, Blätter}
+
+\pagestyle{fancy}
+\setlength{\headheight}{34pt}
+\fancyhf{}
+\fancyhead[L]{\includegraphics[width=1cm]{C:/Users/chole/Documents/tub/tublogo.png}}
+\fancyhead[C]{{\bfseries\vlname}\\%
+	\vltopic}
+\fancyhead[R]{\vldate}
+\fancyfoot[L]{}
+\fancyfoot[C]{- \thepage\ of \pageref{LastPage} -}
+\fancyfoot[R]{}
+
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\labelitemii}{-}
+
+\begin{document}
+	\setcounter{section}{6}
+	\setcounter{subsection}{6}
+	\subsection{Wälder, Bäume, Blätter}
+	\begin{definition}
+		Ein ungerichteter Graph ohne Kreise heißt Wald. Ein zusammenhängender Wald heißt Baum. Ein Knoten von Grad 1 in einem Baum heißt Blatt.
+	\end{definition}
+	\begin{satz}
+		Sei $G$ ein Wald mit $n$ Knoten und $m$ Kanten, der aus $p$ Bäumen besteht. Dann ist $n = m + p$.
+	\end{satz}
+	\begin{proof}[Beweis durch vollständige Induktion über $m$.]
+		Induktionsanfang $(m = 0)$: Klar.
+		
+		Induktionsschluss $(m - 1 \to m)$:
+		Die Behauptung gelte für ein beliebiges, aber festes $m - 1 \in \N$. Betrachte einen Wald $G$ mit $m$ Kanten, $n$ Knoten und $p$ Bäumen. $G$ enthält einen Baum mit mindestens einer Kante und zwei Knoten. Betrachte ein Blatt $v$ und lösche die zu $v$ inzidente Kante $e$. Der Wald $G\setminus e$ hat $m - 1$ Kanten, $n$ Knoten und $p + 1$ Bäume. Nach Induktion gilt: $n = m - 1 + p + 1 = m + p$.
+	\end{proof}
+	\subsection{Charakterisierung von Bäumen}
+	\begin{satz}
+		Für ungerichtete Graphen $G$ sind folgende Aussagen äquivalent:
+		\begin{enumerate}[label=(\roman*)]
+			\item $G$ ist ein Baum.
+			\item $G$ ist kreisfrei und hat $\lvert V(G) - 1\rvert$ Kanten.
+			\item $G$ ist zusammenhängend und hat $\lvert V(G) - 1\rvert$ Kanten.
+			\item $G$ ist minimal zusammenhängend, d. h. durch Löschen einer beliebigen Kante wird $G$ unzusammenhängend.
+			\item $G$ ist maximal kreisfrei, d. h. bei Hinzufügen einer beliebigen Kante entsteht ein Kreis.
+			\item Zwischen je zwei Knoten gibt es immer einen eindeutigen Weg.
+		\end{enumerate}
+	\end{satz}
+	\begin{satz}
+		Ein ungerichteter Graph ist genau dann zusammenhängend, wenn $G$ einen Baum als aufgespannten Teilgraphen enthält.
+	\end{satz}
+	\begin{proof}
+		Wir zeigen: $(i) \implies (vi) \implies (iv) \implies (v) \implies (ii) \implies (iii) \implies (i)$.
+		
+		$(i) \implies (vi)$: Seien $v, w \in V$. Da $G$ zusammenhängend ist, gibt es einen Weg. 
+		
+		Annahme: Es gibt zwei $v$-$w$-Wege $P$ und $Q$ mit $E(P) \neq E(Q)$. Dann definiert $E(H) \coloneq E(P) \Delta E(Q)$ einen Eulerschen Teilgraphen $H$ von $G$. Also kann $E(H) \neq \emptyset$ in kantendisjunkte Kreise zerlegt werden (Lemma).
+		
+		Insbesondere gibt es Kreis in $H$ und damit auch $G$. Widerspruch!\\[2ex]
+		$(vi) \implies (iv)$: $G$ ist zusammenhängend. Lösche $e \in E(G)$ mit $\Psi(e) = \{v, w\}$. Da $v, e, w$ eindeutiger $v$-$w$-Weg in $G$ war, gibt es keinen $v$-$w$-Weg mehr. Folglich ist $G \setminus e$ unzusammenhängend.\\[2ex]
+		$(iv) \implies (v)$: $G$ ist kreisfrei: Löschen einer Kreiskante kann den Zusammenhang nicht zerstören, da die Endknoten der Kante durch den Weg verbunden bleiben. Da $G$ zusammenhängend ist, gibt es einen $v$-$w$-Weg für jedes Knotenpaar von $v$ nach $w$. Neue Kante $\Psi(e) = \{v, w\}$ bildet mit $v$-$w$-Weg einen Kreis.\\[2ex]
+		$(v) \implies (ii)$: $G$ ist kreisfrei. Zeige: $G$ ist zusammenhängend. Seien $v, w$ zwei Knoten. Zeige: Es gibt einen $v$-$w$-Weg in $G$. Fügt man eine neue Kante $e$ zwischen $v$ und $w$ ein, so entsteht ein Kreis. Lösche man $e$ aus diesem Kreis, bleibt ein $v$-$w$-Weg in $G$ übrig. Aus dem letzten Satz folgt $\lvert V(G) \rvert = \lvert E(G)\rvert + 1$.\\[2ex]
+		$(ii) \implies (iii)$: Folgt direkt aus dem letzten Satz.\\[2ex]
+		$(iii) \implies (i)$: Sukzessives Löschen von $k$ Kreiskanten erhält den Zusammenhang und liefert einen Baum mit $\lvert V(G)\rvert - 1 - k$ Kanten. Wegen des letzten Satzes ist $k = 0$.
+	\end{proof}
+	\subsection{Charakterisierung zusammenhängender Graphen}
+	\begin{definition}
+		Sei $G = (V, E, \Psi)$ ein Graph und $X \subseteq V$.
+		\begin{enumerate}[label=(\alph*)]
+			\item Ist $G$ ungerichtet, so sei 
+			\[
+				\delta(X) \coloneq \{e \in E \mid \lvert \Psi(e) \cap X \rvert 1\}
+			\]
+			die Menge aller Kanten zwischen Knoten in $X$ und Kanten in $V \setminus X$.
+			\item Ist $G$ gerichtet, so sei
+			\begin{align*}
+				\delta^+(X) &\coloneq \{e \in E \mid \Psi(e) \in X \times V \setminus X\}\\
+				\delta^-(X) &\coloneq \{e \in E \mid \Psi(e) \in V \setminus X \times V\}\\
+				\delta(X) &\coloneq \delta^+(X) \cup \delta^-(X)
+			\end{align*}
+		\end{enumerate}
+	\end{definition}
+	\begin{satz}
+		Ein Graph $G$ ist genau dann zusammenhängend, wenn $\delta(X) \neq \emptyset$ für alle $\emptyset \subsetneq X \subsetneq V$. Ist $G$ gerichtet, ist $G$ genau dann stark zusammenhängend, wenn $\delta^+(X) \neq \emptyset$ für alle $\emptyset \subsetneq X \subsetneq V$.
+	\end{satz}
+	\begin{proof}
+		\[
+			G \text{ zusammenhängend } \Longleftrightarrow \delta(X) \neq \emptyset \text{ für alle } \emptyset \subsetneq X \subsetneq V
+		\]
+		$\implies:$ Es sei $\emptyset \subsetneq X \subsetneq V$ und $v \in X, w \in V \setminus X$.\\[2ex]
+		Da $G$ zusammenhängend ist, gibt es einen $v$-$w$-Weg $P$ in $G$. Da $v \in X, w \notin X$, enthält $P$ Kante $e$ mit $\Psi(e) = \{x, y\}, x \in X, y \notin X$. Folglich ist $e \in \delta(X) \neq \emptyset$.\\[2ex]
+		$\Longleftarrow:$ Widerspruchsannahme: $G$ sei unzusammenhängend. Dann gibt es Knoten $u, v$, die nicht durch einen Weg in $G$ verbunden sind. Es sei $X \coloneq \{w \in V \mid \exists u$-$v$-Weg in $G\}$, dann ist $u \in X$ und $v \notin X$. Behauptung: $\delta(X) = \emptyset$\\[2ex]
+		$\implies$ Widerspruch! Denn gäbe es Kante $e \in \delta(X) und \Psi(e) = \{w, x\}, w \in X, x \notin X$, so gäbe es Weg von $u$ über $w$ und $e$ nach $x$. Widerspruch zu $x \notin X.$
+	\end{proof}
+	\subsection{Branchings und Arboreszenzen}
+	\begin{definition}
+		Ein gerichteter Graph $G$ ist ein Branching, falls der zu Grunde liegende ungerichtete Graph ein Wald ist und $\lvert \delta^-(v)\rvert \leq 1$ für alle Knoten $v$. Ein zusammenhängendes Branching heißt Arboreszenz.
+	\end{definition}
+	\begin{bemerkung}
+		\begin{itemize}
+			\item Eine Arboreszenz mit $n$ Knoten hat genau $n-1$ Kanten.
+			\item Folglich existiert genau ein Knoten $r$ mit $\delta^-(r) = \emptyset$.
+			\item Für eine Kante $(v, w)$ eines Branchings heißt $w$ Nachfolger von $v$ und $v$ Vorgänger von $w$.
+			\item Ein Knoten ohne Nachfolger heißt Blatt.
+		\end{itemize}
+	\end{bemerkung}
+	\begin{satz}
+		Für gerichtete Graphen $G, r \in V(G)$ sind folgende Aussagen äquivalent:
+		\begin{enumerate}[label=(\roman*)]
+			\item $G$ ist eine Arboreszenz mit Wurzel $r$.
+			\item $G$ ist ein Branching mit $\lvert V(G)\rvert - 1$ Kanten und $\delta^-(r) = \emptyset$.
+			\item $G$ hat $\lvert V(G)\rvert - 1$ Kanten und jeder Knoten ist von $r$ aus erreichbar.
+			\item Jeder Knoten ist von $r$ aus erreichbar. Entfernen einer beliebigen Kante zerstört diese Eigenschaft.
+			\item $G$ erfüllt $\delta^+(X) \neq \emptyset$ für alle $X \subsetneq V$ mit $r \in X$. Entfernen einer beliebigen Kante zerstört diese Eigenschaft.
+			\item $\delta^-(x) = \emptyset$ und $\forall v \in V(G)$ gibt es einen eindeutigen $r$-$v$-Kantenzug.
+			\item $\delta^-(r) = \emptyset, \lvert \delta^-(v) = 1\rvert$ für jedes $v \in V \setminus \{r\}$ und $G$ ist kreisfrei.
+		\end{enumerate}
+	\end{satz}
+	\begin{satz}
+		Ein gerichteter Graph $G$ ist genau dann stark zusammenhängend, wenn er für jedes $r \in V(G)$ aufspannende Arboreszenz mit Wurzel $r$ enthält.
+	\end{satz}
+\end{document}

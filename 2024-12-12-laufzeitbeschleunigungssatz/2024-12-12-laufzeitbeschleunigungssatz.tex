@@ -1,0 +1,229 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{marvosym}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[left=2.5cm,right=2cm,top=3cm,bottom=3cm]{geometry}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{tcolorbox}
+\usepackage{adjustbox}
+\usepackage{eurosym}
+\usepackage[inline]{enumitem}
+\usepackage{lastpage}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage[ruled, linesnumbered, noline]{algorithm2e}
+\usepackage{listings}
+
+
+\setlength{\parindent}{0pt}
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing,calc,shadows.blur,shadings,er,positioning}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{magenta},
+	keywordstyle=\color{NavyBlue},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+%\usepackage{pgfplots}
+%\usepackage[leqno]{amsmath}
+
+%\newcounter{mathseed}
+%\setcounter{mathseed}{1}
+%\pgfmathsetseed{\arabic{mathseed}} 
+%\pgfdeclarelayer{background}
+%\pgfsetlayers{background,main}
+
+\newcommand{\RN}[1]{%
+	\textup{\uppercase\expandafter{\romannumeral#1}}%
+}
+
+\newcommand{\obda}{o.B.d.A. }
+
+\newenvironment{enum}{\begin{enumerate*}[label=\alph*),itemjoin=\hspace{2em}]}{\end{enumerate*}\\[2ex]}
+
+\DeclareMathOperator{\N}{\mathbb N}
+\DeclareMathOperator{\Q}{\mathbb Q}
+\DeclareMathOperator{\R}{\mathbb R}
+\DeclareMathOperator{\Z}{\mathbb Z}
+\DeclareMathOperator{\C}{\mathbb C}
+\DeclareMathOperator{\F}{\mathcal{F}}
+\DeclareMathOperator{\E}{\mathcal{E}}
+\DeclareMathOperator{\BigO}{\mathcal O}
+\DeclareMathOperator{\mL}{\mathcal{L}}
+\DeclareMathOperator{\mU}{\mathcal{U}}
+\DeclareMathOperator{\ggt}{\text{ggT}}
+\DeclareMathOperator{\kgv}{\text{kgV}}
+
+
+%------ Defining multiple types of theorems ------%
+\newtheorem{axiom}{Axiom}[section]
+\newtheorem{theorem}[axiom]{Theorem}
+\newtheorem{lemma}[axiom]{Lemma}
+\newtheorem{satz}[axiom]{Satz}
+\theoremstyle{definition}
+\newtheorem*{example}{Beispiel}
+\newtheorem*{bemerkung}{Bemerkung}
+\newtheorem*{frage}{Frage}
+\newtheorem*{loesung}{Lösung}
+\newtheorem*{behauptung}{Behauptung}
+\newtheorem*{beobachtung}{Beobachtung}
+\newtheorem{definition}[axiom]{Definition}
+\newtheorem{folg}[axiom]{Folgerung}
+\newtheorem{notation}[axiom]{Notation}
+
+%---- Changing forall and exists ----%
+\let\oldforall\forall
+\renewcommand{\forall}{\:\oldforall \, }
+\let\oldexist\exists
+\renewcommand{\exists}{\:\oldexist \: }
+\newcommand\existu{\oldexist! \: }
+\let\oldepsilon\epsilon
+\renewcommand{\epsilon}{\varepsilon}
+\newcommand{\corresponds}{\;\widehat{=}\;}
+
+%------ Giving circled star ---------%
+\makeatletter
+\newcommand{\ostar}{\mathbin{\mathpalette\make@circled\star}}
+\newcommand{\make@circled}[2]{%
+	\ooalign{$\m@th#1\smallbigcirc{#1}$\cr\hidewidth$\m@th#1#2$\hidewidth\cr}%
+}
+\newcommand{\smallbigcirc}[1]{%
+	\vcenter{\hbox{\scalebox{0.77778}{$\m@th#1\bigcirc$}}}%
+}
+\makeatother
+%-----------------------------------%
+
+%-------------- Vars ---------------%
+\newcommand{\vldate}{12. Dezember 2024}
+\newcommand{\vlname}{Computerorientierte Mathematik I}
+\newcommand{\vltopic}{Laufzeitbeschleunigungssatz}
+
+\pagestyle{fancy}
+\setlength{\headheight}{34pt}
+\fancyhf{}
+\fancyhead[L]{\includegraphics[width=1cm]{C:/Users/chole/Documents/tub/tublogo.png}}
+\fancyhead[C]{{\bfseries\vlname}\\%
+	\vltopic}
+\fancyhead[R]{\vldate}
+\fancyfoot[L]{}
+\fancyfoot[C]{- \thepage\ of \pageref{LastPage} -}
+\fancyfoot[R]{}
+
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\labelitemii}{-}
+
+\begin{document}
+	\setcounter{section}{8}
+	\setcounter{subsection}{5}
+	\subsection{Der Laufzeitbeschleunigungssatz}
+	Oft hilft bei der Laufzeitanalyse rekursiver Funktionen folgender Satz:
+	\begin{satz}
+		Es sei $f: \N \to \N$ eine monoton wachsende Funktion, $a \in \N_{>1}, b, c \in \R_{> 0}$, so dass $f(1) \leq \frac{c}{2}$ und die folgende Ungleichung gilt:
+		\[
+			f(a \cdot n) \leq b \cdot f(n) + c\cdot n \text{ für alle } n \geq 1.
+		\]
+		Dann gilt:
+		\[
+			f(n) \in
+			\begin{dcases*}
+				\BigO(n) &\text{ falls } a > b\\
+				\BigO(n \log n) &\text{ falls } a = b\\
+				\BigO(n^{\log_2b}) &\text{ falls } a < b
+			\end{dcases*}
+		\]
+	\end{satz}
+	\begin{example}
+		\begin{itemize}
+			\item Karazubas Multiplikation: $a = 2, b = 3 \implies \in \BigO(n^{\log_23})$
+			\item MergeSort: $a = 2, b = 2 \implies \in \BigO(n \log n)$ 
+		\end{itemize}
+	\end{example}
+	\begin{proof}
+		Zeige zunächst: \[
+			f(a^q) \leq c \cdot a^{q - 1} \cdot \sum_{i = 0}^{q}\big(\frac{b}{a}\big)^i
+		\]
+		Induktionsanfang $(q = 0)$: 
+		\begin{align*}
+			f(a^0) = f(1) &\stackrel{\tiny !}{\leq} \frac{c}{a} \leq c \cdot a^{0 - 1}\cdot \sum_{i = 0}^{0}\big(\frac{b}{a}\big)^i\\
+			&\leq \frac{c}{a}
+		\end{align*}
+		Induktionsschluss $(q \to q + 1)$:
+		\begin{align*}
+			f(a^{q + 1}) &= f(a \cdot a^q)\\
+			&\leq b \cdot f(a^q) + c\cdot a^q\\
+			&\leq b \cdot c \cdot a^{q - 1} \cdot \sum_{i = 0}^{q}\big(\frac{b}{a}\big)^i + c\cdot a^q\\
+			&= c \cdot a^q \cdot \sum_{i = 0}^{q} \big(\frac{b}{a}\big)^{i + 1} + c \cdot a^q\\
+			&= c \cdot a^q\Big(\sum_{i = 1}^{q + 1}\big(\frac{b}{a}\big)^i + 1\Big)\\
+			&= c \cdot a^q\sum_{i = 0}^{q + 1}\big(\frac{b}{a}\big)^i
+		\end{align*}
+		Wir haben gezeigt:
+		\[
+			f(a^q) \leq c \cdot a^{q - 1}\cdot \sum_{i = 0}^{q}\big(\frac{b}{a}\big)^i \text{ für alle } q \in \N
+		\]
+		Folglich gilt:
+		\[
+			f(n) \leq f(a^{\lceil \log_a n\rceil}) \leq c \cdot n \cdot \sum_{i = 0}^{\lceil \log_a n\rceil}\big(\frac{b}{a}\big)^i \text{ für alle } n \in \N_{>0}
+		\]
+		\subsubsection*{1. Fall, $a > b$}
+		\begin{align*}
+			f(n) &\leq c \cdot n \cdot \sum_{i = 0}^{\lceil \log_a n\rceil}\big(\frac{b}{a}\big)^i\\
+			&\leq c \cdot n \cdot \sum_{i = 0}^{\infty}\big(\frac{b}{a}\big)^i\\
+			&= \frac{c\cdot n}{1 - \frac{b}{a}} \in \BigO(n)
+		\end{align*}
+		\subsubsection*{2. Fall, $a = b$}
+		\begin{align*}
+			f(n) & \leq c \cdot n \cdot \sum_{i = 0}^{\lceil \log_a n\rceil}1\\
+			&\leq c \cdot n \cdot (\log_a n + 2) \in \BigO(n \log n)
+		\end{align*}
+		\subsubsection*{3. Fall, $a < b$}
+		\begin{align*}
+			f(n) &\leq c \cdot n \cdot \sum_{i = 0}^{\lceil \log_a n\rceil}\big(\frac{b}{a}\big)^i\\
+			&= c \cdot n \cdot \frac{(\frac{b}{a})^{\lceil \log_a n\rceil + 1} - 1}{\frac{b}{a} - 1}\\
+			&\leq \frac{c}{\frac{b}{a} - 1} \cdot n \cdot \big(\frac{b}{a}\big)^{\log_a n + 2}\\
+			&= \frac{c}{\frac{b}{a} - 1} \cdot \big(\frac{b}{a}\big)^2 \cdot n \cdot \frac{b^{\log_a n}}{a^{\log_a n}}\\
+			&= \frac{c}{\frac{b}{a} - 1} \cdot \big(\frac{b}{a}\big)^2 \cdot b^{\log_a n} \in \BigO(n^{\log_a b})
+		\end{align*}
+	\end{proof}
+	\subsection{Untere Schranke für Sortieren}
+	\begin{satz}
+		Jeder auf paarweisen Vergleichen basierende Algorithmus benötigt zum Sortieren einer $n$-elementigen Menge im Worst-Case $\Omega(n \log n)$ Vergleiche.
+	\end{satz}
+	\begin{bemerkung}
+		\begin{itemize}
+			\item Der Satz gilt zunächst nur für deterministische (im Vergleich zu randomisierten) Algorithmen.
+			\item Man kann sogar zeigen, dass die untere Schranke nicht nur im Worst-Case, sondern sogar im Mittel gilt.
+			\item MergeSort ist also mit Blick auf die asymptotische Laufzeit ein bestmöglicher vergleichsbasierter Sortieralgorithmus.
+			\item Es gibt Sortieralgorithmen, die nicht vergleichsbasiert sind und bessere Laufzeit erzielen (bspw. BucketSort, RadixSort).
+		\end{itemize}
+	\end{bemerkung}
+\end{document}

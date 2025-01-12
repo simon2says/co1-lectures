@@ -1,0 +1,237 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{marvosym}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[left=2.5cm,right=2cm,top=3cm,bottom=3cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{tcolorbox}
+\usepackage{adjustbox}
+\usepackage{eurosym}
+\usepackage[inline]{enumitem}
+\usepackage{lastpage}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage[ruled, linesnumbered, noline]{algorithm2e}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\setlength{\parindent}{0pt}
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing,calc,shadows.blur,shadings,er,positioning}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+%\usepackage{pgfplots}
+%\usepackage[leqno]{amsmath}
+
+%\newcounter{mathseed}
+%\setcounter{mathseed}{1}
+%\pgfmathsetseed{\arabic{mathseed}} 
+%\pgfdeclarelayer{background}
+%\pgfsetlayers{background,main}
+
+\newcommand{\RN}[1]{%
+	\textup{\uppercase\expandafter{\romannumeral#1}}%
+}
+
+\newcommand{\obda}{o.B.d.A. }
+
+\newenvironment{enum}{\begin{enumerate*}[label=\alph*),itemjoin=\hspace{2em}]}{\end{enumerate*}\\[2ex]}
+
+\DeclareMathOperator{\N}{\mathbb N}
+\DeclareMathOperator{\Q}{\mathbb Q}
+\DeclareMathOperator{\R}{\mathbb R}
+\DeclareMathOperator{\Z}{\mathbb Z}
+\DeclareMathOperator{\C}{\mathbb C}
+\DeclareMathOperator{\F}{\mathcal{F}}
+\DeclareMathOperator{\E}{\mathcal{E}}
+\DeclareMathOperator{\BigO}{\mathcal O}
+\DeclareMathOperator{\mL}{\mathcal{L}}
+\DeclareMathOperator{\mU}{\mathcal{U}}
+\DeclareMathOperator{\ggt}{\text{ggT}}
+\DeclareMathOperator{\kgv}{\text{kgV}}
+
+
+%------ Defining multiple types of theorems ------%
+\newtheorem{axiom}{Axiom}[section]
+\newtheorem{theorem}[axiom]{Theorem}
+\newtheorem{lemma}[axiom]{Lemma}
+\newtheorem{satz}[axiom]{Satz}
+\theoremstyle{definition}
+\newtheorem*{example}{Beispiel}
+\newtheorem*{bemerkung}{Bemerkung}
+\newtheorem*{frage}{Frage}
+\newtheorem*{loesung}{Lösung}
+\newtheorem*{behauptung}{Behauptung}
+\newtheorem*{beobachtung}{Beobachtung}
+\newtheorem{definition}[axiom]{Definition}
+\newtheorem{folg}[axiom]{Folgerung}
+\newtheorem{notation}[axiom]{Notation}
+
+%---- Changing forall and exists ----%
+\let\oldforall\forall
+\renewcommand{\forall}{\:\oldforall \, }
+\let\oldexist\exists
+\renewcommand{\exists}{\:\oldexist \: }
+\newcommand\existu{\oldexist! \: }
+\let\oldepsilon\epsilon
+\renewcommand{\epsilon}{\varepsilon}
+\newcommand{\corresponds}{\;\widehat{=}\;}
+
+%------ Giving circled star ---------%
+\makeatletter
+\newcommand{\ostar}{\mathbin{\mathpalette\make@circled\star}}
+\newcommand{\make@circled}[2]{%
+	\ooalign{$\m@th#1\smallbigcirc{#1}$\cr\hidewidth$\m@th#1#2$\hidewidth\cr}%
+}
+\newcommand{\smallbigcirc}[1]{%
+	\vcenter{\hbox{\scalebox{0.77778}{$\m@th#1\bigcirc$}}}%
+}
+\makeatother
+%-----------------------------------%
+
+%-------------- Vars ---------------%
+\newcommand{\vldate}{19. Dezember 2024}
+\newcommand{\vlname}{Computerorientierte Mathematik I}
+\newcommand{\vltopic}{Lineare Sortieralgorithmen}
+
+\pagestyle{fancy}
+\setlength{\headheight}{34pt}
+\fancyhf{}
+\fancyhead[L]{\includegraphics[width=1cm]{C:/Users/chole/Documents/tub/tublogo.png}}
+\fancyhead[C]{{\bfseries\vlname}\\%
+	\vltopic}
+\fancyhead[R]{\vldate}
+\fancyfoot[L]{}
+\fancyfoot[C]{- \thepage\ of \pageref{LastPage} -}
+\fancyfoot[R]{}
+
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\labelitemii}{-}
+
+\begin{document}
+	\setcounter{section}{8}
+	\section{Sortieren in Linearzeit}
+	\subsection{Counting Sort}
+	\begin{algorithm}[h]
+		\caption{CountingSort}
+		\KwIn{Array der Länge $n$ mit Einträgen $A[i] \in \{1, 2, \ldots, k\}$}
+		\KwOut{Sortiertes Array $B$}
+		Let $C$ be Array of length $k$\\
+		\For{$i \gets 1$ \KwTo $k$}{
+			$C[i] \gets 0$
+		}
+		\For{$j \gets 1$ \KwTo $n$}{
+			$C[A[j]] \gets C[A[j]] + 1$
+		}
+		\For{$i \gets 1$ \KwTo $k - 1$}{
+			$C[i + 1] \gets C[i + 1] + C[i]$
+		}
+		Let $B$ be Array of length $n$
+		\For{$j \gets n$ \KwTo $1$}{
+			$B[C[A[j]]] \gets A[j]$\\
+			$C[A[j]] \gets C[A[j]] - 1$
+		}
+	\end{algorithm}
+	\begin{satz}
+		CountingSort arbeitet korrekt und besitzt Laufzeitfunktion in $\Theta(n + k)$.
+	\end{satz}
+	\subsection{RadixSort}
+	\begin{algorithm}[h]
+		\caption{RadixSort}
+		\KwIn{Array der Länge $n$. Jeder Eintrag ist $d$-stellige Zahl, wobei die erste Stelle die niederste und die letzte Stelle die höchste ist.}
+		\KwOut{Sortiertes Array.}
+		\For{$i \gets 1$ \KwTo $d$}{sortiere $A$ nach $i$-ter Stelle mit stabilem Sortierverfahren.}
+	\end{algorithm}
+	\begin{satz}
+		Für $n$ Zahlen mit je $d$ Stellen, bei denen jede Stelle bis zu $k$ mögliche Werte annehmen kann, sortiert RadixSort diese Zahlen korrekt in Zeit $\Theta\big(d(n + k)\big)$, falls das stabile Sortierverfahren in Zeile $2$ Laufzeit $\Theta(n + k)$ besitzt (bspw. CountingSort).
+	\end{satz}
+	\subsection{BucketSort}
+	\begin{algorithm}[H]
+		\caption{BucketSort}
+		\KwIn{Array $A$ der Länge $n$ mit Einträgen $A[i] \in (0, 1]$}
+		\KwOut{Sortierte Liste}
+		Let $B$ be Array of length $n$
+		\For{$i \gets 1$ \KwTo $n$}{
+			$B[i] \gets [~]$
+		}
+		\For{$i \gets 1$ \KwTo $n$}{
+			insert $A[i]$ into list $B\big[\lceil n \cdot A[i]\rceil\big]$
+		}
+		\For{$i = 1$ \KwTo $n$}{
+			sort list $B[i]$ with insertionSort
+		}
+		concatenate lists $B[1], B[2], \ldots, B[n]$
+	\end{algorithm}
+	\begin{satz}
+		Werden die Einträge unabhängig und gleichverteilt aus $(0, 1]$ gezogen, so ist die erwartete Laufzeit von BucketSort in $\BigO(n)$.
+	\end{satz}
+	\begin{bemerkung}
+		\begin{itemize}
+			\item Die erwartete Laufzeit von BucketSort ist linear in $n$, da die erwartete Summe der Quadrate der Bucketgrößen linear in $n$ ist.
+			\item BucketSort kann durch Skalierung für beliebige Zahlenbereiche angewandt werden.
+		\end{itemize}
+	\end{bemerkung}
+	\begin{proof}[Laufzeitbeweis.]
+		Es sei $n$ die Anzahl der Elemente in Bucket $B[i], i = 1, \ldots, n$. Dann gilt für die Laufzeitfunktion $T(n)$ von BucketSort:
+		\[
+			T(n) \leq c \cdot n + \sum_{i = 1}^{n} d \cdot n_i^2
+		\]
+		für Konstanten $c, d > 0$. Wegen Linearität des Erwartungswertes gilt für die erwartete Laufzeit:
+		\[
+			E[T(n)] \leq c \cdot n + \sum_{i = 1}^{n} d \cdot E[n_i^2]
+		\]
+		Definiere Zufallsvariablen
+		\[
+			x_{ij} \leq \begin{dcases*}
+				1, \text{ falls $A[j]$ in Bucket $B[i]$ landet.}\\
+				0, \text{ sonst.}
+			\end{dcases*}
+		\]
+		Dann ist 
+		\[
+			n_i = \sum_{j = 1}^{n}x_{ij}
+		\]
+		und
+		\begin{align*}
+			E[n_i^2] &= E\Big[\Big(\sum_{j = 1}^{n}x_{ij}\Big)\Big]\\
+			&= E\Big[\sum_{j = 1}^{n}\sum_{k = 1}^{n}x_{ij}x_{ik}\Big]\\
+			&= E\Big[\sum_{j = 1}^{n}x_{ij}^2 + \sum_{j = 1}^{n}\sum_{k \neq j}^{}x_{ij}x_{ik}\Big]\\
+			&= \sum_{j = 1}^{n}E[x_{ij}^2] + \sum_{j = 1}^{n}\sum_{k \neq j}^{}E[x_{ij}x_{ik}]\\
+			&= \sum_{j = 1}^{k}\frac{1}{n} + \sum_{j = 1}^{n}\sum_{k \neq j}^{}E[x_{ij}]E[x_{ik}]\\
+			&= 1 + \frac{n(n - 1)}{n^2} = 2 - \frac{1}{n}
+		\end{align*}
+	\end{proof}
+\end{document}

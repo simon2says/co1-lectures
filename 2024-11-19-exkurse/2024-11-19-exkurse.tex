@@ -1,0 +1,358 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{marvosym}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[left=2.5cm,right=2cm,top=3cm,bottom=3cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{tcolorbox}
+\usepackage{adjustbox}
+\usepackage{eurosym}
+\usepackage[inline]{enumitem}
+\usepackage{lastpage}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage[ruled, linesnumbered, noline]{algorithm2e}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\setlength{\parindent}{0pt}
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing,calc,shadows.blur,shadings,er,positioning}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+%\usepackage{pgfplots}
+%\usepackage[leqno]{amsmath}
+
+%\newcounter{mathseed}
+%\setcounter{mathseed}{1}
+%\pgfmathsetseed{\arabic{mathseed}} 
+%\pgfdeclarelayer{background}
+%\pgfsetlayers{background,main}
+
+\newcommand{\RN}[1]{%
+	\textup{\uppercase\expandafter{\romannumeral#1}}%
+}
+
+\newcommand{\obda}{o.B.d.A. }
+
+\newenvironment{enum}{\begin{enumerate*}[label=\alph*),itemjoin=\hspace{2em}]}{\end{enumerate*}\\[2ex]}
+
+\DeclareMathOperator{\N}{\mathbb N}
+\DeclareMathOperator{\Q}{\mathbb Q}
+\DeclareMathOperator{\R}{\mathbb R}
+\DeclareMathOperator{\Z}{\mathbb Z}
+\DeclareMathOperator{\C}{\mathbb C}
+\DeclareMathOperator{\F}{\mathcal{F}}
+\DeclareMathOperator{\E}{\mathcal{E}}
+\DeclareMathOperator{\BigO}{\mathcal O}
+\DeclareMathOperator{\mL}{\mathcal{L}}
+\DeclareMathOperator{\mU}{\mathcal{U}}
+\DeclareMathOperator{\ggt}{\text{ggT}}
+\DeclareMathOperator{\kgv}{\text{kgV}}
+
+
+%------ Defining multiple types of theorems ------%
+\newtheorem{axiom}{Axiom}[section]
+\newtheorem{theorem}[axiom]{Theorem}
+\newtheorem{lemma}[axiom]{Lemma}
+\newtheorem{satz}[axiom]{Satz}
+\theoremstyle{definition}
+\newtheorem*{example}{Beispiel}
+\newtheorem*{bemerkung}{Bemerkung}
+\newtheorem*{frage}{Frage}
+\newtheorem*{loesung}{Lösung}
+\newtheorem{definition}[axiom]{Definition}
+\newtheorem{folg}[axiom]{Folgerung}
+\newtheorem{notation}[axiom]{Notation}
+
+%---- Changing forall and exists ----%
+\let\oldforall\forall
+\renewcommand{\forall}{\:\oldforall \, }
+\let\oldexist\exists
+\renewcommand{\exists}{\:\oldexist \: }
+\newcommand\existu{\oldexist! \: }
+\let\oldepsilon\epsilon
+\renewcommand{\epsilon}{\varepsilon}
+\newcommand{\corresponds}{\;\widehat{=}\;}
+
+%------ Giving circled star ---------%
+\makeatletter
+\newcommand{\ostar}{\mathbin{\mathpalette\make@circled\star}}
+\newcommand{\make@circled}[2]{%
+	\ooalign{$\m@th#1\smallbigcirc{#1}$\cr\hidewidth$\m@th#1#2$\hidewidth\cr}%
+}
+\newcommand{\smallbigcirc}[1]{%
+	\vcenter{\hbox{\scalebox{0.77778}{$\m@th#1\bigcirc$}}}%
+}
+\makeatother
+%-----------------------------------%
+
+%-------------- Vars ---------------%
+\newcommand{\vldate}{19. November 2024}
+\newcommand{\vlname}{Computerorientierte Mathematik I}
+\newcommand{\vltopic}{Exkurse}
+
+\pagestyle{fancy}
+\setlength{\headheight}{34pt}
+\fancyhf{}
+\fancyhead[L]{\includegraphics[width=1cm]{C:/Users/chole/Documents/tub/tublogo.png}}
+\fancyhead[C]{{\bfseries\vlname}\\%
+	\vltopic}
+\fancyhead[R]{\vldate}
+\fancyfoot[L]{}
+\fancyfoot[C]{- \thepage\ of \pageref{LastPage} -}
+\fancyfoot[R]{}
+
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\labelitemii}{-}
+
+\begin{document}
+	\setcounter{section}{5}
+	\setcounter{subsection}{5}
+	\subsection{Exkurs: Codierung von Zeichen}
+	Einzelne Zeichen werden durch Tabellen in natürliche Zahlen übersetzt:
+	\subsubsection*{ASCII-Code (8 Bit)}
+	\begin{tabular}{ccc}
+		'A' $ = 65 = 0x41$ & 'B' $ = 66 = 0x42$ & 'C' $ = 67 = 0x43$\\
+		'a' $ = 97 = 0x61$ & 'b' $ = 98 = 0x62$ & 'c' $ = 99 = 0x63$\\
+		'0' $ = 48 = 0x30$ & '1' $ = 49 = 0x31$ & '2' $ = 50 = 0x32$\\
+		'\textvisiblespace' $ = 32 = 0x20$ & '@' $ = 64 = 0x40$
+	\end{tabular}
+	\subsubsection*{Unicode (UTF-8, variable Länge mit Blöcken zu je 8 Bit)}
+	\begin{itemize}
+		\item 1 Byte: 0xxx~xxxx = 7 Bit ASCII
+		\item 2 Bytes: 110x~xxxx~10xx~xxxx = 11 Bit Codierung
+		\item 3 Bytes: 1110 xxxx 10xx xxxx 10xx xxxx = 16 Bit Codierung
+		\item \ldots
+	\end{itemize}
+	
+	\subsection{Exkurs: Rechnen mit Folgen und Reihen}
+	\begin{bemerkung}
+		Obwohl der Computer endlich ist, lassen sich (gewisse) unendliche Mengen (und Funktionen auf unendliche Mengen etc.) explizit darstellen.
+	\end{bemerkung}	
+	\begin{example}~
+		\begin{lstlisting}[language=Python]
+			
+			def a(n):
+				return 1/n
+		\end{lstlisting}
+		ist die Codierung einer Folge reeller Zahlen (im Rahmen der Maschinengenauigkeit).
+	\end{example}
+	\begin{bemerkung}
+		Lambda-Funktionen kommen ursprünglich aus der funktionalen Programmierung. Eben genannte Folge kann man in Python auch schreiben als
+		\begin{lstlisting}[language=Python]
+			
+			a = lambda n: 1/n
+		\end{lstlisting}
+		\begin{itemize}
+			\item Die Nutzung ist gleich
+			\item Kein return-Statement
+		\end{itemize}
+		\begin{lstlisting}[language=Python]
+			
+			print(list(map(a, [1,2,4,8])))
+			>>> [1, 0.5, 0.25, 0.125]
+		\end{lstlisting}
+	\end{bemerkung}
+	\begin{itemize}[label=]
+		\item Addition:
+		\begin{lstlisting}[language=Python]
+			
+			def add(a, b):
+				return lambda n: a(n) + b(n)
+		\end{lstlisting}
+		
+		\item Subtraktion:
+		\begin{lstlisting}[language=Python]
+			
+			def sub(a,b):
+				return lambda n: a(n) - b(n)
+		\end{lstlisting}
+		
+		\item Reihen:
+		\begin{lstlisting}[language=Python]
+			
+			def finite_subsequence(a, k):
+				return [a(n) for n in range(0, k)]
+			
+			def series(a):
+				return lambda n: sum(finite_subsequence(a, n))
+		\end{lstlisting}
+	\end{itemize}
+	\subsection{Exkurs: Riemannsche Zeta-Funktion}
+	Für komplexe Zahlen $s = \sigma \cdot \tau i \in \mathbb{C}$ mit $\sigma > 1$ konvergiert Dirichlet-Reihe
+	\[
+		\zeta(s) = \sum_{n = 0}^{\infty} \frac{1}{n^s} = 1 + \frac{1}{2^s} + \frac{1}{3^s} + \frac{1}{4^s} + \ldots
+	\]
+	Die Riemannsche Zeta-Funktion ist die eindeutige analytische Fortsetzung auf ganz $\C$.
+	Die Riemannsche Vermutung ist: Alle Nullstellen (mit $\sigma > 0$) erfüllen $\sigma = \frac{1}{2}$.
+	\begin{lstlisting}[language=Python]
+		
+		def zeta(s):
+			return series(lambda n: 1/(pow(n+1, z)))
+	\end{lstlisting}
+	\begin{satz}[Riemannsches Umordnungsgesetz]
+		Es seien $a_n \in \R$ für $n \in \N$ und $\sum_{n = 0}^{\infty}a_n$ sei konvergent, aber nicht absolut konvergent. Weiter sei $x \in \R$ beliebig. Dann existiert eine bijektive Abbildung $\phi: \N \to \N$ so, dass
+		\[
+			\sum_{n = 0}^{\infty} a_\phi(n) = x
+		\]
+	\end{satz}
+	\begin{lstlisting}[language=Python, caption={Riemann-Reordering}]
+		
+		"""
+			a is a series such that the series of partial sums converges, but not absolutely. 
+			x is the float to converge to for the reordering.
+			returns first k indices of reordering bijection phi
+		"""
+		def riemann(a, x, k):
+			partialsum = 0
+			i = 0
+			ipos, ineg = (0,0)
+			reordering = []
+			for j in range(0, k):
+				if(partialsum < x):
+					i = next_positive_index(a, ipos)
+					ipos = i + 1
+				else:
+					i = next_negative_index(a, ineg)
+					ineg = i + 1
+				reordering.append(i)
+				partialsums += a(i)
+			return reordering
+	\end{lstlisting}
+	\section{Graphen}
+	\begin{definition}
+		Ein ungerichteter Graph $G$ ist ein Tripel $G = (V, E, \Psi)$, wobei $V$ und $E$ endliche Mengen sind, $V \neq 0$ und
+		\[
+			\Psi: E \to \{X \mid X \subseteq V, \lvert X \rvert = 2\}
+		\]
+		Elemente in $V = V(G)$ heißen Knoten. Elemente in $E = E(G)$ heißen Kanten.
+	\end{definition}
+	\begin{definition}
+		Ein gerichteter Graph (oder Digraph) $G$ ist ein Tripel $G = (V, E, \Psi)$, wobei $V$ und $E$ endliche Mengen sind, $V \neq 0$ und
+		\[
+			\Psi: E \to \{(v,w) \in V \times V \mid v \neq w\}
+		\]
+	\end{definition}
+	\subsection{Terminologie für Graphen}
+	\begin{definition}
+		Auf einem gerichteten oder ungerichteten Graphen verbindet die Kante $e = \{v, w\}$ bzw. $e = (v, w)$ die Knoten $v$ und $w$. Dann heißen die Knoten $v$ und $w$ benachbart oder {\itshape adjazent}. Sie sind Endknoten der Kante $e$ und mit dieser {\itshape inzident}.
+		
+		Zwei Kanten $e, e' \in E$ heißen parallel, falls $\Psi(e) = \Psi(e')$.
+	\end{definition}
+	\begin{definition}
+		Auf einem gerichteten oder ungerichteten Graphen $G = (V, E, \Psi), v \in V$
+		\begin{itemize}
+			\item Ist $G$ ungerichtet, so ist
+			\[
+				\delta(v) \coloneq \{e \in E \mid v \in \Psi(e)\}
+			\]
+			die Menge der zu $v$ inzidenten Kanten.
+			\item Der Grad eines Knotens $v$ ist $\lvert \delta(v) \rvert$.
+			\item Ist $G$ ungerichtet, so ist
+			\begin{align*}
+				\delta^+(v) &\coloneq \{e \in E \mid \exists w \in V: \Psi(e) = (v, w)\}\\
+				\delta^-(v) &\coloneq \{e \in E \mid \exists w \in V: \Psi(e) = (w, v)\}\\
+				\delta(v) &\coloneq \delta^+(v) \cup \delta^-(v)
+			\end{align*}
+			\item Der {\itshape Eingangsgrad} von $v$ ist $\lvert \delta^-(v) \rvert$.
+			\item Der {\itshape Ausgangsgrad} von $v$ ist $\lvert \delta^+(v) \rvert$.
+		\end{itemize}
+	\end{definition}
+	\begin{definition}
+		Ein gerichteter oder ungerichteter Graph ohne parallele Kanten wird {\itshape einfach} genannt.
+		\begin{itemize}
+			\item Für einfache Graphen identifiziert man $e \in E$ mit $\Psi(e)$ und schreibt
+			\begin{align*}
+				G = (V, E) \text{ mit } E &\subseteq \{\{v, w\} \mid v, w \in V, v \neq w\}\\
+				\text{ bzw } E &\subseteq \{(v, w) \mid v, w \in V, v \neq w\}
+			\end{align*}
+			\item Insbesondere ist dann die Kantenmenge $E$ eines einfachen Graphen eine Relation auf $V$ (d. h. auf $V \times V$).
+			\item Die Kantenmenge $E$ eines ungerichteten Graphen kann als symmetrische Relation $R_E$ auf $V$ aufgefasst werden:
+			\[
+				(v, w) \in R_E :\Longleftrightarrow \{v, w\} \in E
+			\]
+		\end{itemize}
+	\end{definition}
+	\subsection{Handschlaglemma}
+	\begin{lemma}
+		Es sei $G = (V, E, \Psi)$ ungerichteter oder gerichteter Graph.
+		\begin{enumerate}[label=(\alph*)]
+			\item Die Anzahl Knoten ungeraden Grades ist gerade, denn
+			\[
+				\sum_{v \in V} \lvert \delta(v) \rvert = 2 \lvert E \rvert
+			\]
+			\item Ist $G$ gerichtet, dann gilt:
+			\[
+				\sum_{v \in V} \lvert \delta^+(v) \rvert = \lvert E \rvert = \sum_{v \in V} \lvert \delta^-(v) \rvert
+			\]
+		\end{enumerate}
+	\end{lemma}
+	\begin{proof}
+		\begin{enumerate}[label=(\alph*)]
+			\item 
+			\begin{align*}
+				\sum_{v \in V} \lvert \delta(v) \rvert &= \sum_{v \in V} \big\lvert \{e \in E \mid \Psi(e) = \{v, w\} \text{ für ein } w \in V\} \big\rvert\\
+				&= \sum_{e \in E}2  = 2 \lvert E \rvert 
+			\end{align*}
+			\item 
+			\begin{align*}
+				\sum_{v \in V}\lvert \delta^+(v) \rvert &= \sum_{v \in V} \lvert \{e \in E \mid \Psi(e) = (v, w) \text{ für ein } w \in V\}\rvert\\
+				&= \sum_{e \in E} 1 = \lvert E \rvert = \sum_{v \in V}\lvert \delta^-(v) \rvert
+			\end{align*}
+		\end{enumerate}
+	\end{proof}
+	\begin{definition}
+		Ein ungerichteter Graph heißt regulär (oder $d$-regulär), falls jeder Knoten Grad $d$ besitzt.
+	\end{definition}
+	\subsection{Teilgraphen, Wege, Kreise}
+	\begin{definition}
+		Sei $G = (V(G), E(G), \Psi_G)$ ein ungerichteter oder gerichteter Graph.
+		\begin{enumerate}[label=(\alph*)]
+			\item Graph $H = (V(H), E(H), \Psi_H)$ ist {\itshape Teilgraph} von $G$, falls
+			\[
+				V(H) \subseteq V(G), E(H) \subseteq E(G), \Psi_H = \Psi_{G \mid E(H)}
+			\]
+			\item Ist zusätzlich $V(H) = V(G)$, so ist $H$ {\itshape aufgespannter Teilgraph}.
+			\item $H$ ist induzierter Teilgraph, falls
+			\begin{align*}
+				E(H) &= \{e \in E(G) \mid \Psi_G(e) = \{v, w\}: v, w \in V(H)\}\\
+				\text{bzw. } E(H) &= \{e \in E(G) \mid \Psi_G(e) = (v, w): v, w \in V(H)\}
+			\end{align*}
+			In diesem Falle schreiben wir auch $H = G[V(H)]$.
+		\end{enumerate}
+	\end{definition}
+\end{document}

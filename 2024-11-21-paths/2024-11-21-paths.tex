@@ -1,0 +1,220 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{marvosym}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[left=2.5cm,right=2cm,top=3cm,bottom=3cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{tcolorbox}
+\usepackage{adjustbox}
+\usepackage{eurosym}
+\usepackage[inline]{enumitem}
+\usepackage{lastpage}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage[ruled, linesnumbered, noline]{algorithm2e}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\setlength{\parindent}{0pt}
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing,calc,shadows.blur,shadings,er,positioning}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+%\usepackage{pgfplots}
+%\usepackage[leqno]{amsmath}
+
+%\newcounter{mathseed}
+%\setcounter{mathseed}{1}
+%\pgfmathsetseed{\arabic{mathseed}} 
+%\pgfdeclarelayer{background}
+%\pgfsetlayers{background,main}
+
+\newcommand{\RN}[1]{%
+	\textup{\uppercase\expandafter{\romannumeral#1}}%
+}
+
+\newcommand{\obda}{o.B.d.A. }
+
+\newenvironment{enum}{\begin{enumerate*}[label=\alph*),itemjoin=\hspace{2em}]}{\end{enumerate*}\\[2ex]}
+
+\DeclareMathOperator{\N}{\mathbb N}
+\DeclareMathOperator{\Q}{\mathbb Q}
+\DeclareMathOperator{\R}{\mathbb R}
+\DeclareMathOperator{\Z}{\mathbb Z}
+\DeclareMathOperator{\C}{\mathbb C}
+\DeclareMathOperator{\F}{\mathcal{F}}
+\DeclareMathOperator{\E}{\mathcal{E}}
+\DeclareMathOperator{\BigO}{\mathcal O}
+\DeclareMathOperator{\mL}{\mathcal{L}}
+\DeclareMathOperator{\mU}{\mathcal{U}}
+\DeclareMathOperator{\ggt}{\text{ggT}}
+\DeclareMathOperator{\kgv}{\text{kgV}}
+
+
+%------ Defining multiple types of theorems ------%
+\newtheorem{axiom}{Axiom}[section]
+\newtheorem{theorem}[axiom]{Theorem}
+\newtheorem{lemma}[axiom]{Lemma}
+\newtheorem{satz}[axiom]{Satz}
+\theoremstyle{definition}
+\newtheorem*{example}{Beispiel}
+\newtheorem*{bemerkung}{Bemerkung}
+\newtheorem*{frage}{Frage}
+\newtheorem*{loesung}{Lösung}
+\newtheorem*{behauptung}{Behauptung}
+\newtheorem*{beobachtung}{Beobachtung}
+\newtheorem{definition}[axiom]{Definition}
+\newtheorem{folg}[axiom]{Folgerung}
+\newtheorem{notation}[axiom]{Notation}
+
+%---- Changing forall and exists ----%
+\let\oldforall\forall
+\renewcommand{\forall}{\:\oldforall \, }
+\let\oldexist\exists
+\renewcommand{\exists}{\:\oldexist \: }
+\newcommand\existu{\oldexist! \: }
+\let\oldepsilon\epsilon
+\renewcommand{\epsilon}{\varepsilon}
+\newcommand{\corresponds}{\;\widehat{=}\;}
+
+%------ Giving circled star ---------%
+\makeatletter
+\newcommand{\ostar}{\mathbin{\mathpalette\make@circled\star}}
+\newcommand{\make@circled}[2]{%
+	\ooalign{$\m@th#1\smallbigcirc{#1}$\cr\hidewidth$\m@th#1#2$\hidewidth\cr}%
+}
+\newcommand{\smallbigcirc}[1]{%
+	\vcenter{\hbox{\scalebox{0.77778}{$\m@th#1\bigcirc$}}}%
+}
+\makeatother
+%-----------------------------------%
+
+%-------------- Vars ---------------%
+\newcommand{\vldate}{21. November 2024}
+\newcommand{\vlname}{Computerorientierte Mathematik I}
+\newcommand{\vltopic}{Kantenzüge und Wege}
+
+\pagestyle{fancy}
+\setlength{\headheight}{34pt}
+\fancyhf{}
+\fancyhead[L]{\includegraphics[width=1cm]{C:/Users/chole/Documents/tub/tublogo.png}}
+\fancyhead[C]{{\bfseries\vlname}\\%
+	\vltopic}
+\fancyhead[R]{\vldate}
+\fancyfoot[L]{}
+\fancyfoot[C]{- \thepage\ of \pageref{LastPage} -}
+\fancyfoot[R]{}
+
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\labelitemii}{-}
+
+\begin{document}
+	\setcounter{section}{6}
+	\setcounter{subsection}{3}
+	\begin{definition}
+		Es sei $G = (V, E, \Psi)$ ein Graph (ungerichtet oder gerichtet). Ein Kantenzug in $G$ ist eine Folge
+		\[
+			v_1,e_1,v_2,e_2,\ldots ,v_k,e_k,v_{k+1}, k \in \N
+		\]
+		mit $v_1\ldots v_{k+1} \in V, e_i \in E$ und $\Psi(e_i) = \{v_i, v_{i+1}\}$ bzw. $\Psi(e_i) = (v_i, v_{i+1})$ für $i = 1, \ldots, k$.
+	\end{definition}
+	Die Länge eines Kantenzugs ist die Anzahl $k$ der enthaltenen Kanten.
+	\begin{definition}
+		Ein Weg ist ein Kantenzug $v_1,e_1,v_2,e_2,\ldots ,v_k,e_k,v_{k+1}$, so dass $v_i \neq v_j$ für $1 \leq i < j \leq k+1$.
+	\end{definition}
+	Um Anfangs- und Endknoten des Weges hervorzuheben, sprechen wir auch von einem $v_1,v_{k+1}$-Weg. Ein Kantenzug der Länge $0$ besteht aus eienm Knoten ist ist ein Weg. Ein Kreis ist ein geschlossener Kantenzug, sodass $v_i \neq v_j$ für $1\leq i < j \leq k$.
+	\subsection{Zusammenhang und Zusammenhangskomponenten}
+	\begin{definition}
+		Ein ungerichteter Graph $G = (V, E, \Psi)$ heißt zusammenhängend, falls es für je zwei Knoten $v, w \in V$ einen $v, w$-Weg in $G$ gibt. Sonst heißt $G$ unzusammenhängend.
+	\end{definition}
+	\begin{lemma}
+		Es gibt genau dann einen $v, w$-Weg in $G$, wenn es einen Kantenzug von $v$ nach $w$ gibt.
+	\end{lemma}
+	\begin{proof}
+		$\Longrightarrow:$ Jeder $v$-$w$-Weg ist ein Kantenzug von $v$ nach $w$.
+		
+		$\Longleftarrow:$ Ein Kantenzug von $v$ nach $w$ wird durch Abkürzen zu einem $v$-$w$-Weg.
+	\end{proof}
+	Für einen ungerichteten Graphen $G = (V, E, \Psi)$ betrachten wir die Relation $R \coloneq \{(u, v) \in V \times V \mid \exists u, v\text{-Weg in }G\}$.
+	\begin{lemma}
+		Die Relation $R \subseteq V \times V$ ist
+		\begin{enumerate}[label=(\roman*)]
+			\item reflexiv, d. h. $(u, u) \in R$ für alle $u \in V$
+			\item symmetrisch, d. h. für alle $u, v$ gilt: $(u, v) \in R \implies (v, u) \in R$
+			\item transitiv, d. h. für alle $u, v, w \in V$ gilt: $(u, v) \in R \land (v, w) \in R \implies (u, w) \in R$ 
+		\end{enumerate}
+		Folglich ist $R$ eine Äquivalenzrelation. Die zugehörigen Äquivalenzklassen bilden also eine Partition der Knotenmenge $V$.
+	\end{lemma}
+	\begin{definition}
+		Ein von einer Äquivalenzklasse $U \subseteq V$ induzierter Teilgraph $G[U]$ heißt {\itshape Zusammenhangskomponente} von $G$.
+	\end{definition}
+	\begin{definition}
+		Es sei $G = (V, E, \Psi)$ ein gerichteter Graph.
+		\begin{enumerate}[label=(\roman*)]
+			\item Der zu Grunde liegende ungerichtete Graph ist $G' = (V, E, \Psi')$, wobei
+			\[
+				\Psi'(e) = \{u, v\} \text{ mit } \Psi(e) = (u, v) \text{ für } e \in E
+			\]
+			\item $G$ heißt zusammenhängend, falls $G'$ zusammenhängend ist.
+			\item $G$ heißt stark zusammenhängend, falls es für jedes Knotenpaar $u, v \in V$ sowohl einen $u$-$v$-Weg, als auch einen $v$-$u$-Weg in $G$ gibt.
+		\end{enumerate}
+	\end{definition}
+	\subsection{Eulersche Graphen}
+	\begin{definition}
+		Es sei $G = (V, E, \Psi)$ ein ungerichteter Graph.
+		\begin{enumerate}[label=(\alph*)]
+			\item Eine Eulertour in $G$ ist ein geschlossener Kantenzug, der jede Kante in $E$ genau ein Mal enthält.
+			\item $G$ heißt Eulersch, falls jeder Knoten in $V$ geraden Grad besitzt.
+		\end{enumerate}
+	\end{definition}
+	\begin{beobachtung}
+		Besitzt G eine Eulertour, so ist $G$ eulersch.
+	\end{beobachtung}
+	\begin{lemma}
+		Die Kantenmenge eines eulerschen Graphen zerfällt in kantendisjunkte Kreise.
+	\end{lemma}
+	\begin{proof}[Beweis durch vollständige Induktion zweiter Art.]
+		Induktionsanfang $(\lvert E\rvert = 0)$: klar.
+		
+		Induktionsschluss: Für ein beliebiges, fest gewähltes $m$ gelte das Lemma für alle $\lvert E\rvert \leq m$. Betrachte Graph $G = (V, E, \Psi)$ mit $\lvert E\rvert = m + 1$.
+		
+		Behauptung: $G$ enthält einen Kreis $C$. Beginne mit Kantenzug $v_1e_1v_2$ für eine Kante $e_1 \in E(G)$. Da $\lvert \delta(v_2)\rvert$ gerade ist $\implies\exists e_2 \in \delta(v_2)\setminus\{e_1\} \implies$ Kantenzug $v_1e_1v_2e_2v_3$. Ist $v_3 = v_1$, so haben wir $C$ gefunden. Sonst:
+		
+		Da $\lvert \delta(v_3)\rvert$ gerade ist $\implies \exists e_3 \in \delta(v_3) \setminus\{e_2\} \implies$ Kantenzug $v_1e_1v_2e_2v_3e_3v_4$. Ist $v_4 \in \{v_1, v_2\}$, haben wir $C$ gefunden. Sonst \dots
+		
+		Da $E(G)$ endlich ist, terminiert der beschriebene Prozess mit einem Kreis.  
+	\end{proof}
+\end{document}

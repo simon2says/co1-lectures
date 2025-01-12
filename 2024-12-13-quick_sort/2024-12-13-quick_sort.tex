@@ -1,0 +1,262 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{marvosym}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[left=2.5cm,right=2cm,top=3cm,bottom=3cm]{geometry}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{tcolorbox}
+\usepackage{adjustbox}
+\usepackage{eurosym}
+\usepackage[inline]{enumitem}
+\usepackage{lastpage}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage[ruled, linesnumbered, noline]{algorithm2e}
+\usepackage{listings}
+
+
+\setlength{\parindent}{0pt}
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing,calc,shadows.blur,shadings,er,positioning}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{magenta},
+	keywordstyle=\color{NavyBlue},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+%\usepackage{pgfplots}
+%\usepackage[leqno]{amsmath}
+
+%\newcounter{mathseed}
+%\setcounter{mathseed}{1}
+%\pgfmathsetseed{\arabic{mathseed}} 
+%\pgfdeclarelayer{background}
+%\pgfsetlayers{background,main}
+
+\newcommand{\RN}[1]{%
+	\textup{\uppercase\expandafter{\romannumeral#1}}%
+}
+
+\newcommand{\obda}{o.B.d.A. }
+
+\newenvironment{enum}{\begin{enumerate*}[label=\alph*),itemjoin=\hspace{2em}]}{\end{enumerate*}\\[2ex]}
+
+\DeclareMathOperator{\N}{\mathbb N}
+\DeclareMathOperator{\Q}{\mathbb Q}
+\DeclareMathOperator{\R}{\mathbb R}
+\DeclareMathOperator{\Z}{\mathbb Z}
+\DeclareMathOperator{\C}{\mathbb C}
+\DeclareMathOperator{\F}{\mathcal{F}}
+\DeclareMathOperator{\E}{\mathcal{E}}
+\DeclareMathOperator{\BigO}{\mathcal O}
+\DeclareMathOperator{\mL}{\mathcal{L}}
+\DeclareMathOperator{\mU}{\mathcal{U}}
+\DeclareMathOperator{\ggt}{\text{ggT}}
+\DeclareMathOperator{\kgv}{\text{kgV}}
+
+
+%------ Defining multiple types of theorems ------%
+\newtheorem{axiom}{Axiom}[section]
+\newtheorem{theorem}[axiom]{Theorem}
+\newtheorem{lemma}[axiom]{Lemma}
+\newtheorem{satz}[axiom]{Satz}
+\theoremstyle{definition}
+\newtheorem*{example}{Beispiel}
+\newtheorem*{bemerkung}{Bemerkung}
+\newtheorem*{frage}{Frage}
+\newtheorem*{loesung}{Lösung}
+\newtheorem*{behauptung}{Behauptung}
+\newtheorem*{beobachtung}{Beobachtung}
+\newtheorem{definition}[axiom]{Definition}
+\newtheorem{folg}[axiom]{Folgerung}
+\newtheorem{notation}[axiom]{Notation}
+
+%---- Changing forall and exists ----%
+\let\oldforall\forall
+\renewcommand{\forall}{\:\oldforall \, }
+\let\oldexist\exists
+\renewcommand{\exists}{\:\oldexist \: }
+\newcommand\existu{\oldexist! \: }
+\let\oldepsilon\epsilon
+\renewcommand{\epsilon}{\varepsilon}
+\newcommand{\corresponds}{\;\widehat{=}\;}
+
+%------ Giving circled star ---------%
+\makeatletter
+\newcommand{\ostar}{\mathbin{\mathpalette\make@circled\star}}
+\newcommand{\make@circled}[2]{%
+	\ooalign{$\m@th#1\smallbigcirc{#1}$\cr\hidewidth$\m@th#1#2$\hidewidth\cr}%
+}
+\newcommand{\smallbigcirc}[1]{%
+	\vcenter{\hbox{\scalebox{0.77778}{$\m@th#1\bigcirc$}}}%
+}
+\makeatother
+%-----------------------------------%
+
+%-------------- Vars ---------------%
+\newcommand{\vldate}{12. Dezember 2024}
+\newcommand{\vlname}{Computerorientierte Mathematik I}
+\newcommand{\vltopic}{Laufzeitbeschleunigungssatz}
+
+\pagestyle{fancy}
+\setlength{\headheight}{34pt}
+\fancyhf{}
+\fancyhead[L]{\includegraphics[width=1cm]{C:/Users/chole/Documents/tub/tublogo.png}}
+\fancyhead[C]{{\bfseries\vlname}\\%
+	\vltopic}
+\fancyhead[R]{\vldate}
+\fancyfoot[L]{}
+\fancyfoot[C]{- \thepage\ of \pageref{LastPage} -}
+\fancyfoot[R]{}
+
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\labelitemii}{-}
+
+\begin{document}
+	\setcounter{section}{8}
+	\setcounter{subsection}{9}
+	\begin{bemerkung}
+		\begin{itemize}
+			\item QuickSort gehört zu den empirisch schnellsten Sortierverfahren.
+			\item Es beruht -- wie MergeSort -- auf Divide \& Conquer
+			\item Im Gegensatz zu MergeSort ist der Divide-Schritt aufwendiger, der Conquer-Schritt dafür einfacher.
+		\end{itemize}
+	\end{bemerkung}
+	\subsection{Laufzeitanalyse von QuickSort}
+	\begin{satz}
+		QuickSort arbeitet korrekt. Die Laufzeitfunktion ist in $\Theta(n^2)$ für $n = \lvert S\rvert$.
+	\end{satz}
+	\begin{proof}[Laufzeitbeweis]
+		Betrachte Rekursionsbaum. Knoten eines Levels repräsentieren disjunkte Teilmengen von $S$, da $S_1$ und $S_2$ in Schritt $5$ disjunkt sind. Aufspalten (Divide) einer Teilmenge $S'$ in zwei disjunkte Teilmengen in Schritt $5$ benötigt $\lvert S'\rvert - 1$ Vergleiche und Laufzeit $\BigO(\lvert S'\rvert)$. Alle auf einem Level durchgeführten Operationen benötigen Laufzeit $\BigO(n)$. Da rekursive Aufrufe für echt kleinere Teilmengen erfolgen, ist die Rekursionstiefe höchstens $n$. Daraus folgt die Laufzeitfunktion in $\BigO(n^2)$. 
+	\end{proof}
+	Untere Schranke: Wird als Pivot-Element immer das kleinste (oder größte) Element gewählt, so ist die gesamte Anzahl an Vergleichen
+	\[
+		\sum_{i = 1}^{n - 1} i = \frac{n (n - 1)}{2} \in \BigO(n^2)
+	\]
+	\begin{satz}
+		Wird in QuickSort als Pivot-Element der Median von $S$ gewählt, so ist die Rekursionstiefe nur $\BigO(\log n)$ für $n = \lvert S\rvert$.
+	\end{satz}
+	\begin{proof}
+		Die Größe der Teilmenge halbiert sich mit jedem Level des Rekursionsbaums. Daher gibt es nur $\BigO(\log n)$ Level.
+	\end{proof}
+	Problem: Wie kann der Median von $S$ effizient berechnet werden?
+	\begin{itemize}
+		\item Später: Berechnung des Medians in $\BigO(n)$
+		\item Es gibt also theoretische QuickSort-Variante mit Laufzeit $\Theta(n \log n)$
+		\item Diese Variante ist jedoch empirisch deutlich ineffizienter
+	\end{itemize}
+	\begin{satz}
+		Wählt man das Pivot-Element zufällig und gleichverteilt aus $S$, so ist die erwartete Laufzeit von QuickSort in $\BigO(n \log n)$ für $n = \lvert S\rvert$.
+	\end{satz}
+	\begin{proof}
+		Es sei $f(n)$ Erwartungswert der Laufzeit für $n$ Elemente, $f(0) \coloneq 0$. Dann gibt es ein $c \in \R_{>0}$ mit $f(1) \leq c$ und
+		\[
+			f(n) \leq c \cdot n + \frac{1}{n} \sum_{i = 1}^{n}\big(f(i - 1) + f(n - i)\big) = c \cdot n + \frac{2}{n}\sum_{i = 1}^{n - 1}f(i)
+		\]
+		Zeige mit vollständiger Induktion 2. Art, dass $f(n) \leq 2c \cdot n \cdot (1 + \ln n)$ für alle $n \in \N_{>0}$.
+		
+		Induktionsanfang $(n = 1)$: \[
+			f(1) \leq c \leq 2c = 2c \cdot 1 \cdot (1 + \ln 1)
+		\]
+		Induktionsschluss:
+		\begin{align*}
+			f(n) 
+			&\leq c \cdot n + \frac{2}{n}\sum_{i = 1}^{n - 1}(2c\cdot i \cdot (1 + \ln i))\\
+			&\leq c \cdot n + \frac{2c}{n}\int_{1}^{n}(2x(1 + \ln x)) dx\\
+			&= c \cdot n + \frac{2c}{n}\Big[x^2 + (1 + \ln x) + \frac{x^2}{2}\Big]_1^n\\
+			&= 2c \cdot n \cdot (1 + \ln n) - \frac{c}{n}\\
+			&\leq 2c \cdot n \cdot (1 + \ln n)
+		\end{align*}
+	\end{proof}
+	\subsection{Nützliche Eigenschaften von Sortierverfahren}
+	\begin{center}
+		\begin{tabular}{llll}
+			&Laufzeit&stabil&in place\\\hline
+			SelectionSort & $\Theta(n^2)$& ja & ja\\
+			InsertionSort & $\Theta(n^2)$& ja & ja\\
+			MergeSort & $\Theta(n \log n)$ & ja &nein\\
+			QuickSort & $\Theta(n^2)$ & nein & (ja)\\
+			Random QuickSort & $\Theta(n \log n)$ & nein & (ja)
+		\end{tabular}
+	\end{center}
+	Annahme: Ein Sortierverfahren bekommt als Input ein Array. Die Elemente des Arrays besitzen jeweils einen Wert (nicht notwendig verschieden). Der Output ist ein nach Werten sortiertes Array.
+	\begin{definition}
+		\begin{enumerate}[label=(\roman*)]
+			\item Ein Sortierverfahren heißt stabil, falls Elemente mit demselben Wert im Output in derselben Reihenfolge wie im Input auftauchen.
+			\item Ein Sortierverfahren arbeitet in Place, falls es zusätzlich zum Eingabearray nur konstant viel Speicher zum Zwischenspeichern der zu sortierenden Einträge benötigt.
+		\end{enumerate}
+	\end{definition}
+	\subsection{Median und $i$-te geordnete Statisik}
+	\begin{definition}
+		Es sei $A$ eine Menge von $n$ (paarweise verschiedenen) Zahlen und $1 \leq i \leq n$.
+		\begin{enumerate}[label=(\alph*)]
+			\item Die $i$-te geordnete Statistik ist das $i$-te Element in der aufsteigenden Sortierung von $A$.
+			\item Ist $n$ ungerade, so nennt man die $\frac{n + 1}{2}$-te geordnete Statistik auch Median von $A$.
+			\item Ist $n$ gerade, so nennt man die $\frac{n}{2}$-te geordnete Statistik auch (unteren) Median von $A$.
+		\end{enumerate}
+	\end{definition}
+	\begin{algorithm}[H]
+		\caption{Das Auswahlproblem}
+		\KwIn{Menge $A$ von paarweise verschiedenen Zahlen, $i \in \{1, 2, \ldots, n\}$}
+		\KwOut{$i$-te geordnete Statistik von $A$}
+	\end{algorithm}
+	Naheliegender Algorithmus:
+	\begin{enumerate}[label=(\arabic*)]
+		\item Sortiere $A$ aufsteigend
+		\item Gib das $i$-te Element der Sortierung zurück
+	\end{enumerate}
+	Worst-Case-Laufzeit: $\Theta(n \log n)$. Kann man den Median auch in $\Theta(n)$ finden?
+	\subsection{Divide \& Conquer für das Auswahlproblem}
+	\begin{algorithm}[H]
+		\caption{Algorithmus in Linearzeit für das Laufzeitproblem}
+		Auswahl$(A, i)$:\\
+		wähle Pivot-Element $x \in A$\\
+		$A_{<x} \gets \{a \in A \mid a < x\}$\\
+		$A_{>x} \gets \{a \in A \mid a > x\}$\\
+		\If{$\lvert A_{< x}\rvert = i - 1$}{\Return{$x$}}
+		\ElseIf{$\lvert A_{< x}\rvert \geq i$}{\Return{Auswahl$(A_{<x}, i)$}}
+		\Else{\Return{Auswahl$(A_{>x}, i - 1 - \lvert A_{< x}\rvert)$}}
+	\end{algorithm}
+	\begin{bemerkung}
+		\begin{itemize}
+			\item Der Algorithmus terminiert, da die rekursiven Aufrufe nur für kleinere Mengen erfolgen, die Rekursionstiefe ist durch $n = \lvert A\rvert$ beschränkt.
+			\item Der Algorithmus liefert nach Konstruktion das korrekte Ergebnis.
+		\end{itemize}
+	\end{bemerkung}
+	\begin{beobachtung}
+		Wählt man das Pivot-Element $x$ in Linearzeit so, dass
+		\[
+			\max\{\lvert A_{<x}\rvert, \lvert A_{>x}\rvert\} \leq \lfloor d \cdot \lvert A\rvert\rfloor
+		\]
+	\end{beobachtung}
+\end{document}

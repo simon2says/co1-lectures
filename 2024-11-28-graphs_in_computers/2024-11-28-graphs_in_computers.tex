@@ -1,0 +1,226 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{marvosym}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[left=2.5cm,right=2cm,top=3cm,bottom=3cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{tcolorbox}
+\usepackage{adjustbox}
+\usepackage{eurosym}
+\usepackage[inline]{enumitem}
+\usepackage{lastpage}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage[ruled, linesnumbered, noline]{algorithm2e}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\setlength{\parindent}{0pt}
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing,calc,shadows.blur,shadings,er,positioning}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+%\usepackage{pgfplots}
+%\usepackage[leqno]{amsmath}
+
+%\newcounter{mathseed}
+%\setcounter{mathseed}{1}
+%\pgfmathsetseed{\arabic{mathseed}} 
+%\pgfdeclarelayer{background}
+%\pgfsetlayers{background,main}
+
+\newcommand{\RN}[1]{%
+	\textup{\uppercase\expandafter{\romannumeral#1}}%
+}
+
+\newcommand{\obda}{o.B.d.A. }
+
+\newenvironment{enum}{\begin{enumerate*}[label=\alph*),itemjoin=\hspace{2em}]}{\end{enumerate*}\\[2ex]}
+
+\DeclareMathOperator{\N}{\mathbb N}
+\DeclareMathOperator{\Q}{\mathbb Q}
+\DeclareMathOperator{\R}{\mathbb R}
+\DeclareMathOperator{\Z}{\mathbb Z}
+\DeclareMathOperator{\C}{\mathbb C}
+\DeclareMathOperator{\F}{\mathcal{F}}
+\DeclareMathOperator{\E}{\mathcal{E}}
+\DeclareMathOperator{\BigO}{\mathcal O}
+\DeclareMathOperator{\mL}{\mathcal{L}}
+\DeclareMathOperator{\mU}{\mathcal{U}}
+\DeclareMathOperator{\ggt}{\text{ggT}}
+\DeclareMathOperator{\kgv}{\text{kgV}}
+
+
+%------ Defining multiple types of theorems ------%
+\newtheorem{axiom}{Axiom}[section]
+\newtheorem{theorem}[axiom]{Theorem}
+\newtheorem{lemma}[axiom]{Lemma}
+\newtheorem{satz}[axiom]{Satz}
+\theoremstyle{definition}
+\newtheorem*{example}{Beispiel}
+\newtheorem*{bemerkung}{Bemerkung}
+\newtheorem*{frage}{Frage}
+\newtheorem*{loesung}{Lösung}
+\newtheorem{definition}[axiom]{Definition}
+\newtheorem{folg}[axiom]{Folgerung}
+\newtheorem{notation}[axiom]{Notation}
+
+%---- Changing forall and exists ----%
+\let\oldforall\forall
+\renewcommand{\forall}{\:\oldforall \, }
+\let\oldexist\exists
+\renewcommand{\exists}{\:\oldexist \: }
+\newcommand\existu{\oldexist! \: }
+\let\oldepsilon\epsilon
+\renewcommand{\epsilon}{\varepsilon}
+\newcommand{\corresponds}{\;\widehat{=}\;}
+
+%------ Giving circled star ---------%
+\makeatletter
+\newcommand{\ostar}{\mathbin{\mathpalette\make@circled\star}}
+\newcommand{\make@circled}[2]{%
+	\ooalign{$\m@th#1\smallbigcirc{#1}$\cr\hidewidth$\m@th#1#2$\hidewidth\cr}%
+}
+\newcommand{\smallbigcirc}[1]{%
+	\vcenter{\hbox{\scalebox{0.77778}{$\m@th#1\bigcirc$}}}%
+}
+\makeatother
+%-----------------------------------%
+
+%-------------- Vars ---------------%
+\newcommand{\vldate}{26. November 2024}
+\newcommand{\vlname}{Computerorientierte Mathematik I}
+\newcommand{\vltopic}{Bäume, Wälder, Blätter}
+
+\pagestyle{fancy}
+\setlength{\headheight}{34pt}
+\fancyhf{}
+\fancyhead[L]{\includegraphics[width=1cm]{C:/Users/chole/Documents/tub/tublogo.png}}
+\fancyhead[C]{{\bfseries\vlname}\\%
+	\vltopic}
+\fancyhead[R]{\vldate}
+\fancyfoot[L]{}
+\fancyfoot[C]{- \thepage\ of \pageref{LastPage} -}
+\fancyfoot[R]{}
+
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\labelitemii}{-}
+
+\begin{document}
+	\setcounter{section}{6}
+	\setcounter{subsection}{10}
+	\subsection{Darstellung von Graphen im Computer}
+	Wie sollen Graphen im Computer gespeichert werden?
+	
+	Anforderungen:
+	\begin{itemize}
+		\item Adjazenz und Inzidenz sollen schnell getestet werden können
+		\item Speicherbedarf soll begrenzt bleiben
+	\end{itemize}
+	\begin{definition}
+		Es sei $G = (V, E, \Psi)$ ein Graph mit $n$ Knoten und $m$ Kanten. Die Matrix $A = (a_{x,y})_{x,y\in V} \in \Z^{n\times n}$ heißt Adjazentmatrix von $G$, wobei
+		\[
+			a_{x,y} = \lvert \{e \in E \mid \Psi(e) = \{x,y\} \text{ bzw. } \Psi(e) = (x,y)\} \rvert
+		\]
+	\end{definition}
+	\begin{definition}
+		Es sei $G = (V, E, \Psi)$ ein gerichteter Graph mit $n$ Knoten und $m$ Kanten. Die Matrix $A = (a_{x,e})_{x\in V, e \in E} \in \Z^{n \times m}$ heißt Inzidenzmatrix von $G$, wobei
+		\[
+			a_{x,e} = \begin{dcases*}
+				-1, \text{ falls } e \in \delta^+(x)\\
+				1, \text{ falls } e \in \delta^-(x)\\
+				0, \text{ sonst.}
+			\end{dcases*}
+		\]
+	\end{definition}
+	Nachteil von Adjazenz- und Inzidenzmatrizen:
+	\begin{itemize}
+		\item Graph mit $n$ Knoten und $m$ Kanten braucht $\BigO(n^2)$ bzw. $\BigO(nm)$ Speicherplatz.
+	\end{itemize}
+	Wünschenswert: Darstellung mit linearem Speicherbedarf in $\BigO(n + m)$
+	
+	\begin{definition}
+		Adjazenz-/Inzidenzlisten: Jeder Knoten verwaltet eine Liste der zu ihm inzidenten Kanten (oder alternativ zu ihm adjazenten Knoten). In gerichteten Graphen verwaltet jeder Knoten entweder eine Liste der ausgehenden Kanten oder zwei Listen, getrennt nach ausgehenden und eingehenden Kanten.
+	\end{definition}
+	Vor- und Nachteile der Methoden:
+	
+	Adjazenzmatrizen:
+	\begin{itemize}
+		\item Schneller Test, ob zwei Knoten mit einer Kante verbunden sind
+		\item Bei $\Omega(n^2)$ Kanten sind sie effizienter als Listen
+	\end{itemize}
+	Adjazenzlisten:
+	\begin{itemize}
+		\item Brauchen weniger Speicher, wenn $m \ll n^2$.
+		\item Können Algorithmen auf Graphen mit wenig $(z. B. \BigO(n))$ Kanten beschleunigen.
+	\end{itemize}
+	\begin{bemerkung}
+		In den meisten Kontexten eignen sich Adjazenz- oder Inzidenzlisten am besten.
+	\end{bemerkung}
+	\section{Graphenalgorithmen}
+	\subsection{Elementare Datenstrukturen}
+	\subsubsection*{Stacks}
+	\begin{itemize}
+		\item Listen, die Elemente hinten einfügen und entnehmen
+		\item Das letzte Element eines Stacks wird zuerst entnommen
+		\item LIFO -- Last in, first out
+	\end{itemize}
+	\subsubsection*{Queues}
+	\begin{itemize}
+		\item Listen, die Elemente hinten einfügen und vorne entnehmen
+		\item Das erste Element in einer Queue wird zuerst entnommen
+		\item FIFO -- First in, first out
+	\end{itemize}
+	\subsection{Graphendurchmusterung}
+	\begin{algorithm}[H]
+		\KwIn{Graph $G = (V, E, \Psi)$, Knoten $r \in V$}
+		\KwOut{Menge $R \subseteq V$ der von $r$ erreichbaren Knoten $F \subseteq E$, so dass $(R, F, \Psi\lvert_F)$ (bzw. Arboreszenz mit Wurzel $r$)}
+		$R \gets \{r\}; $
+		$F \gets \emptyset; Q \gets \{r\}$
+		\While{$Q \neq \emptyset$}{
+			sei $v$ das nächste Element in $Q$\\
+			\If{$\exists e \in \delta^{(+)}$ mit $w \in \Psi(e)\setminus R$}{
+				$R \gets R \cup \{w\}$ \\
+				$Q \gets Q \cup \{w\}$ \\
+				$F \gets F \cup \{e\}$
+			}
+			\Else{
+				$Q \gets Q \setminus \{v\}$
+			}
+		}
+		\Return{$R, F$}
+	\end{algorithm}
+\end{document}

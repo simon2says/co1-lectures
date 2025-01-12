@@ -1,0 +1,228 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{marvosym}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[left=2.5cm,right=2cm,top=3cm,bottom=3cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{tcolorbox}
+\usepackage{adjustbox}
+\usepackage{eurosym}
+\usepackage[inline]{enumitem}
+\usepackage{lastpage}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage[ruled, linesnumbered, noline]{algorithm2e}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\setlength{\parindent}{0pt}
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing,calc,shadows.blur,shadings,er,positioning}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+%\usepackage{pgfplots}
+%\usepackage[leqno]{amsmath}
+
+%\newcounter{mathseed}
+%\setcounter{mathseed}{1}
+%\pgfmathsetseed{\arabic{mathseed}} 
+%\pgfdeclarelayer{background}
+%\pgfsetlayers{background,main}
+
+\newcommand{\RN}[1]{%
+	\textup{\uppercase\expandafter{\romannumeral#1}}%
+}
+
+\newcommand{\obda}{o.B.d.A. }
+
+\newenvironment{enum}{\begin{enumerate*}[label=\alph*),itemjoin=\hspace{2em}]}{\end{enumerate*}\\[2ex]}
+
+\DeclareMathOperator{\N}{\mathbb N}
+\DeclareMathOperator{\Q}{\mathbb Q}
+\DeclareMathOperator{\R}{\mathbb R}
+\DeclareMathOperator{\Z}{\mathbb Z}
+\DeclareMathOperator{\C}{\mathbb C}
+\DeclareMathOperator{\F}{\mathcal{F}}
+\DeclareMathOperator{\E}{\mathcal{E}}
+\DeclareMathOperator{\BigO}{\mathcal O}
+\DeclareMathOperator{\mL}{\mathcal{L}}
+\DeclareMathOperator{\mU}{\mathcal{U}}
+\DeclareMathOperator{\ggt}{\text{ggT}}
+\DeclareMathOperator{\kgv}{\text{kgV}}
+
+
+%------ Defining multiple types of theorems ------%
+\newtheorem{axiom}{Axiom}[section]
+\newtheorem{theorem}[axiom]{Theorem}
+\newtheorem{lemma}[axiom]{Lemma}
+\newtheorem{satz}[axiom]{Satz}
+\theoremstyle{definition}
+\newtheorem*{example}{Beispiel}
+\newtheorem*{bemerkung}{Bemerkung}
+\newtheorem*{frage}{Frage}
+\newtheorem*{loesung}{Lösung}
+\newtheorem*{behauptung}{Behauptung}
+\newtheorem*{beobachtung}{Beobachtung}
+\newtheorem{definition}[axiom]{Definition}
+\newtheorem{folg}[axiom]{Folgerung}
+\newtheorem{notation}[axiom]{Notation}
+
+%---- Changing forall and exists ----%
+\let\oldforall\forall
+\renewcommand{\forall}{\:\oldforall \, }
+\let\oldexist\exists
+\renewcommand{\exists}{\:\oldexist \: }
+\newcommand\existu{\oldexist! \: }
+\let\oldepsilon\epsilon
+\renewcommand{\epsilon}{\varepsilon}
+\newcommand{\corresponds}{\;\widehat{=}\;}
+
+%------ Giving circled star ---------%
+\makeatletter
+\newcommand{\ostar}{\mathbin{\mathpalette\make@circled\star}}
+\newcommand{\make@circled}[2]{%
+	\ooalign{$\m@th#1\smallbigcirc{#1}$\cr\hidewidth$\m@th#1#2$\hidewidth\cr}%
+}
+\newcommand{\smallbigcirc}[1]{%
+	\vcenter{\hbox{\scalebox{0.77778}{$\m@th#1\bigcirc$}}}%
+}
+\makeatother
+%-----------------------------------%
+
+%-------------- Vars ---------------%
+\newcommand{\vldate}{17. Dezember 2024}
+\newcommand{\vlname}{Computerorientierte Mathematik I}
+\newcommand{\vltopic}{Das Auswahlproblem}
+
+\pagestyle{fancy}
+\setlength{\headheight}{34pt}
+\fancyhf{}
+\fancyhead[L]{\includegraphics[width=1cm]{C:/Users/chole/Documents/tub/tublogo.png}}
+\fancyhead[C]{{\bfseries\vlname}\\%
+	\vltopic}
+\fancyhead[R]{\vldate}
+\fancyfoot[L]{}
+\fancyfoot[C]{- \thepage\ of \pageref{LastPage} -}
+\fancyfoot[R]{}
+
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\labelitemii}{-}
+
+\begin{document}
+	\setcounter{section}{8}
+	\setcounter{subsection}{14}
+	\begin{bemerkung}
+		Wählt man Pivor-Element $x$ in Linearzeit so, dass 
+		\[
+			\max\{\lvert A_{<x}\rvert, \lvert A_{>x}\rvert\} \leq \lfloor d \cdot \lvert A\rvert\rfloor
+		\]
+		für eine Konstante $d < 1$, so hat Auswahl$(a, i)$ Laufzeit $\BigO(n)$.
+	\end{bemerkung}
+	
+	Denn für Laufzeitfunktion $f: \N \to \N$ gilt dann $f(n) \leq f(\lfloor d \cdot n\rfloor) + \tilde{c} \cdot n$ und damit $f(\lceil \frac{1}{d} \cdot n\rceil) \leq 1 \cdot f(n) + \frac{\tilde{c}}{d} \cdot n$. Aus dem Aufteilungs-Beschleunigungs-Satz folgt, dass $f(n) \in \BigO(n)$.
+	
+	\subsection{Randomisierter Linearzeit-Algorithmus für das Auswahlproblem.}
+	\begin{satz}
+		Wählt man in dem Auswahl-Algorthmus das Pivor-Element zufällig und gleichverteilt aus, so hat der Algorithmus Laufzeitfunktion in $\BigO(n)$.
+	\end{satz}
+	\begin{proof}
+		Betrachte monoton wachsende Funktion $f: \N_{>0} \to \R$, die erwartete Laufzeit nach oben beschränkt. Nach Konstruktion des Algorithmus gibt es eine Konstante $c > 0$ mit $f(1) = 4c$ und
+		\[
+			f(n) \leq \frac{1}{n} \cdot \sum_{j = 1}^{n}f(\max\{j - 1, n - j\}) + c \cdot n \text{ für alle } n \in \N_{>1}.
+ 		\]
+ 		\begin{behauptung}
+ 			$f(n) \leq 4c \cdot n$ für alle $n \in \N_{>0}$.
+ 		\end{behauptung}
+ 		Induktionsanfang $(n = 1)$: $f(1) \leq 4c$.
+ 		
+ 		Induktionsschluss $(n \to n + 1)$:\\
+ 		Für $n > 1$ gilt:
+ 		\begin{align*}
+ 			f(n) &\leq \frac{1}{n} \cdot \sum_{j = 1}^{n}f(\max\{j - 1, n + j\}) + c \cdot n\\
+ 			&\leq \frac{2}{n} \cdot \sum_{j = 1}^{\lceil \frac{n}{2} \rceil}f(n - j) + c\cdot n\\
+ 			&\leq \frac{8c}{n} \cdot \sum_{j = 1}^{\lceil \frac{n}{2} \rceil}(n - j) + c\cdot n\\
+ 			&= \frac{8c}{n}\Big(\frac{n(n - 1)}{2} - \frac{\lfloor \frac{n}{2} \rfloor (\lfloor \frac{n}{2} \rfloor - 1)}{2}\Big) + c \cdot n\\
+ 			&\leq \frac{8c}{n}\Big(\frac{n(n - 1)}{2} - \frac{\frac{n - 1}{2}(\frac{n - 1}{2} - 1)}{2}\Big) + c\cdot n\\
+ 			&= \frac{8c}{n}\Big(\frac{n^2}{2} - \frac{n}{2} - \big(\frac{n^2}{8} - \frac{n}{2} + \frac{3}{8}\big)\Big) + c \cdot n\\
+ 			&\leq \frac{8c}{n}\Big(\frac{3}{8}n^2\Big) + c\cdot n\\
+ 			&= 4c \cdot n
+ 		\end{align*}
+	\end{proof}
+	\subsection{Deterministischer Linearzeit-Algorithmus für Auswahlproblem}
+	Ersetze nun Schritt $1$ des Algorithmus durch folgende Routine:
+	\begin{enumerate}[label=(\roman*)]
+		\item Partitioniere $A$ in $\lfloor \frac{\lvert A\rvert}{5}\rfloor$ Teilmengen mit $5$ Elementen und eine Teilmenge mit den restlichen $n \mod 5$ Elementen $\longrightarrow$ Laufzeit $\BigO(\lvert A\rvert)$.
+		\item Bestimme für jede dieser Teilmengen deren Median und bilde Menge $A_M$ dieser Mediane $\longrightarrow$ Laufzeit $\BigO(\lvert A\rvert)$.
+		\item Berechne mittels rekursiven Aufrufs von Auswahl den Median $x$ von $A_M$ und verwende $x$ als Pivot-Element.
+	\end{enumerate}
+	\begin{bemerkung}
+		~
+		\begin{itemize}
+			\item $\lvert A_M = \lceil \frac{n}{5} \rceil \rvert$
+			\item $\lvert A_{>x}\rvert \geq 3\big(\big\lceil \frac{1}{2} \lceil \frac{n}{5}\rceil\big\rceil - 2\big) \geq \frac{3n}{10} - 6 \Longrightarrow \lvert A_{< x}\rvert \leq \lfloor \frac{7n}{10} + 6\rfloor$
+			\item analog: $\lvert A_{< x}\rvert \geq \frac{3n}{10} - 6 \Longrightarrow \lvert A_{>x}\rvert \leq \lfloor \frac{7n}{10} + 6\rfloor$
+		\end{itemize}
+	\end{bemerkung}
+	Folglich gilt für die monotone Laufzeitfunktion des rekursiven Algorithmus:
+	\[
+		f(n) \leq f\Big(\Big\lceil \frac{n}{5} \Big\rceil\Big) + f\Big(\Big\lfloor \frac{7n}{10} + 6\Big\rfloor\Big) + c\cdot n 
+	\]
+	für ein $c > 0$ und alle $n \in \N_{> 0}$.
+	\begin{satz}
+		Wählt man im Algorithmus \glqq Auswahl\grqq\; das Pivot-Element mit der oben beschriebenen rekursiven Routine, dann ist die Laufzeitfunktion in $\BigO(n)$.
+	\end{satz}
+	\begin{proof}
+		Es gibt ein $c > 0$, sodass für die monotone Laufzeit gilt:
+		\[
+			f(n) \leq \begin{dcases*}
+				20c & \text{ für alle } n < 140\\
+				f\Big(\Big\lceil\frac{n}{5} \Big\rceil\Big) + f\Big(\Big\lfloor \frac{7n}{10}\Big\rfloor + 6\Big) + c\cdot n &\text{ sonst}
+			\end{dcases*}
+		\]
+		Zeige mit vollständiger Induktion zweiter Art: $f(n) \leq 2ac \cdot n$ für alle $n \in \N$.
+		
+		Induktionsanfang $(n < 140)$: Klar.
+		
+		Induktionsschritt: $(n \geq 140)$: 
+		\begin{align*}
+			f(n) &\leq f\Big(\underbrace{\Big\lceil \frac{n}{5}\Big\rceil}_{< n}\Big) + f\Big(\underbrace{\Big\lfloor \frac{7n}{10}\Big\rfloor + 6}_{< n}\Big) + c\cdot n\\
+			&\stackrel{\text{Ind.}}{\leq} 20c \cdot \Big(\frac{n}{5} + 1\Big) + 20c \cdot \Big(\frac{7n}{10} + 6\Big) + c\cdot n\\
+			&= 19 c\cdot n + 140c\\
+			&\leq 20c \cdot n
+		\end{align*}
+		Es gilt also: $f(n) \leq 20c \cdot n$ für alle $n \in \N$ und damit $f(n) \in \BigO(n)$.
+	\end{proof}
+\end{document}

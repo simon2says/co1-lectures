@@ -1,0 +1,373 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{marvosym}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[left=2.5cm,right=2cm,top=3cm,bottom=3cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{tcolorbox}
+\usepackage{adjustbox}
+\usepackage{eurosym}
+\usepackage[inline]{enumitem}
+\usepackage{lastpage}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage[ruled, linesnumbered, noline]{algorithm2e}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\setlength{\parindent}{0pt}
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing,calc,shadows.blur,shadings,er,positioning}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+%\usepackage{pgfplots}
+%\usepackage[leqno]{amsmath}
+
+%\newcounter{mathseed}
+%\setcounter{mathseed}{1}
+%\pgfmathsetseed{\arabic{mathseed}} 
+%\pgfdeclarelayer{background}
+%\pgfsetlayers{background,main}
+
+\newcommand{\RN}[1]{%
+	\textup{\uppercase\expandafter{\romannumeral#1}}%
+}
+
+\newcommand{\obda}{o.B.d.A. }
+
+\newenvironment{enum}{\begin{enumerate*}[label=\alph*),itemjoin=\hspace{2em}]}{\end{enumerate*}\\[2ex]}
+
+\DeclareMathOperator{\N}{\mathbb N}
+\DeclareMathOperator{\Q}{\mathbb Q}
+\DeclareMathOperator{\R}{\mathbb R}
+\DeclareMathOperator{\Z}{\mathbb Z}
+\DeclareMathOperator{\C}{\mathbb C}
+\DeclareMathOperator{\F}{\mathcal{F}}
+\DeclareMathOperator{\E}{\mathcal{E}}
+\DeclareMathOperator{\BigO}{\mathcal O}
+\DeclareMathOperator{\mL}{\mathcal{L}}
+\DeclareMathOperator{\mU}{\mathcal{U}}
+\DeclareMathOperator{\ggt}{\text{ggT}}
+\DeclareMathOperator{\kgv}{\text{kgV}}
+
+
+%------ Defining multiple types of theorems ------%
+\newtheorem{axiom}{Axiom}[section]
+\newtheorem{theorem}[axiom]{Theorem}
+\newtheorem{lemma}[axiom]{Lemma}
+\newtheorem{satz}[axiom]{Satz}
+\theoremstyle{definition}
+\newtheorem*{example}{Beispiel}
+\newtheorem*{bemerkung}{Bemerkung}
+\newtheorem*{frage}{Frage}
+\newtheorem*{loesung}{Lösung}
+\newtheorem*{behauptung}{Behauptung}
+\newtheorem*{beobachtung}{Beobachtung}
+\newtheorem{definition}[axiom]{Definition}
+\newtheorem{folg}[axiom]{Folgerung}
+\newtheorem{notation}[axiom]{Notation}
+
+%---- Changing forall and exists ----%
+\let\oldforall\forall
+\renewcommand{\forall}{\:\oldforall \, }
+\let\oldexist\exists
+\renewcommand{\exists}{\:\oldexist \: }
+\newcommand\existu{\oldexist! \: }
+\let\oldepsilon\epsilon
+\renewcommand{\epsilon}{\varepsilon}
+\newcommand{\corresponds}{\;\widehat{=}\;}
+
+%------ Giving circled star ---------%
+\makeatletter
+\newcommand{\ostar}{\mathbin{\mathpalette\make@circled\star}}
+\newcommand{\make@circled}[2]{%
+	\ooalign{$\m@th#1\smallbigcirc{#1}$\cr\hidewidth$\m@th#1#2$\hidewidth\cr}%
+}
+\newcommand{\smallbigcirc}[1]{%
+	\vcenter{\hbox{\scalebox{0.77778}{$\m@th#1\bigcirc$}}}%
+}
+\makeatother
+%-----------------------------------%
+
+%-------------- Vars ---------------%
+\newcommand{\vldate}{19. Dezember 2024}
+\newcommand{\vlname}{Computerorientierte Mathematik I}
+\newcommand{\vltopic}{Lineare Sortieralgorithmen}
+
+\pagestyle{fancy}
+\setlength{\headheight}{34pt}
+\fancyhf{}
+\fancyhead[L]{\includegraphics[width=1cm]{C:/Users/chole/Documents/tub/tublogo.png}}
+\fancyhead[C]{{\bfseries\vlname}\\%
+	\vltopic}
+\fancyhead[R]{\vldate}
+\fancyfoot[L]{}
+\fancyfoot[C]{- \thepage\ of \pageref{LastPage} -}
+\fancyfoot[R]{}
+
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\labelitemii}{-}
+
+\begin{document}
+	\setcounter{section}{9}
+	\section{Lineare Gleichungssysteme}
+	\begin{definition}
+		Ein Lineares Gleichungssystem ist ein System von $m$ Gleichungen mit $n$ Unbestimmten $x_1, x_2, \ldots, x_n$ der Form
+		\begin{alignat*}{4}
+			&a_{11} \cdot x_1 + &&a_{12} \cdot x_2 + &&\ldots + a_{1n}\cdot x_n &&= b_1\\
+			&a_{21} \cdot x_1 + &&a_{22} \cdot x_2 + &&\ldots + a_{2n}\cdot x_n &&= b_2\\
+			&&\vdots&&\vdots
+		\end{alignat*}
+		Mit Koeffizienten $a_{ij}$ und rechter Seite $b_i \in \R$. Gesucht ist die Menge aller Vektoren $x \in \R^n$, die alle Gleichungen erfüllen. Diese Menge heißt {\itshape Lösungsmenge} des Linearen Gleichungssystems.
+	\end{definition}
+	Die Koeffizienten eines Linearen Gleichungssystems können zu einer Matrix
+	\[
+		A = (a_{ij})_{1\leq i\leq m, 1\leq j \leq n} \in \R^{m \times n}
+	\]
+	und die rechte Seite zu dem Vektor
+	\[
+		b = (b_i)_{1\leq i \leq m} \in \R^m
+	\]
+	zusammengefasst werden. Damit lässt sich das Lineare Gleichungssystem in der Matrixform $A\cdot x = b$ schreiben:
+	\[
+		\begin{pmatrix}
+			a_{11} & a_{12} & \ldots & a_{1n}\\
+			a_{21} & a_{22} & & a_{2n}\\
+			\vdots & \vdots & & \vdots\\
+			a_{m1} & a_{m2} & \ldots & a_{mn}
+		\end{pmatrix}
+		\cdot 
+		\begin{pmatrix}
+			x_1\\
+			x_2\\
+			\vdots\\
+			x_n
+		\end{pmatrix}
+		= 
+		\begin{pmatrix}
+			b_1\\
+			b_2\\
+			\vdots\\
+			b_m
+		\end{pmatrix}
+	\]
+	\begin{definition}
+		Der Rang {\ttfamily rank(a)} einer Matrix $A \in \R^{m \times n}$ ist die Dimension des von den Spaltenvektoren $a_1, \ldots, a_n$ aufgespanten linearen Untterraumes. 
+		\[
+			{\text{rank(A)}} \coloneq \dim \big(\text{lin}(a_{\cdot1}, \ldots, a_{\cdot n})\big).
+		\]
+	\end{definition}
+	\begin{example}
+		\begin{enumerate}[label=(\arabic*)]
+			\item 
+			\[
+				A = \begin{pmatrix}
+					1 & 0 & 0\\
+					0 & 0 & 0
+				\end{pmatrix}
+				\Longrightarrow\text{lin}(a_{\cdot 1}, a_{\cdot 2}, a_{\cdot 3}) = \text{lin}(a_{\cdot 1})
+			\]
+			also rank$(A) = 1$.
+			\item 
+			\[
+				A = \begin{pmatrix}
+					1 & 0 & 2\\
+					0 & 1 & 3
+				\end{pmatrix}
+				\Longrightarrow\text{lin}(a_{\cdot 1}, a_{\cdot 2}, a_{\cdot 3}) = \text{lin}(a_{\cdot 1})
+			\]
+			also rank$(A) = 2$.
+		\end{enumerate}
+	\end{example}
+	\begin{bemerkung}
+		Der Spaltenrang ist gleich dem Zeilenrang.
+	\end{bemerkung}
+	\subsection{Elementare Umformungen und gestaffelte Form}
+	\begin{enumerate}[label=(\alph*)]
+		\item Zeilenvertauschung: vertausche zwei Zeilen $k$ und $\ell$
+		\[
+			k \Leftrightarrow \ell
+		\]
+		\item Spaltenvertauschung: vertausche zwei Spalten $i$ und $j$
+		\[
+			x_i \Leftrightarrow x_j
+		\]
+		\item Skalierung: multipliziere Gleichung $k$ mit beliebiger Zahl $\lambda \neq 0$
+		\[
+			k \gets \lambda \cdot k
+		\]
+		\item Addition: addiere Vielfaches $\lambda$ von Gleichung $\ell$ zu Gleichung $k \neq \ell$
+		\[
+			k \gets k + \lambda \cdot \ell
+		\]
+	\end{enumerate}
+	Wichtig: elementare Umformungen ändern nicht die Lösungsmenge des Linearen Gleichungssystems.
+	\begin{example}
+		\begin{alignat*}{4}
+			1 \cdot x &+ 1 \cdot y &+ 1 \cdot z &= 1\\
+			4 \cdot x &+ 4 \cdot y &+ 3 \cdot z &= 5\\
+			2 \cdot x &+ 1 \cdot y &+ 1 \cdot z &= 2
+		\end{alignat*}
+		Als Matrix:
+		\[
+			\begin{array}{r}
+				\RN{1}\\
+				\RN{2}\\
+				\RN{3}
+			\end{array}
+			\left(
+			\begin{array}{ccc|c}
+				1 & 1 & 1 & 1\\
+				4 & 4 & 3 & 5\\
+				2 & 1 & 1 & 2
+			\end{array}
+			\right)
+		\]
+		mit elementaren Umformungen werden die ersten Koeffizienten in $\RN{2}$ und $\RN{3}$ zu $0$ gemacht. Damit wird die Variable $x$ aus $\RN{2}$ und $\RN{3}$ eliminiert.
+		\[
+			\begin{array}{r}
+				\RN{1}\\
+				\RN{4}\\
+				\RN{5}
+			\end{array}
+			\left(
+			\begin{array}{ccc|c}
+				1 & 1 & 1 & 1\\
+				0 & 0 & -1 & 1\\
+				0 & -1 & -1 & 0
+			\end{array}
+			\right)
+		\]
+		\[
+			\begin{array}{r}
+				\RN{1}\\
+				\RN{5}\\
+				\RN{4}
+			\end{array}
+			\left(
+			\begin{array}{ccc|c}
+				1 & 1 & 1 & 1\\
+				0 & -1 & -1 & 0\\
+				0 & 0 & -1 & 1
+			\end{array}
+			\right)
+		\]
+		Das Lineare Gleichungssystem kann nun gelöst werden und es ergibt sich als Lösung ein Vektor: \[
+			\left(\begin{array}{c}
+				1\\1\\-1
+			\end{array}\right)
+		\]
+	\end{example}
+	\begin{definition}
+		Eine Matrix $A \in \R^{m \times n}$ besitzt gestaffelte Form, falls
+		\[
+			A = \left( 
+				\begin{array}{cccccccc}
+					\circ & \ast & \ast &\ldots & \ast & \ast &\ldots & \ast\\
+					0 & \circ & \ast & \ddots & \ast & \ast & \ldots & \ast\\
+					0 & 0 & \circ & \ast & \ddots & \ast & \ldots & \ast\\
+					0 & 0 & 0 & \circ & \ast & \ddots & \ast & \ast\\
+					& \vdots &&&&& \vdots &\\
+					0 & 0 & \ldots & 0 & 0 & \ldots & 0 & 0\\
+					\vdots & \vdots && \vdots &\vdots && \vdots & \vdots\\
+					0 & 0 & \ldots & 0 & 0 &\ldots & 0 & 0
+				\end{array}
+			\right)
+		\]
+		wobei alle mit $\circ$ markierten Einträge $\neq 0$ sind und alle mit $\ast$ markierten Einträge beliebig sind. Dann ist rank$(A)$ gleich der Anzahl der Zeilen mit $\circ$.
+	\end{definition}
+	Bringe also Lineares Gleichungssystem mittels elementarer Umformungen in gestaffelte Form:
+	\[
+		\begin{array}{cccccccc|c}
+			\tilde{x}_1 & \tilde{x}_2 & \tilde{x}_3 & \ldots & \tilde{x}_r & \tilde{x}_{r + 1} & \ldots & \tilde{x}_n & b\\\hline
+			\circ & \ast & \ast & \ldots & \ast & \ast & \ldots & \ast & \ast\\
+			0 & \circ & \ast & \ldots & \ast & \ast & \ldots & \ast & \ast\\
+			0 & 0 & \circ & \ddots & \vdots & \vdots & & \vdots & \vdots\\
+			\vdots & \vdots & \ddots & & \ast & \ast & \ldots & \ast & \ast\\
+			\vdots & \vdots & & \ddots & \circ & \ast &\ldots & \ast &\ast\\
+			0 & 0 & \ldots & \ldots & 0 & 0 & \ldots & 0 &\times\\
+			\vdots & \vdots &&& \vdots & \vdots && \vdots & \vdots\\
+			0 & 0 & \ldots & \ldots & 0 & 0 & \ldots & 0 & \times
+		\end{array}
+	\]
+	\begin{itemize}
+		\item Alle mit $\circ$ markierten Einträge sind $\neq 0$.
+		\item Alle mit $\ast$ oder $\times$ markierten Einträge sind beliebig.
+		\item $\tilde{x}_1, \tilde{x}_2, \ldots, \tilde{x}_n$ ist die Umordnung der Variablen $x_1, x_2, \ldots, x_n$ durch Spaltenvertauschung. 
+	\end{itemize}
+	Ein Lineares Gleichungssystem in gestaffelter Form besitzt
+	\begin{itemize}
+		\item Keine Lösungen, wenn mindestens ein mit $\times$ markierter Eintrag $\neq 0$ ist.
+		\item Lösungne, wenn alle mit $\times$ markierten Einträge $0$ sind (oder keine Nullzeilen existieren). Die Lösungsmenge kann dann wie folgt beschrieben werden:
+		\begin{enumerate}[label=(\roman*)]
+			\item Die Werte für $\tilde{x}_{r + 1}, \ldots, \tilde{x}_n$ können beliebig vorgegeben werden, 
+			\[
+				\tilde{x}_{r + 1} = t_1, \ldots, \tilde{x}_{n} = t_{n - r}, t_1, \ldots, t_{n - r} \in \R
+			\]
+			\item Danach können die restlichen Werte von $\tilde{x}_r, \tilde{x}_{r - 1}, \tilde{x}_1$ durch Auflösen des Linearen Gleichungssystems von oben nach unten bestimmt werden.
+		\end{enumerate}
+	\end{itemize}
+	\subsection{Gauß-Jordan-Eliminationsverfahren}
+	\begin{enumerate}
+		\item Bestimme ein Element $a_{ij} \neq 0$. Bringe es durch Zeilen- und Spaltenvertauschung an die erste Position der ersten Zeile.
+		\item Eliminiere in der ersten Spalte die Einträge $a_{21}, a_{31}, \ldots, a_{m1}$ durch Subtraktion des $\frac{a_{i1}}{a_{11}}$-fachen der ersten Zeile von der $i$-ten Zeile:
+		\[
+			i \gets i - \frac{a_{i1}}{a_{11}}\cdot \RN{1}
+		\]
+	\end{enumerate}
+	Nach Abschluss des zweiten Schrittes hat das Schema zum Linearen Gleichungssystem die Form
+	\[
+		\begin{array}{cccc|c}
+			\tilde{x}_1 & \tilde{x}_2 & \ldots & \tilde{x}_n & b\\\hline
+			\circ & \ast & \ldots & \ast & \ast\\
+			0 & \ast & \ldots& \ast & \ast\\
+			\vdots & \vdots & & \vdots & \vdots\\
+			0 & \ast & \ldots& \ast & \ast\\
+		\end{array}
+	\]
+	Analysiere die Komplexität des Gauß-Jordan-Algorithmus im Einheitskostenmodell, d. h. jede elementare Rechenoperation zählt unabhängig von der Größe der beteiligten Zahlen als ein Schritt.
+	
+	$m$ Durchläufe der äußeren Schleife (für jede Zeile $i = 1, \ldots, m$)
+	\begin{itemize}
+		\item $\BigO(mn)$ Schritte, um Pivotelement $\neq 0$ zu finden.
+		\item $\BigO(n)$ Schritte für Zeilenvertauschung.
+		\item $\BigO(m)$ Durchläufe der inneren Schleife (für Zeilen $j = i + 1, \ldots, m$).
+		\begin{itemize}
+			\item $\BigO(n)$ Schritte für Subtraktion.
+		\end{itemize}
+	\end{itemize}
+	Gesamtaufwand: $\BigO(m^2n)$ Schritte.
+\end{document}
